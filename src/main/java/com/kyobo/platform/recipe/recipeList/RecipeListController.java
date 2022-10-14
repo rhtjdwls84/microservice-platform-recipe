@@ -44,6 +44,7 @@ public class RecipeListController {
 //		}
 		logger.info("====================== recipeList end ======================");
         return jsonRecipeList;     
+        
     }
 	
 	//검색 레시피 목록 조회

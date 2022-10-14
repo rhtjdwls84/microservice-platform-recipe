@@ -46,7 +46,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     
-    runtimeOnly 'com.h2database:h2'
+    //runtimeOnly 'com.h2database:h2'
     
     //swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'

@@ -25,7 +25,7 @@
         	RECIPE_MAIN_IMG_PATH, 
         	RECIPE_USER_ID, 
         	RECIPE_SCRAP_COUNT 
-        FROM RECIPE_DB
+        FROM RECIPE_TB
 	</select>
 	
 	<select id="getSearchRecipeList" resultMap="RecipeList" parameterType="hashmap">
@@ -39,7 +39,7 @@
         	RECIPE_MAIN_IMG_PATH, 
         	RECIPE_USER_ID, 
         	RECIPE_SCRAP_COUNT 
-        FROM RECIPE_DB
+        FROM RECIPE_TB
 	</select>
 
 </mapper>
