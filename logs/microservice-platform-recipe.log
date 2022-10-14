@@ -1,0 +1,468 @@
+2022-10-13 15:11:20.743  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:11:20.743  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:11:21.233  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:11:21.233  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:11:21.253  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19ms. Found 1 JPA repository interfaces.
+2022-10-13 15:11:21.255  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:11:21.255  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:11:21.270  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14ms. Found 1 Redis repository interfaces.
+2022-10-13 15:11:21.340  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:11:21.378  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@50d30696' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:11:21.381  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:11:21.452  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:11:21.453  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:11:21.453  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:11:21.513  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:11:21.513  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 762 ms
+2022-10-13 15:11:21.535  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Starting...
+2022-10-13 15:11:21.542  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Start completed.
+2022-10-13 15:11:21.542  INFO 6588 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:11:21.606  INFO 6588 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:11:21.620  INFO 6588 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:11:21.631  INFO 6588 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:11:21.643  WARN 6588 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:11:21.663  INFO 6588 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:11:21.664  INFO 6588 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:11:21.685  INFO 6588 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:11:21.848  INFO 6588 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 9db17e2c-2cde-48ca-87e8-6961b33b1bf7
+
+2022-10-13 15:11:21.863  INFO 6588 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@42d5a871, org.springframework.security.web.context.SecurityContextPersistenceFilter@77ba53d7, org.springframework.security.web.header.HeaderWriterFilter@315ebb2c, org.springframework.security.web.csrf.CsrfFilter@2564c04c, org.springframework.security.web.authentication.logout.LogoutFilter@79f8199a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@75121ab9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@315158ec, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@25d26fe9, org.springframework.security.web.session.SessionManagementFilter@745f9bb0, org.springframework.security.web.access.ExceptionTranslationFilter@c41dd64]
+2022-10-13 15:11:22.061  WARN 6588 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:11:22.117  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:11:22.703  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:11:22.715  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:11:22.723  INFO 6588 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:11:22.724  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 2.028 seconds (JVM running for 13430.264)
+2022-10-13 15:11:22.726  INFO 6588 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 15:13:33.571  INFO 6588 --- [Thread-48] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:13:33.572  INFO 6588 --- [Thread-48] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-10-13 15:13:33.572  INFO 6588 --- [Thread-48] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:13:33.677  INFO 6588 --- [Thread-48] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown initiated...
+2022-10-13 15:13:33.692  INFO 6588 --- [Thread-48] com.zaxxer.hikari.HikariDataSource       : HikariPool-10 - Shutdown completed.
+2022-10-13 15:13:33.791  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:13:33.791  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:13:34.268  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:13:34.268  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:13:34.288  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19ms. Found 1 JPA repository interfaces.
+2022-10-13 15:13:34.291  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:13:34.291  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:13:34.305  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13ms. Found 1 Redis repository interfaces.
+2022-10-13 15:13:34.374  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:13:34.407  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@67fc26ba' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:13:34.408  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:13:34.432  WARN 6588 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'tomcatServletWebServerFactory' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/ServletWebServerFactoryConfiguration$EmbeddedTomcat.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'errorPageCustomizer' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/error/ErrorMvcAutoConfiguration.class]: Unsatisfied dependency expressed through method 'errorPageCustomizer' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServletRegistration' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServletRegistration' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dispatcherServlet' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/DispatcherServletAutoConfiguration$DispatcherServletConfiguration.class]: Unsatisfied dependency expressed through method 'dispatcherServlet' parameter 0; nested exception is org.springframework.boot.context.properties.ConfigurationPropertiesBindException: Error creating bean with name 'spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties': Could not bind properties to 'WebMvcProperties' : prefix=spring.mvc, ignoreInvalidFields=false, ignoreUnknownFields=true; nested exception is org.springframework.boot.context.properties.bind.BindException: Failed to bind properties under 'spring.mvc.pathmatch.use-registered-suffix-pattern' to boolean
+2022-10-13 15:13:34.436  INFO 6588 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-10-13 15:13:34.439 ERROR 6588 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.mvc.pathmatch.use-registered-suffix-pattern' to boolean:
+
+    Property: spring.mvc.pathmatch.use-registered-suffix-pattern
+    Value: ANT_PATH_MATCHER
+    Origin: class path resource [application.properties]:37:52
+    Reason: failed to convert java.lang.String to boolean
+
+Action:
+
+Update your application's configuration
+
+2022-10-13 15:13:47.394  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:13:47.395  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:13:47.861  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:13:47.861  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:13:47.879  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 1 JPA repository interfaces.
+2022-10-13 15:13:47.881  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:13:47.881  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:13:47.899  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 1 Redis repository interfaces.
+2022-10-13 15:13:47.967  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:13:47.997  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@fc636e9' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:13:47.999  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:13:48.056  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:13:48.057  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:13:48.057  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:13:48.123  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:13:48.123  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 726 ms
+2022-10-13 15:13:48.148  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Starting...
+2022-10-13 15:13:48.153  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Start completed.
+2022-10-13 15:13:48.153  INFO 6588 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:13:48.216  INFO 6588 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:13:48.231  INFO 6588 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:13:48.244  INFO 6588 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:13:48.254  WARN 6588 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:13:48.262  INFO 6588 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:13:48.262  INFO 6588 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:13:48.299  INFO 6588 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:13:48.444  INFO 6588 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 3876ba88-5d8c-442a-95f0-ddf66b763df1
+
+2022-10-13 15:13:48.461  INFO 6588 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@70aac3e2, org.springframework.security.web.context.SecurityContextPersistenceFilter@139eb629, org.springframework.security.web.header.HeaderWriterFilter@3c7fe137, org.springframework.security.web.csrf.CsrfFilter@4d8ea7e, org.springframework.security.web.authentication.logout.LogoutFilter@4db74c26, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@99696c4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4aa3a898, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@279a5207, org.springframework.security.web.session.SessionManagementFilter@50562d47, org.springframework.security.web.access.ExceptionTranslationFilter@493c02e]
+2022-10-13 15:13:48.639  WARN 6588 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:13:48.685  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:13:49.265  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:13:49.278  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:13:49.288  INFO 6588 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:13:49.290  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 1.948 seconds (JVM running for 13576.83)
+2022-10-13 15:13:49.293  INFO 6588 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 15:13:56.460  INFO 6588 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-10-13 15:13:56.461  INFO 6588 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-10-13 15:13:56.464  INFO 6588 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-10-13 15:13:56.471  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList start ======================
+2022-10-13 15:13:56.471  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList start ======================
+2022-10-13 15:13:56.474  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList end ======================
+2022-10-13 15:13:56.475  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList end ======================
+2022-10-13 15:14:13.341  INFO 6588 --- [Thread-53] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:14:13.341  INFO 6588 --- [Thread-53] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-10-13 15:14:13.342  INFO 6588 --- [Thread-53] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:14:13.459  INFO 6588 --- [Thread-53] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2022-10-13 15:14:13.474  INFO 6588 --- [Thread-53] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+2022-10-13 15:14:13.574  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:14:13.575  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:14:14.014  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:14:14.014  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:14:14.032  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 1 JPA repository interfaces.
+2022-10-13 15:14:14.035  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:14:14.035  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:14:14.048  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13ms. Found 1 Redis repository interfaces.
+2022-10-13 15:14:14.108  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:14:14.143  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@61cd4deb' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:14:14.144  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:14:14.206  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:14:14.207  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:14:14.207  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:14:14.270  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:14:14.270  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 694 ms
+2022-10-13 15:14:14.291 ERROR 6588 --- [restartedMain] com.zaxxer.hikari.HikariConfig           : HikariPool-12 - jdbcUrl is required with driverClassName.
+2022-10-13 15:14:14.292 ERROR 6588 --- [restartedMain] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.BeanCreationException. Message: Error creating bean with name 'h2Console' defined in class path resource [org/springframework/boot/autoconfigure/h2/H2ConsoleAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.web.servlet.ServletRegistrationBean]: Factory method 'h2Console' threw exception; nested exception is java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+2022-10-13 15:14:14.293  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-10-13 15:14:14.295  WARN 6588 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+2022-10-13 15:14:14.299  INFO 6588 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-10-13 15:14:14.306 ERROR 6588 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:545) ~[spring-context-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at com.kyobo.platform.recipe.MicroservicePlatformRecipeApplication.main(MicroservicePlatformRecipeApplication.java:12) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:142) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:437) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:191) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:178) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:158) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	... 14 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'h2Console' defined in class path resource [org/springframework/boot/autoconfigure/h2/H2ConsoleAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.web.servlet.ServletRegistrationBean]: Factory method 'h2Console' threw exception; nested exception is java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:635) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1336) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1176) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:556) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:516) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:324) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:202) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addServletContextInitializerBeans(ServletContextInitializerBeans.java:96) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:85) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:255) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:229) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:53) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5128) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1384) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1374) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:909) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:843) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1384) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1374) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:909) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:262) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:421) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:930) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:486) ~[tomcat-embed-core-9.0.38.jar:9.0.38]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	... 19 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.web.servlet.ServletRegistrationBean]: Factory method 'h2Console' threw exception; nested exception is java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:650) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 59 common frames omitted
+Caused by: java.lang.IllegalArgumentException: jdbcUrl is required with driverClassName.
+	at com.zaxxer.hikari.HikariConfig.validate(HikariConfig.java:1000) ~[HikariCP-3.4.5.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:109) ~[HikariCP-3.4.5.jar:na]
+	at org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.lambda$h2Console$0(H2ConsoleAutoConfiguration.java:73) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.beans.factory.ObjectProvider.ifAvailable(ObjectProvider.java:93) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.h2Console(H2ConsoleAutoConfiguration.java:72) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154) ~[spring-beans-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 60 common frames omitted
+
+2022-10-13 15:14:34.789  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:14:34.790  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:14:35.223  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:14:35.223  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:14:35.241  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 1 JPA repository interfaces.
+2022-10-13 15:14:35.244  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:14:35.244  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:14:35.256  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12ms. Found 1 Redis repository interfaces.
+2022-10-13 15:14:35.315  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:14:35.344  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@54fc576b' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:14:35.346  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:14:35.400  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:14:35.400  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:14:35.401  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:14:35.461  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:14:35.461  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 670 ms
+2022-10-13 15:14:35.483  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Starting...
+2022-10-13 15:14:35.487  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Start completed.
+2022-10-13 15:14:35.487  INFO 6588 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:14:35.542  INFO 6588 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:14:35.555  INFO 6588 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:14:35.570  INFO 6588 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:14:35.584  WARN 6588 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:14:35.593  INFO 6588 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:14:35.593  INFO 6588 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:14:35.722  INFO 6588 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:14:35.761  INFO 6588 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5e0f6a78-c80e-45d0-b060-28c2aa51d33a
+
+2022-10-13 15:14:35.780  INFO 6588 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@12589563, org.springframework.security.web.context.SecurityContextPersistenceFilter@141dd589, org.springframework.security.web.header.HeaderWriterFilter@2fe141d6, org.springframework.security.web.csrf.CsrfFilter@49d3fee, org.springframework.security.web.authentication.logout.LogoutFilter@22a1c595, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@13e475af, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@362e79f4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@577caf05, org.springframework.security.web.session.SessionManagementFilter@7912e70a, org.springframework.security.web.access.ExceptionTranslationFilter@4fd904e9]
+2022-10-13 15:14:35.943  WARN 6588 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:14:35.987  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:14:36.572  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:14:36.579  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:14:36.583  INFO 6588 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:14:36.583  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 1.837 seconds (JVM running for 13624.123)
+2022-10-13 15:14:36.585  INFO 6588 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 15:14:40.619  INFO 6588 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-10-13 15:14:40.619  INFO 6588 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-10-13 15:14:40.625  INFO 6588 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2022-10-13 15:14:40.634  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList start ======================
+2022-10-13 15:14:40.634  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList start ======================
+2022-10-13 15:14:40.637  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList end ======================
+2022-10-13 15:14:40.638  INFO 6588 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList end ======================
+2022-10-13 15:15:40.717  INFO 6588 --- [Thread-61] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:15:40.718  INFO 6588 --- [Thread-61] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-10-13 15:15:40.719  INFO 6588 --- [Thread-61] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:15:40.839  INFO 6588 --- [Thread-61] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown initiated...
+2022-10-13 15:15:40.860  INFO 6588 --- [Thread-61] com.zaxxer.hikari.HikariDataSource       : HikariPool-13 - Shutdown completed.
+2022-10-13 15:15:40.956  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:15:40.956  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:15:41.376  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:15:41.376  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:15:41.393  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17ms. Found 1 JPA repository interfaces.
+2022-10-13 15:15:41.395  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:15:41.395  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:15:41.409  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12ms. Found 1 Redis repository interfaces.
+2022-10-13 15:15:41.467  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:15:41.503  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@51b0ad0' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:15:41.505  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:15:41.567  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:15:41.568  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:15:41.568  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:15:41.632  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:15:41.632  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 674 ms
+2022-10-13 15:15:41.653  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Starting...
+2022-10-13 15:15:41.656  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Start completed.
+2022-10-13 15:15:41.656  INFO 6588 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:15:41.712  INFO 6588 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:15:41.724  INFO 6588 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:15:41.735  INFO 6588 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:15:41.747  WARN 6588 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:15:41.752  INFO 6588 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:15:41.753  INFO 6588 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:15:41.805  INFO 6588 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:15:41.919  INFO 6588 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c8a8eea6-b22d-4c28-90c8-3f984001ffa9
+
+2022-10-13 15:15:41.934  INFO 6588 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@34a22838, org.springframework.security.web.context.SecurityContextPersistenceFilter@3b69202c, org.springframework.security.web.header.HeaderWriterFilter@5ac60e1, org.springframework.security.web.csrf.CsrfFilter@1123dae5, org.springframework.security.web.authentication.logout.LogoutFilter@585a859, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3460bed7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@52ad6bd2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@de82685, org.springframework.security.web.session.SessionManagementFilter@341220b9, org.springframework.security.web.access.ExceptionTranslationFilter@7d3e4719]
+2022-10-13 15:15:42.104  WARN 6588 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:15:42.155  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:15:42.725  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:15:42.730  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:15:42.735  INFO 6588 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:15:42.736  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 1.826 seconds (JVM running for 13690.276)
+2022-10-13 15:15:42.737  INFO 6588 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 15:16:21.615  INFO 6588 --- [Thread-69] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:16:21.615  INFO 6588 --- [Thread-69] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-10-13 15:16:21.616  INFO 6588 --- [Thread-69] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:16:21.727  INFO 6588 --- [Thread-69] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown initiated...
+2022-10-13 15:16:21.741  INFO 6588 --- [Thread-69] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown completed.
+2022-10-13 15:16:21.835  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 6588 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:16:21.835  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:16:22.275  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:16:22.275  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:16:22.292  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17ms. Found 1 JPA repository interfaces.
+2022-10-13 15:16:22.295  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:16:22.296  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:16:22.308  INFO 6588 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12ms. Found 1 Redis repository interfaces.
+2022-10-13 15:16:22.370  WARN 6588 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:16:22.402  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@75be0597' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:16:22.403  INFO 6588 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:16:22.456  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:16:22.457  INFO 6588 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:16:22.457  INFO 6588 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:16:22.519  INFO 6588 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:16:22.519  INFO 6588 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 682 ms
+2022-10-13 15:16:22.542  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Starting...
+2022-10-13 15:16:22.546  INFO 6588 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Start completed.
+2022-10-13 15:16:22.546  INFO 6588 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:16:22.603  INFO 6588 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:16:22.616  INFO 6588 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:16:22.626  INFO 6588 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:16:22.639  WARN 6588 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:16:22.644  INFO 6588 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:16:22.644  INFO 6588 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:16:22.696  INFO 6588 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:16:22.817  INFO 6588 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 65a255b0-5bc2-4f36-bd3d-f54f74bccede
+
+2022-10-13 15:16:22.831  INFO 6588 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4658ff73, org.springframework.security.web.context.SecurityContextPersistenceFilter@186fcc4c, org.springframework.security.web.header.HeaderWriterFilter@15df7ab4, org.springframework.security.web.csrf.CsrfFilter@10a3cd56, org.springframework.security.web.authentication.logout.LogoutFilter@5a8400ee, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a37c79, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6947bce3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@12ace3ff, org.springframework.security.web.session.SessionManagementFilter@16a86ab2, org.springframework.security.web.access.ExceptionTranslationFilter@16513048]
+2022-10-13 15:16:22.998  WARN 6588 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:16:23.042  INFO 6588 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:16:23.622  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:16:23.636  INFO 6588 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:16:23.646  INFO 6588 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:16:23.647  INFO 6588 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 1.856 seconds (JVM running for 13731.188)
+2022-10-13 15:16:23.650  INFO 6588 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 15:16:25.129  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2022-10-13 15:16:25.372  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:16:25.372  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-10-13 15:16:25.373  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:16:25.491  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown initiated...
+2022-10-13 15:16:25.519  INFO 6588 --- [RMI TCP Connection(203)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown completed.
+2022-10-13 15:37:09.048  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 4828 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 15:37:09.051  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 15:37:09.249  INFO 4828 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-10-13 15:37:09.250  INFO 4828 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-10-13 15:37:10.298  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:37:10.299  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 15:37:10.481  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 174ms. Found 1 JPA repository interfaces.
+2022-10-13 15:37:10.497  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 15:37:10.498  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 15:37:10.523  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 1 Redis repository interfaces.
+2022-10-13 15:37:10.723  WARN 4828 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 15:37:10.969  INFO 4828 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4c2a9f35' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:37:10.974  INFO 4828 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 15:37:11.264  INFO 4828 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 15:37:11.274  INFO 4828 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 15:37:11.275  INFO 4828 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 15:37:11.446  INFO 4828 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-13 15:37:11.446  INFO 4828 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2196 ms
+2022-10-13 15:37:11.494  INFO 4828 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-10-13 15:37:11.566  INFO 4828 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-10-13 15:37:11.574  INFO 4828 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 15:37:12.048  INFO 4828 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 15:37:12.095  INFO 4828 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 15:37:12.118  WARN 4828 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 15:37:12.160  INFO 4828 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.21.Final
+2022-10-13 15:37:12.322  INFO 4828 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2022-10-13 15:37:12.483  INFO 4828 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 15:37:12.747  INFO 4828 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 05e6a91a-62b9-4c74-b8c6-83f124bd3077
+
+2022-10-13 15:37:12.778  INFO 4828 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 15:37:12.786  INFO 4828 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 15:37:12.834  INFO 4828 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@ca5c3e8, org.springframework.security.web.context.SecurityContextPersistenceFilter@5cf3caa, org.springframework.security.web.header.HeaderWriterFilter@3e165c13, org.springframework.security.web.csrf.CsrfFilter@62c5e5f, org.springframework.security.web.authentication.logout.LogoutFilter@43e03b62, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@58c15489, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@351f3ff3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@170acabc, org.springframework.security.web.session.SessionManagementFilter@4e74a6b9, org.springframework.security.web.access.ExceptionTranslationFilter@1225ec22]
+2022-10-13 15:37:12.884  INFO 4828 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 15:37:14.231  WARN 4828 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 15:37:14.329  INFO 4828 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 15:37:15.083  INFO 4828 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 15:37:15.100  INFO 4828 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 15:37:15.121  INFO 4828 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 15:37:15.135  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 6.447 seconds (JVM running for 7.579)
+2022-10-13 15:37:20.491  INFO 4828 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-10-13 15:37:20.491  INFO 4828 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-10-13 15:37:20.501  INFO 4828 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2022-10-13 15:37:20.646  INFO 4828 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList start ======================
+2022-10-13 15:37:20.646  INFO 4828 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList start ======================
+2022-10-13 15:37:20.673  INFO 4828 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== getRecipeList end ======================
+2022-10-13 15:37:20.678  INFO 4828 --- [http-nio-8080-exec-1] c.k.p.r.recipeList.RecipeListController  : ====================== recipeList end ======================
+2022-10-13 16:34:31.456  INFO 4828 --- [Thread-4] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 16:34:31.459  INFO 4828 --- [Thread-4] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 16:34:31.584  INFO 4828 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-10-13 16:34:31.603  INFO 4828 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-10-13 16:34:31.716  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Starting MicroservicePlatformRecipeApplication on DESKTOP-29NB21D with PID 4828 (C:\Users\sejin\git\microservice-platform-recipe\bin\main started by sejin in C:\Users\sejin\git\microservice-platform-recipe)
+2022-10-13 16:34:31.716  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : No active profile set, falling back to default profiles: default
+2022-10-13 16:34:32.189  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 16:34:32.189  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2022-10-13 16:34:32.208  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 1 JPA repository interfaces.
+2022-10-13 16:34:32.211  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-10-13 16:34:32.211  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-10-13 16:34:32.224  INFO 4828 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12ms. Found 1 Redis repository interfaces.
+2022-10-13 16:34:32.289  WARN 4828 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'redisRepository' and 'com.kyobo.platform.recipe.redis.RedisRepository' mapperInterface. Bean already defined with the same name!
+2022-10-13 16:34:32.324  INFO 4828 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@258b211b' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 16:34:32.326  INFO 4828 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-10-13 16:34:32.379  INFO 4828 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-10-13 16:34:32.380  INFO 4828 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-10-13 16:34:32.380  INFO 4828 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-10-13 16:34:32.445  INFO 4828 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-10-13 16:34:32.445  INFO 4828 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 726 ms
+2022-10-13 16:34:32.468  INFO 4828 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2022-10-13 16:34:32.474  INFO 4828 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2022-10-13 16:34:32.474  INFO 4828 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/test'
+2022-10-13 16:34:32.534  INFO 4828 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-10-13 16:34:32.546  INFO 4828 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-10-13 16:34:32.560  INFO 4828 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-10-13 16:34:32.570  WARN 4828 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-10-13 16:34:32.588  INFO 4828 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-10-13 16:34:32.588  INFO 4828 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 16:34:32.609  INFO 4828 --- [task-2] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-10-13 16:34:32.771  INFO 4828 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: ef5201ec-9589-44e8-b86e-ac114e93f560
+
+2022-10-13 16:34:32.785  INFO 4828 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ba62fab, org.springframework.security.web.context.SecurityContextPersistenceFilter@98aeeb9, org.springframework.security.web.header.HeaderWriterFilter@5d01a146, org.springframework.security.web.csrf.CsrfFilter@1e377a7f, org.springframework.security.web.authentication.logout.LogoutFilter@175fbc63, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@69f0bca7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@392b2b4e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1b371aca, org.springframework.security.web.session.SessionManagementFilter@2ccb9ddd, org.springframework.security.web.access.ExceptionTranslationFilter@6bd17966]
+2022-10-13 16:34:32.954  WARN 4828 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-10-13 16:34:32.998  INFO 4828 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-10-13 16:34:33.393  INFO 4828 --- [RMI TCP Connection(61)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2022-10-13 16:34:33.594  INFO 4828 --- [restartedMain] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2022-10-13 16:34:33.609  INFO 4828 --- [restartedMain] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2022-10-13 16:34:33.620  INFO 4828 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2022-10-13 16:34:33.622  INFO 4828 --- [restartedMain] .r.MicroservicePlatformRecipeApplication : Started MicroservicePlatformRecipeApplication in 1.953 seconds (JVM running for 3446.066)
+2022-10-13 16:34:33.627  INFO 4828 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-10-13 16:34:33.890  INFO 4828 --- [RMI TCP Connection(61)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-10-13 16:34:33.891  INFO 4828 --- [RMI TCP Connection(61)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-10-13 16:34:34.003  INFO 4828 --- [RMI TCP Connection(61)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2022-10-13 16:34:34.016  INFO 4828 --- [RMI TCP Connection(61)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.

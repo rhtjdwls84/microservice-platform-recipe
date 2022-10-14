@@ -1,0 +1,88 @@
+buildscript {
+	ext {
+		springBootVersion = '2.3.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+}
+
+group = 'com.kyobo.recipe'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    implementation 'com.google.code.gson:gson:2.9.0'
+    
+    //json
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    
+    //jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	//서버 재시작 없이도 클래스 변경시 서버가 자동으로 재기동
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    runtimeOnly 'com.h2database:h2'
+    
+    //swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    
+     //log
+ 	implementation("org.slf4j:slf4j-api:1.7.7")
+    implementation('ch.qos.logback:logback-classic:1.1.5')
+    
+    //mysql
+    implementation 'mysql:mysql-connector-java'
+    
+    //AWS
+    implementation platform('software.amazon.awssdk:bom:2.15.0')
+ 	implementation 'software.amazon.awssdk:kinesis'
+ 	implementation 'software.amazon.awssdk:s3control'
+ 	testImplementation group: 'junit', name: 'junit', version: '4.11'
+ 	
+	// spring에서 redis에 대한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// spring에서 redis를 session storage로 사용하기 위한 의존성
+	implementation 'org.springframework.session:spring-session-data-redis'
+	
+	// MyBatis 라이브러리 의존성 추가
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
