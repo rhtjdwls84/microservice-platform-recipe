@@ -1,9 +1,11 @@
 package com.kyobo.platform.recipe.recipeList;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.kyobo.platform.recipe.recipeList.RecipeList;
 
@@ -18,40 +20,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
+@Entity
+@Table(name = "RECIPE_TB")
 public class RecipeList {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String RECIPE_SERNO;
 	
-	@Column(length = 20)
-    private String USER_ID;
+//    private String USER_ID;
 	
-	@Column(length = 20)
     private String CATEGORY_SERNO;
 	
-	@Column(length = 50)
-    private String CATEGORY_NAME;
+//    private String CATEGORY_NAME;
 	
-	@Column(length = 50)
     private String RECIPE_NAME;
 	 
-	@Column(length = 1000)
     private String RECIPE_DESC;
 	
     private int RECIPE_LEAD_TIME;
 	
-	@Column(length = 200)
     private String RECIPE_MAIN_IMG_PATH;
 	
-	@Column(length = 20)
     private String RECIPE_USER_ID;
 	
-//	@Column(length = 50)
-//    private String recipeEditorName;
+//    private String RECIPE_USER_NAME;
 //
-//    @Column(length = 200)
-//    private String recipeEditorThumnail;
+//    private String RECIPE_USER_THUMNAIL;
 
-    @Column
     private int RECIPE_SCRAP_COUNT;
 }

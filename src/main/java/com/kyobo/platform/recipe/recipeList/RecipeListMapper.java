@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface RecipeListMapper {
-	List<RecipeList> getRecipeList();
+	List<RecipeList> getRecipeList(String user_id);
 	List<RecipeList> getSearchRecipeList(HashMap<String, String> map);
 }

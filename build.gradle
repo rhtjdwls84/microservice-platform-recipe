@@ -43,8 +43,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	
 	//lombok
-	compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     
     //runtimeOnly 'com.h2database:h2'
     
@@ -85,4 +85,14 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks {
+	processResources {
+		duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+	}
 }
