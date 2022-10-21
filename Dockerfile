@@ -18,4 +18,4 @@ COPY --from=builder build/libs/*.jar microservice-platform-recipe-0.0.1-SNAPSHOT
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "./microservice-platform-recipe-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "./microservice-platform-recipe-0.0.1-SNAPSHOT.jar"]
