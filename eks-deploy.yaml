@@ -41,7 +41,7 @@ spec:
           ports:
             - containerPort: 80
           imagePullPolicy: Always
-          command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+#          command: ["/bin/sh", "-ec", "while :; do echo '.'; sleep 5 ; done"]
 #          resources:
 #            requests:
 #              cpu: "256m"
