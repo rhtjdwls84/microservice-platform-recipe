@@ -6,6 +6,8 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 
+RUN microdnf install findutils
+
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJAR
 
