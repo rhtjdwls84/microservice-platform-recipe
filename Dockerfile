@@ -7,9 +7,6 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 
-ENV aws_access_key_id AKIAZ3MKOJFEXJX32IH4
-ENV aws_secret_access_key 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
-
 RUN microdnf install findutils
 
 RUN chmod +x ./gradlew
