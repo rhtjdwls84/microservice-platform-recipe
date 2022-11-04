@@ -28,29 +28,29 @@ public class RecipeDetailController {
 	
 	private final RecipeDetailService recipeListService;
 	
-	//메인 레시피 목록 조회
-	@RequestMapping(value = "/recipeList/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
-	@ResponseBody
-	public String recipeList(@PathVariable String user_id) {
-		logger.info("====================== recipeList start ======================");
-		//Redis 세션체크
-//		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
-		
-		String jsonRecipeList = null;
-//		if(redisUser != null) {
-			//목록 조회
-			List<RecipeDetail> recipeList = recipeListService.getRecipeList(user_id);
-			List<RecipeDetail> recipe1List = recipeListService.getRecipeList(user_id); 
-			HashMap<String, List> searchMap = new HashMap<String, List>();
-			searchMap.put("test", recipeList);
-			searchMap.put("test1", recipe1List);
-			Gson gson = new Gson();
-			jsonRecipeList = gson.toJson(searchMap);
-//		}
-		logger.info("====================== recipeList end ======================");
-        return jsonRecipeList;     
-        
-    }
+//	//메인 레시피 목록 조회
+//	@RequestMapping(value = "/recipeList/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String recipeList(@PathVariable String user_id) {
+//		logger.info("====================== recipeList start ======================");
+//		//Redis 세션체크
+////		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
+//		
+//		String jsonRecipeList = null;
+////		if(redisUser != null) {
+//			//목록 조회
+//			List<RecipeDetail> recipeList = recipeListService.getRecipeList(user_id);
+//			List<RecipeDetail> recipe1List = recipeListService.getRecipeList(user_id); 
+//			HashMap<String, List> searchMap = new HashMap<String, List>();
+//			searchMap.put("test", recipeList);
+//			searchMap.put("test1", recipe1List);
+//			Gson gson = new Gson();
+//			jsonRecipeList = gson.toJson(searchMap);
+////		}
+//		logger.info("====================== recipeList end ======================");
+//        return jsonRecipeList;     
+//        
+//    }
 	
 //	//검색 레시피 목록 조회
 //	@RequestMapping(value = "/searchRecipeList", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)

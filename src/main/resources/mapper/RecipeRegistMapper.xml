@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyobo.platform.recipe.recipeRegist.RecipeRegistMapper">
+    <insert id="insertRecipe" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist" 
+    	useGeneratedKeys="true" keyProperty="recipe_key">
+        INSERT INTO recipe_tb (
+        	recipe_name, 
+        	recipe_desc, 
+        	recipe_category, 
+        	recipe_lead_time, 
+        	recipe_level, 
+        	recipe_babyfood_step, 
+        	recipe_main_img_name, 
+        	recipe_main_img_path, 
+        	recipe_img_name_1, 
+        	recipe_img_path_1, 
+        	recipe_img_name_2, 
+        	recipe_img_path_2, 
+        	recipe_img_name_3, 
+        	recipe_img_path_3, 
+        	recipe_img_name_4, 
+        	recipe_img_path_4, 
+        	recipe_user_id, 
+        	recipe_health_note, 
+        	recipe_servings, 
+        	recipe_expose_yn, 
+        	recipe_check_status, 
+        	recipe_temp_step, 
+        	created_datetime, 
+        	last_modified_datetime
+        ) VALUES (
+        	#{recipe_name}, 
+        	#{recipe_desc}, 
+        	#{recipe_category}, 
+        	#{recipe_lead_time}, 
+        	#{recipe_level}, 
+        	#{recipe_babyfood_step}, 
+        	#{recipe_main_img_name}, 
+        	#{recipe_main_img_path}, 
+        	#{recipe_img_name_1}, 
+        	#{recipe_img_path_1}, 
+        	#{recipe_img_name_2}, 
+        	#{recipe_img_path_2}, 
+        	#{recipe_img_name_3}, 
+        	#{recipe_img_path_3}, 
+        	#{recipe_img_name_4}, 
+        	#{recipe_img_path_4}, 
+        	#{recipe_user_id}, 
+        	#{recipe_health_note}, 
+        	#{recipe_servings}, 
+        	'N', 
+        	#{recipe_check_status}, 
+        	#{recipe_temp_step}, 
+        	NOW(), 
+        	NOW()
+        )
+	</insert>
+	
+	<insert id="insertRecipeMaterial" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeMaterial">
+		INSERT INTO recipe_material_tb (
+			recipe_key, 
+			recipe_material_name, 
+			recipe_material_classify, 
+			recipe_material_main_classify, 
+			recipe_material_meature, 
+			created_datetime, 
+			last_modified_datetime
+		) VALUES (
+			#{recipe_key}, 
+			#{recipe_material_name}, 
+			#{recipe_material_classify}, 
+			#{recipe_material_main_classify}, 
+			#{recipe_material_meature}, 
+			NOW(), 
+			NOW()
+		)
+	</insert>
+	
+	<insert id="insertRecipeOrder" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeOrder">
+		INSERT INTO recipe_order_tb (
+			recipe_key, 
+			recipe_order, 
+			recipe_order_desc, 
+			recipe_order_img_name, 
+			recipe_order_img_path, 
+			created_datetime, 
+			last_modified_datetime
+		) VALUES (
+			#{recipe_key}, 
+			#{recipe_order}, 
+			#{recipe_order_desc}, 
+			#{recipe_order_img_name}, 
+			#{recipe_order_img_path}, 
+			NOW(), 
+			NOW()
+		)
+	</insert>
+</mapper>

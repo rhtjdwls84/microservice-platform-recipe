@@ -1,13 +1,7 @@
 package com.kyobo.platform.recipe.recipeDetail;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import com.kyobo.platform.recipe.recipeList.RecipeList;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,31 +15,23 @@ import lombok.Setter;
 @Setter
 @Data
 @Entity
-@Table(name = "RECIPE_TB")
 public class RecipeDetail {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String RECIPE_SERNO;
-	
-//    private String USER_ID;
-	
-    private String CATEGORY_SERNO;
-	
-//    private String CATEGORY_NAME;
-	
-    private String RECIPE_NAME;
-	 
-    private String RECIPE_DESC;
-	
-    private int RECIPE_LEAD_TIME;
-	
-    private String RECIPE_MAIN_IMG_PATH;
-	
-    private String RECIPE_USER_ID;
-	
-//    private String RECIPE_USER_NAME;
-//
-//    private String RECIPE_USER_THUMNAIL;
 
-    private int RECIPE_SCRAP_COUNT;
+    private String recipe_user_id;
+	
+    @Id
+    private String recipe_serno;
+	
+    private String recipe_name;
+	
+    private String recipe_desc;
+	
+    private String recipe_category;
+	 
+    private String recipe_lead_time;
+	
+    private int recipe_level;
+	
+    private String recipe_babyfood_step;
+	
 }
