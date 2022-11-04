@@ -36,23 +36,39 @@ public class RecipeRegistService {
 		logger.info("====================== insertRecipe start ======================");
 		
 		String recipe_write_status = recipeRegist.getRecipe_write_status();
+		String recipe_temp_step = recipeRegist.getRecipe_temp_step();
+		
+		ArrayList<RecipeMaterial> recipeMaterial = recipeRegist.getRecipe_material_arr();
+		ArrayList<RecipeOrder> recipeOrder = recipeRegist.getRecipe_order_arr();
+		
 		if(recipe_write_status.equals("임시저장")) {
 			recipeRegist.setRecipe_check_status("임시저장중");
 		}
-		recipeRegistMapper.insertRecipe(recipeRegist);
 		
-		ArrayList<RecipeMaterial> recipeMaterial = recipeRegist.getRecipe_material_arr();
-		
-		for(int i = 0; i < recipeMaterial.size(); i++) {
-			recipeMaterial.get(i).setRecipe_key(recipeRegist.getRecipe_key());
-			recipeRegistMapper.insertRecipeMaterial(recipeMaterial.get(i));
-		}
-		
-		ArrayList<RecipeOrder> recipeOrder = recipeRegist.getRecipe_order_arr();
-		
-		for(int i = 0; i < recipeOrder.size(); i++) {
-			recipeOrder.get(i).setRecipe_key(recipeRegist.getRecipe_key());
-			recipeRegistMapper.insertRecipeOrder(recipeOrder.get(i));
+		if(recipe_temp_step.equals("기본정보")) {
+			if(recipe_write_status.equals("임시저장")) {
+				recipeRegistMapper.insertRecipeDefaultStep(recipeRegist);
+			} else {
+				recipeRegistMapper.updateRecipeDefaultStep(recipeRegist);
+			}
+		} else if(recipe_temp_step.equals("부가정보")) {
+			recipeRegistMapper.updateRecipeSideInfoStep(recipeRegist);
+		} else if(recipe_temp_step.equals("재료")) {
+			recipeRegistMapper.updateRecipeMaterialStep(recipeRegist);
+			recipeRegistMapper.deleteRecipeMaterial(recipeRegist.getRecipe_key());
+			for(int i = 0; i < recipeMaterial.size(); i++) {
+				recipeMaterial.get(i).setRecipe_key(recipeRegist.getRecipe_key());
+				recipeRegistMapper.insertRecipeMaterial(recipeMaterial.get(i));
+			}
+		} else if(recipe_temp_step.equals("요리순서")) {
+			recipeRegistMapper.deleteRecipeOrder(recipeRegist.getRecipe_key());
+			for(int i = 0; i < recipeOrder.size(); i++) {
+				recipeOrder.get(i).setRecipe_key(recipeRegist.getRecipe_key());
+				recipeRegistMapper.insertRecipeOrder(recipeOrder.get(i));
+			}
+			recipeRegist.setRecipe_check_status("검수대기");
+			recipeRegist.setRecipe_temp_step("완료");
+			recipeRegistMapper.updateRecipeStatus(recipeRegist);
 		}
 		
 		if(recipeRegist.getRecipe_key() != null) {
@@ -63,8 +79,8 @@ public class RecipeRegistService {
 		}
 	}
 	
-	public List<String> imageUpload(List<MultipartFile> multipartFiles) throws IOException, ParseException, CloudFrontServiceException {
-		logger.info("====================== imageUpload start ======================");
+	public List<String> recipeImageUpload(List<MultipartFile> multipartFiles) throws IOException, ParseException, CloudFrontServiceException {
+		logger.info("====================== recipeImageUpload start ======================");
 		String signedUrl = "";
 		List<String> signedUrls = new ArrayList<String>();
 		
@@ -87,7 +103,7 @@ public class RecipeRegistService {
         }
         
         logger.info("signedUrls : " + signedUrls);
-        logger.info("====================== imageUpload end ======================");
+        logger.info("====================== recipeImageUpload end ======================");
         return signedUrls;
     }
 	

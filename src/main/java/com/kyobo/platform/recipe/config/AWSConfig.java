@@ -81,7 +81,7 @@ public class AWSConfig {
         String policyResourcePath = "http://" + distributionDomain + "/" + s3FileName;
         
         String signedUrlCanned = CloudFrontService.signUrlCanned(
-                policyResourcePath, // Resource URL or Path
+        		policyResourcePath, // Resource URL or Path
                 keyPairId,     // Certificate identifier,
                 derPrivateKey, // DER Private key data
                 ServiceUtils.parseIso8601Date("2020-11-14T22:20:00.000Z") // DateLessThan

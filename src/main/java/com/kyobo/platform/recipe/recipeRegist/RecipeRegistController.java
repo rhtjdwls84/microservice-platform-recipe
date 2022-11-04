@@ -100,29 +100,49 @@ public class RecipeRegistController {
 		recipeRegist.setRecipe_order_arr(recipeOrderList);
 		
 		String jsonRecipeList = null;
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
 //		if(redisUser != null) {
 			//목록 조회
 			try {
 				String recipe_key = recipeRegistService.insertRecipe(recipeRegist);
-				HashMap<String, String> searchMap = new HashMap<String, String>();
+				
 				searchMap.put("response_code", "200");
 				searchMap.put("response_desc", "ok");
-				Gson gson = new Gson();
-				jsonRecipeList = gson.toJson(searchMap);
+				searchMap.put("recipe_key", recipe_key);
+				
 			} catch (Exception e) {
-				// TODO: handle exception
+				searchMap.put("response_code", "500");
+				searchMap.put("response_desc", e);
 			}
 //		}
+			Gson gson = new Gson();
+			jsonRecipeList = gson.toJson(searchMap);
 		logger.info("====================== recipeRegist end ======================");
         return jsonRecipeList;     
         
     }
 	
-	@PostMapping("/imageUpload")
-    public List<String> uploadFile(@RequestParam("images") List<MultipartFile> multipartFiles) throws IOException, ParseException, CloudFrontServiceException {
-		List<String> signedUrls = recipeRegistService.imageUpload(multipartFiles);
-		logger.info("signedUrls controller : " + signedUrls);
-        return signedUrls;
+	@PostMapping("/recipeImageUpload")
+	@ResponseBody
+    public String recipeImageUpload(@RequestParam("images") List<MultipartFile> multipartFiles) throws IOException, ParseException, CloudFrontServiceException {
+		logger.info("====================== recipeImageUpload start ======================");
+		String jsonRecipeList = null;
+		HashMap<String, Object> searchMap = new HashMap<String, Object>();
+		
+		try {
+			List<String> signedUrls = recipeRegistService.recipeImageUpload(multipartFiles);
+			
+			searchMap.put("response_code", "200");
+			searchMap.put("response_desc", "ok");
+			searchMap.put("imageUrls", signedUrls);
+		} catch (Exception e) {
+			searchMap.put("response_code", "500");
+			searchMap.put("response_desc", e);
+		}
+		Gson gson = new Gson();
+		jsonRecipeList = gson.toJson(searchMap);
+		logger.info("====================== recipeImageUpload end ======================");
+        return jsonRecipeList;
     }
 	
 //	//검색 레시피 목록 조회

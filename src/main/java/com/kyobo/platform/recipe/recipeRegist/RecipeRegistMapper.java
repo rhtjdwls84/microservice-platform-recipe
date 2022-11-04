@@ -13,13 +13,31 @@ import org.springframework.stereotype.Repository;
 public interface RecipeRegistMapper {
 	
 	@Transactional
-	void insertRecipe(RecipeRegist recipeRegist);
+	void insertRecipeDefaultStep(RecipeRegist recipeRegist);
+	
+	@Transactional
+	void updateRecipeDefaultStep(RecipeRegist recipeRegist);
+	
+	@Transactional
+	void updateRecipeSideInfoStep(RecipeRegist recipeRegist);
+	
+	@Transactional
+	void updateRecipeMaterialStep(RecipeRegist recipeRegist);
+	
+	@Transactional
+	void deleteRecipeMaterial(String recipe_key);
 	
 	@Transactional
 	void insertRecipeMaterial(RecipeMaterial recipeMaterial);
 	
 	@Transactional
+	void deleteRecipeOrder(String recipe_key);
+	
+	@Transactional
 	void insertRecipeOrder(RecipeOrder recipeOrder);
+	
+	@Transactional
+	void updateRecipeStatus(RecipeRegist recipeRegist);
 	
 	List<RecipeRegist> getSearchRecipeList(HashMap<String, String> map);
 }
