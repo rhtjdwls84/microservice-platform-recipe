@@ -63,10 +63,6 @@ dependencies {
     //mysql
     implementation 'mysql:mysql-connector-java'
     
-    //AWS
-    implementation platform('software.amazon.awssdk:bom:2.15.0')
- 	implementation 'software.amazon.awssdk:kinesis'
- 	implementation 'software.amazon.awssdk:s3control'
  	testImplementation group: 'junit', name: 'junit', version: '4.11'
  	
 	// spring에서 redis에 대한 의존성
@@ -77,6 +73,21 @@ dependencies {
 	// MyBatis 라이브러리 의존성 추가
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+	
+	implementation group: 'org.bgee.log4jdbc-log4j2', name:'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+	
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.281'
+	//implementation 'com.amazonaws:aws-java-sdk:1.2.1'
+	implementation 'com.amazonaws:aws-java-sdk:1.12.334'
+	implementation 'net.java.dev.jets3t:jets3t:0.9.4'
+	implementation 'org.springframework.cloud:spring-cloud-aws-context:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-aws-autoconfigure:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	//AWS
+    implementation platform('software.amazon.awssdk:bom:2.15.0')
+ 	//implementation 'software.amazon.awssdk:kinesis'
+ 	implementation 'software.amazon.awssdk:s3control'
+	
 }
 
 dependencyManagement {

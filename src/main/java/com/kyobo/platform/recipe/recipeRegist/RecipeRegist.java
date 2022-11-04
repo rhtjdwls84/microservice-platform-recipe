@@ -1,13 +1,9 @@
 package com.kyobo.platform.recipe.recipeRegist;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.ArrayList;
 
-import com.kyobo.platform.recipe.recipeList.RecipeList;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,31 +17,56 @@ import lombok.Setter;
 @Setter
 @Data
 @Entity
-@Table(name = "RECIPE_TB")
 public class RecipeRegist {
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String RECIPE_SERNO;
 	
-//    private String USER_ID;
+    private String recipe_user_id;
 	
-    private String CATEGORY_SERNO;
+    @Id
+    private String recipe_key;
 	
-//    private String CATEGORY_NAME;
+    private String recipe_name;
 	
-    private String RECIPE_NAME;
+    private String recipe_desc;
+	
+    private String recipe_category;
 	 
-    private String RECIPE_DESC;
+    private String recipe_lead_time;
 	
-    private int RECIPE_LEAD_TIME;
+    private String recipe_level;
 	
-    private String RECIPE_MAIN_IMG_PATH;
+    private String recipe_babyfood_step;
 	
-    private String RECIPE_USER_ID;
+    private String recipe_main_img_name;
 	
-//    private String RECIPE_USER_NAME;
-//
-//    private String RECIPE_USER_THUMNAIL;
+    private String recipe_main_img_path;
 
-    private int RECIPE_SCRAP_COUNT;
+    private String recipe_img_name_1;
+
+    private String recipe_img_path_1;
+    
+    private String recipe_img_name_2;
+
+    private String recipe_img_path_2;
+    
+    private String recipe_img_name_3;
+
+    private String recipe_img_path_3;
+    
+    private String recipe_img_name_4;
+
+    private String recipe_img_path_4;
+    
+    private String recipe_health_note;
+
+    private int recipe_servings;
+    
+    private String recipe_temp_step;
+    
+    private String recipe_check_status;
+    
+    private String recipe_write_status;
+    
+    private ArrayList<RecipeMaterial> recipe_material_arr = new ArrayList<RecipeMaterial>();
+    
+    private ArrayList<RecipeOrder> recipe_order_arr = new ArrayList<RecipeOrder>();
 }
