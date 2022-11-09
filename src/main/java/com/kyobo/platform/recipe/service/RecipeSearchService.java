@@ -23,7 +23,7 @@ public class RecipeSearchService {
 	
 	private final RecipeSearchMapper recipeSearchMapper;
 	
-	// 레시피 베이스 재료 조회
+	// 레시피 검색 조회
 	public List<Map.Entry<String, Object>> searchRecipe(String recipe_search_text, String category_main_name,
 			String category_name, String recipe_babyfood_step, String except_material_yn) {
 		logger.info("====================== searchRecipe service start ======================");

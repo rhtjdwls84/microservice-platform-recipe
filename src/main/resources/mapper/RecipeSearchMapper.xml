@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kyobo.platform.recipe.mapper.RecipeSearchMapper">
-	<!-- 레시피 베이스 재료 조회 -->
+	<!-- 레시피 검색 조회 -->
 	<select id="selectListSearchRecipe" parameterType="com.kyobo.platform.recipe.dao.Recipe" 
 		resultType="java.util.LinkedHashMap">
 		SELECT 
