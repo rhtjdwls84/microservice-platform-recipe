@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.kyobo.platform.recipe.dao.RecipeRegist;
+import com.kyobo.platform.recipe.dao.Recipe;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.RecipeMaterial;
 import com.kyobo.platform.recipe.redis.RedisService;
@@ -52,7 +52,7 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeDefInfo", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.POST)
 	@ResponseBody
-	public String recipeDefInfo(@RequestParam("recipe_def_info") RecipeRegist recipeRegist) {
+	public String recipeDefInfo(@RequestParam("recipe_def_info") Recipe recipeRegist) {
 		logger.info("====================== recipeDefInfo start ======================");
 		
 //		recipeRegist.setRecipe_user_id("rhtjdwls84");
@@ -93,7 +93,7 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeAddInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeAddInfo(@RequestParam("recipe_add_info") RecipeRegist recipeRegist, 
+	public String recipeAddInfo(@RequestParam("recipe_add_info") Recipe recipeRegist, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeAddInfo start ======================");
 		
@@ -133,7 +133,7 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeMaterialInfo(@RequestParam("recipe_material_info") RecipeRegist recipeRegist, 
+	public String recipeMaterialInfo(@RequestParam("recipe_material_info") Recipe recipeRegist, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeMaterialInfo start ======================");
 		
@@ -188,7 +188,7 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeOrderInfo(@RequestParam("recipe_order_info") RecipeRegist recipeRegist, 
+	public String recipeOrderInfo(@RequestParam("recipe_order_info") Recipe recipeRegist, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeOrderInfo start ======================");
 		
@@ -238,7 +238,7 @@ public class RecipeRegistController {
 	}
 	
 	//이미지 업로드
-	@RequestMapping(value = "/recipeImageUpload/", produces = "application/json; charset=UTF-8", 
+	@RequestMapping(value = "/recipeImageUpload", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.POST)
 	@ResponseBody
     public String recipeImageUpload(@RequestParam("recipe_image_list") List<MultipartFile> multipartFiles) 
@@ -370,6 +370,39 @@ public class RecipeRegistController {
 			
 			logger.info("====================== listRecipeBaseMaterial error ======================");
 			return jsonRecipeList;
+		}
+	}
+	
+	//레시피 업로드
+	@RequestMapping(value = "/recipeUpload/{recipe_temp_step}", produces = "application/json; charset=UTF-8", 
+			method = RequestMethod.PUT)
+	@ResponseBody
+	public String recipeUpload(@PathVariable("recipe_temp_step") String recipe_temp_step) {
+		logger.info("====================== recipeUpload start ======================");
+		
+		String jsonRecipeList = null;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		Gson gson = new Gson();
+		
+		try {
+			recipeRegistService.recipeUpload(recipe_temp_step);
+			
+			map.put("response_code", "200");
+			map.put("response_desc", "ok");
+			
+			jsonRecipeList = gson.toJson(map);
+			
+			logger.info("====================== recipeUpload end ======================");
+	        return jsonRecipeList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("response_code", "500");
+			map.put("response_desc", e);
+			
+			jsonRecipeList = gson.toJson(map);
+			
+			logger.info("====================== recipeUpload error ======================");
+	        return jsonRecipeList;
 		}
 	}
 	
