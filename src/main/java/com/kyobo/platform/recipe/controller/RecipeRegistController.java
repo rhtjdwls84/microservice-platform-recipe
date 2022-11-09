@@ -53,7 +53,7 @@ public class RecipeRegistController {
 			method = RequestMethod.POST)
 	@ResponseBody
 	public String recipeDefInfo(@RequestParam("recipe_def_info") Recipe recipe) {
-		logger.info("====================== recipeDefInfo start ======================");
+		logger.info("====================== recipeDefInfo controller start ======================");
 		
 //		recipe.setRecipe_user_id("rhtjdwls84");
 //		recipe.setRecipe_name("연어빠바요뜨");
@@ -75,7 +75,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeDefInfo end ======================");
+			logger.info("====================== recipeDefInfo controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,7 +84,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeDefInfo error ======================");
+			logger.info("====================== recipeDefInfo controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -95,7 +95,7 @@ public class RecipeRegistController {
 	@ResponseBody
 	public String recipeAddInfo(@RequestParam("recipe_add_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
-		logger.info("====================== recipeAddInfo start ======================");
+		logger.info("====================== recipeAddInfo controller start ======================");
 		
 //		recipe.setRecipe_health_note("건강노트입니다");
 //		recipe.setRecipe_lead_time("1시간이내");
@@ -115,7 +115,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeAddInfo end ======================");
+			logger.info("====================== recipeAddInfo controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,7 +124,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeAddInfo error ======================");
+			logger.info("====================== recipeAddInfo controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -135,7 +135,7 @@ public class RecipeRegistController {
 	@ResponseBody
 	public String recipeMaterialInfo(@RequestParam("recipe_material_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
-		logger.info("====================== recipeMaterialInfo start ======================");
+		logger.info("====================== recipeMaterialInfo controller start ======================");
 		
 //		recipe.setRecipe_servings(1);
 //		
@@ -170,7 +170,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeMaterialInfo end ======================");
+			logger.info("====================== recipeMaterialInfo controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,7 +179,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeMaterialInfo error ======================");
+			logger.info("====================== recipeMaterialInfo controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -190,7 +190,7 @@ public class RecipeRegistController {
 	@ResponseBody
 	public String recipeOrderInfo(@RequestParam("recipe_order_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
-		logger.info("====================== recipeOrderInfo start ======================");
+		logger.info("====================== recipeOrderInfo controller start ======================");
 		
 //		ArrayList<RecipeOrder> recipeOrderList = new ArrayList<RecipeOrder>();
 //
@@ -223,7 +223,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeOrderInfo end ======================");
+			logger.info("====================== recipeOrderInfo controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -232,7 +232,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeOrderInfo error ======================");
+			logger.info("====================== recipeOrderInfo controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -243,7 +243,7 @@ public class RecipeRegistController {
 	@ResponseBody
     public String recipeImageUpload(@RequestParam("recipe_image_list") List<MultipartFile> multipartFiles) 
     		throws IOException, ParseException, CloudFrontServiceException {
-		logger.info("====================== recipeImageUpload start ======================");
+		logger.info("====================== recipeImageUpload controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -258,7 +258,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeImageUpload end ======================");
+			logger.info("====================== recipeImageUpload controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -267,7 +267,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeImageUpload error ======================");
+			logger.info("====================== recipeImageUpload controller error ======================");
 	        return jsonRecipeList;
 		}
     }
@@ -277,7 +277,7 @@ public class RecipeRegistController {
 			method = RequestMethod.GET)
 	@ResponseBody
 	public String checkRecipeTempSave(@PathVariable("user_id") String user_id) {
-		logger.info("====================== checkRecipeTempSave start ======================");
+		logger.info("====================== checkRecipeTempSave controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -292,7 +292,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== checkRecipeTempSave end ======================");
+			logger.info("====================== checkRecipeTempSave controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,7 +301,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== checkRecipeTempSave error ======================");
+			logger.info("====================== checkRecipeTempSave controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -311,7 +311,7 @@ public class RecipeRegistController {
 			method = RequestMethod.DELETE)
 	@ResponseBody
 	public String deleteRecipeTempSave(@PathVariable("user_id") String user_id) {
-		logger.info("====================== deleteRecipeTempSave start ======================");
+		logger.info("====================== deleteRecipeTempSave controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -325,7 +325,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== deleteRecipeTempSave end ======================");
+			logger.info("====================== deleteRecipeTempSave controller end ======================");
 			return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -334,7 +334,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== deleteRecipeTempSave error ======================");
+			logger.info("====================== deleteRecipeTempSave controller error ======================");
 			return jsonRecipeList;
 		}
 	}
@@ -344,7 +344,7 @@ public class RecipeRegistController {
 			method = RequestMethod.GET)
 	@ResponseBody
 	public String listRecipeBaseMaterial(@PathVariable("search_text") String search_text) {
-		logger.info("====================== listRecipeBaseMaterial start ======================");
+		logger.info("====================== listRecipeBaseMaterial controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -359,7 +359,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== listRecipeBaseMaterial end ======================");
+			logger.info("====================== listRecipeBaseMaterial controller end ======================");
 			return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -368,7 +368,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== listRecipeBaseMaterial error ======================");
+			logger.info("====================== listRecipeBaseMaterial controller error ======================");
 			return jsonRecipeList;
 		}
 	}
@@ -378,7 +378,7 @@ public class RecipeRegistController {
 			method = RequestMethod.PUT)
 	@ResponseBody
 	public String recipeUpload(@PathVariable("recipe_temp_step") String recipe_temp_step) {
-		logger.info("====================== recipeUpload start ======================");
+		logger.info("====================== recipeUpload controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -392,7 +392,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeUpload end ======================");
+			logger.info("====================== recipeUpload controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -401,7 +401,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== recipeUpload error ======================");
+			logger.info("====================== recipeUpload controller error ======================");
 	        return jsonRecipeList;
 		}
 	}
@@ -410,7 +410,7 @@ public class RecipeRegistController {
 	@PostMapping("/recipeImageDelete")
 	@ResponseBody
     public String recipeImageDelete(@RequestParam("images") String imageFileName) {
-		logger.info("====================== recipeImageDelete start ======================");
+		logger.info("====================== recipeImageDelete controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> searchMap = new HashMap<String, Object>();
@@ -424,7 +424,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(searchMap);
 			
-			logger.info("====================== recipeImageDelete end ======================");
+			logger.info("====================== recipeImageDelete controller end ======================");
 	        return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -433,7 +433,7 @@ public class RecipeRegistController {
 			
 			jsonRecipeList = gson.toJson(searchMap);
 			
-			logger.info("====================== recipeImageDelete error ======================");
+			logger.info("====================== recipeImageDelete controller error ======================");
 			e.printStackTrace();
 	        return jsonRecipeList;
 		}

@@ -26,7 +26,7 @@ public class RecipeSearchService {
 	// 레시피 베이스 재료 조회
 	public List<Map.Entry<String, Object>> searchRecipe(String recipe_search_text, String category_main_name,
 			String category_name, String recipe_babyfood_step, String except_material_yn) {
-		logger.info("====================== searchRecipe start ======================");
+		logger.info("====================== searchRecipe service start ======================");
 		
 		Map<String, Object> recipe_map = new HashMap<>();
 		List<Map.Entry<String, Object>> recipe_list = recipe_map.entrySet().stream().collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class RecipeSearchService {
 		recipe_list = recipeSearchMapper.selectListSearchRecipe(recipe);
         
         logger.info("recipe_list : " + recipe_list);
-        logger.info("====================== searchRecipe end ======================");
+        logger.info("====================== searchRecipe service end ======================");
         return recipe_list;
     }
 }

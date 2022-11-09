@@ -43,7 +43,7 @@ public class RecipeSearchController {
 			@RequestParam(required = false) String category_name,
 			@RequestParam(required = false) String recipe_babyfood_step,
 			@RequestParam(required = false) String except_material_yn) {
-		logger.info("====================== searchRecipe start ======================");
+		logger.info("====================== searchRecipe controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -59,7 +59,7 @@ public class RecipeSearchController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== searchRecipe end ======================");
+			logger.info("====================== searchRecipe controller end ======================");
 			return jsonRecipeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class RecipeSearchController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== searchRecipe error ======================");
+			logger.info("====================== searchRecipe controller error ======================");
 			return jsonRecipeList;
 		}
 	}

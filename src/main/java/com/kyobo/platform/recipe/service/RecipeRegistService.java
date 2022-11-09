@@ -51,7 +51,7 @@ public class RecipeRegistService {
 	AWSConfig awsConfig = new AWSConfig();
 	
 	public String recipeDefInfo(Recipe recipe) {
-		logger.info("====================== recipeDefInfo start ======================");
+		logger.info("====================== recipeDefInfo service start ======================");
 		
 		String recipe_write_status = recipe.getRecipe_write_status();
 		recipe.setRecipe_check_status("임시저장중");
@@ -64,7 +64,7 @@ public class RecipeRegistService {
 		}
 		
 		if(recipe.getRecipe_key() != null) {
-			logger.info("====================== recipeDefInfo end ======================");
+			logger.info("====================== recipeDefInfo service end ======================");
 			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
@@ -73,14 +73,14 @@ public class RecipeRegistService {
 	
 	// 레시피 부가정보 작성
 	public String recipeAddInfo(Recipe recipe) {
-		logger.info("====================== recipeAddInfo start ======================");
+		logger.info("====================== recipeAddInfo service start ======================");
 		
 		recipe.setRecipe_check_status("임시저장중");
 		recipe.setRecipe_temp_step("부가정보");
 		recipeRegistMapper.updateRecipeAddInfo(recipe);
 		
 		if(recipe.getRecipe_key() != null) {
-			logger.info("====================== recipeAddInfo end ======================");
+			logger.info("====================== recipeAddInfo service end ======================");
 			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
@@ -89,7 +89,7 @@ public class RecipeRegistService {
 	
 	// 레시피 재료정보 작성
 	public String recipeMaterialInfo(Recipe recipe) {
-		logger.info("====================== recipeMaterialInfo start ======================");
+		logger.info("====================== recipeMaterialInfo service start ======================");
 		ArrayList<RecipeMaterial> recipe_material_list = recipe.getRecipe_material_arr();
 		
 		// 기존 레시피 재료정보는 삭제
@@ -109,7 +109,7 @@ public class RecipeRegistService {
 		}
 		
 		if(recipe.getRecipe_key() != null) {
-			logger.info("====================== recipeMaterialInfo end ======================");
+			logger.info("====================== recipeMaterialInfo service end ======================");
 			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
@@ -118,7 +118,7 @@ public class RecipeRegistService {
 	
 	// 레시피 순서정보 작성
 	public String recipeOrderInfo(Recipe recipe) {
-		logger.info("====================== recipeOrderInfo start ======================");
+		logger.info("====================== recipeOrderInfo service start ======================");
 		ArrayList<RecipeOrder> recipe_order_list = recipe.getRecipe_order_arr();
 		
 		// 기존 레시피 순서정보는 삭제
@@ -138,7 +138,7 @@ public class RecipeRegistService {
 		}
 		
 		if(recipe.getRecipe_key() != null) {
-			logger.info("====================== recipeOrderInfo end ======================");
+			logger.info("====================== recipeOrderInfo service end ======================");
 			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
@@ -148,7 +148,7 @@ public class RecipeRegistService {
 	// 레시피 이미지 업로드
 	public List<Map<String, Object>> recipeImageUpload(List<MultipartFile> multipartFiles)
 			throws IOException, ParseException, CloudFrontServiceException {
-		logger.info("====================== recipeImageUpload start ======================");
+		logger.info("====================== recipeImageUpload service start ======================");
 		
 		String recipe_image_signed_url = "";
 		List<Map<String, Object>> recipe_image_url_list = new ArrayList<Map<String, Object>>();
@@ -205,24 +205,24 @@ public class RecipeRegistService {
         }
         
         logger.info("recipe_image_url_list : " + recipe_image_url_list);
-        logger.info("====================== recipeImageUpload end ======================");
+        logger.info("====================== recipeImageUpload service end ======================");
         return recipe_image_url_list;
     }
 	
 	// 레시피 임시저장 체크
 	public String CheckRecipeTempSave(String user_id) {
-		logger.info("====================== CheckRecipeTempSave start ======================");
+		logger.info("====================== CheckRecipeTempSave service start ======================");
 		
 		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_id);
         
         logger.info("recipe_key : " + recipe_key);
-        logger.info("====================== CheckRecipeTempSave end ======================");
+        logger.info("====================== CheckRecipeTempSave service end ======================");
         return recipe_key;
     }
 	
 	// 레시피 임시저장 삭제
 	public int deleteRecipeTempSave(String user_id) {
-		logger.info("====================== deleteRecipeTempSave start ======================");
+		logger.info("====================== deleteRecipeTempSave service start ======================");
 		
 		// 로그인 사용자의 임시저장된 레시피가 있는지 조회하여 recipe_key return
 		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_id);
@@ -237,13 +237,13 @@ public class RecipeRegistService {
 			}
 		}
         
-        logger.info("====================== deleteRecipeTempSave end ======================");
+        logger.info("====================== deleteRecipeTempSave service end ======================");
         return result;
     }
 	
 	// 레시피 베이스 재료 조회
 	public List<Map.Entry<String, Object>> listRecipeBaseMaterial(String search_text) {
-		logger.info("====================== listRecipeBaseMaterial start ======================");
+		logger.info("====================== listRecipeBaseMaterial service start ======================");
 		
 		Map<String, Object> recipe_base_material_map = new HashMap<>();
 		List<Map.Entry<String, Object>> recipe_base_material_list = 
@@ -252,25 +252,25 @@ public class RecipeRegistService {
 		recipe_base_material_list = recipeRegistMapper.selectListRecipeBaseMaterial(search_text);
         
         logger.info("recipe_base_material_list : " + recipe_base_material_list);
-        logger.info("====================== listRecipeBaseMaterial end ======================");
+        logger.info("====================== listRecipeBaseMaterial service end ======================");
         return recipe_base_material_list;
     }
 	
 	// 레시피 업로드
 	public int recipeUpload(String recipe_temp_step) {
-		logger.info("====================== recipeUpload start ======================");
+		logger.info("====================== recipeUpload service start ======================");
 		
 		Recipe recipe = new Recipe();
 		recipe.setRecipe_check_status("검수대기");
 		recipe.setRecipe_temp_step(recipe_temp_step);
 		int result = recipeRegistMapper.updateRecipeStatus(recipe);
 		
-		logger.info("====================== recipeUpload end ======================");
+		logger.info("====================== recipeUpload service end ======================");
 		return result;
 	}
 	
 	public void recipeImageDelete(String imageFileName) {
-		logger.info("====================== recipeImageDelete start ======================");
+		logger.info("====================== recipeImageDelete service start ======================");
 		
 //		awsConfig.s3ImageDelete(imageFileName);
 		try {
@@ -279,6 +279,6 @@ public class RecipeRegistService {
 			e.printStackTrace();
 		}
         
-        logger.info("====================== recipeImageDelete end ======================");
+        logger.info("====================== recipeImageDelete service end ======================");
     }
 }
