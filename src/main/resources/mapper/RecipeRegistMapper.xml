@@ -177,7 +177,7 @@
 	</delete>
 	
 	<!-- 레시피 베이스 재료 조회 -->
-	<select id="selectListRecipeBaseMaterial" parameterType="java.lang.String" resultType="map">
+	<select id="selectListRecipeBaseMaterial" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
 		SELECT 
 			recipe_base_material_name, 
 			recipe_base_material_meature
