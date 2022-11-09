@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(swaggerInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.kyobo.platform.recipe.recipeRegist"))
+                .apis(RequestHandlerSelectors.basePackage("com.kyobo.platform.recipe.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false);

@@ -10,23 +10,23 @@ import org.springframework.stereotype.Repository;
 
 import com.kyobo.platform.recipe.dao.RecipeMaterial;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
-import com.kyobo.platform.recipe.dao.RecipeRegist;
+import com.kyobo.platform.recipe.dao.Recipe;
 
 @Mapper
 @Repository
 public interface RecipeRegistMapper {
 	
 	@Transactional
-	int insertRecipeDefInfo(RecipeRegist recipeRegist);
+	int insertRecipeDefInfo(Recipe recipeRegist);
 	
 	@Transactional
-	int updateRecipeDefInfo(RecipeRegist recipeRegist);
+	int updateRecipeDefInfo(Recipe recipeRegist);
 	
 	@Transactional
-	int updateRecipeAddInfo(RecipeRegist recipeRegist);
+	int updateRecipeAddInfo(Recipe recipeRegist);
 	
 	@Transactional
-	int updateRecipeMaterialInfo(RecipeRegist recipeRegist);
+	int updateRecipeMaterialInfo(Recipe recipeRegist);
 	
 	@Transactional
 	int deleteRecipeMaterialInfo(String recipe_key);
@@ -41,7 +41,7 @@ public interface RecipeRegistMapper {
 	int insertRecipeOrderInfo(RecipeOrder recipeOrder);
 	
 	@Transactional
-	int updateRecipeStatus(RecipeRegist recipeRegist);
+	int updateRecipeStatus(Recipe recipeRegist);
 	
 	@Transactional
 	String selectCheckRecipeTempSave(String user_id);

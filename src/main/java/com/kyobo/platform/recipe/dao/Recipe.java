@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Data
 @Entity
-public class RecipeRegist {
+public class Recipe {
 	
     private String recipe_user_id;
 	
@@ -29,6 +29,8 @@ public class RecipeRegist {
     private String recipe_desc;
 	
     private String recipe_category;
+    
+    private String recipe_health_develop;
 	 
     private String recipe_lead_time;
 	
@@ -69,4 +71,22 @@ public class RecipeRegist {
     private ArrayList<RecipeMaterial> recipe_material_arr = new ArrayList<RecipeMaterial>();
     
     private ArrayList<RecipeOrder> recipe_order_arr = new ArrayList<RecipeOrder>();
+    
+    private String recipe_search_text;
+    
+    private String category_main_name;
+    
+    private String category_name;
+    
+    private String except_material_yn;
+    
+    //재료
+    private String recipe_material_name;
+    
+    private String recipe_material_classify;
+    
+    private String recipe_material_main_classify;
+    
+    private String recipe_material_meature;
 }
+

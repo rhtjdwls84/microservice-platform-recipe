@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kyobo.platform.recipe.recipeRegist.RecipeRegistMapper">
+<mapper namespace="com.kyobo.platform.recipe.mapper.RecipeRegistMapper">
 	<!-- 기본정보 임시저장-->
-	<insert id="insertRecipeDefInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeRegist" 
+	<insert id="insertRecipeDefInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe" 
     	useGeneratedKeys="true" keyProperty="recipe_key">
     	INSERT INTO recipe_tb (
         	recipe_name, 
@@ -48,7 +48,7 @@
 	</insert>
 	
 	<!-- 기본정보 수정-->
-	<update id="updateRecipeDefInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeRegist">
+	<update id="updateRecipeDefInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		UPDATE recipe_tb SET
 			recipe_name = #{recipe_name},
         	recipe_desc = #{recipe_desc}, 
@@ -71,7 +71,7 @@
 	</update>
 	
 	<!-- 부가정보 임시저장 및 수정-->
-	<update id="updateRecipeAddInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeRegist">
+	<update id="updateRecipeAddInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		UPDATE recipe_tb SET
 			recipe_lead_time = #{recipe_lead_time},
         	recipe_level = #{recipe_level}, 
@@ -85,7 +85,7 @@
 	</update>
 	
 	<!-- 재료 몇인분 여부 recipe_tb 업데이트-->
-	<update id="updateRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeRegist">
+	<update id="updateRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		UPDATE recipe_tb SET
 			recipe_servings = #{recipe_servings},
         	recipe_check_status = #{recipe_check_status},
@@ -103,7 +103,7 @@
 	</delete>
 	
 	<!-- 재료 임시저장 및 수정-->
-	<insert id="insertRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeMaterial">
+	<insert id="insertRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		INSERT INTO recipe_material_tb (
 			recipe_key, 
 			recipe_material_name, 
@@ -131,7 +131,7 @@
 	</delete>
 	
 	<!-- 요리순서 임시저장 및 수정-->
-	<insert id="insertRecipeOrderInfo" parameterType="com.kyobo.platform.recipe.dao.RecipeOrder">
+	<insert id="insertRecipeOrderInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		INSERT INTO recipe_order_tb (
 			recipe_key, 
 			recipe_order, 
@@ -152,7 +152,7 @@
 	</insert>
 	
 	<!-- 요리순서 저장 후 recipe_tb 상태값 업데이트 -->
-	<update id="updateRecipeStatus" parameterType="com.kyobo.platform.recipe.dao.RecipeRegist">
+	<update id="updateRecipeStatus" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		UPDATE recipe_tb SET
         	recipe_check_status = #{recipe_check_status},
         	recipe_temp_step = #{recipe_temp_step},

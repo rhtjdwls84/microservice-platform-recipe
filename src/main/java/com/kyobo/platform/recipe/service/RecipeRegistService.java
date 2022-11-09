@@ -30,7 +30,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
 import com.kyobo.platform.recipe.dao.RecipeMaterial;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
-import com.kyobo.platform.recipe.dao.RecipeRegist;
+import com.kyobo.platform.recipe.dao.Recipe;
 import com.kyobo.platform.recipe.mapper.RecipeRegistMapper;
 import com.kyobo.platform.recipe.config.AWSConfig;
 
@@ -50,7 +50,7 @@ public class RecipeRegistService {
 	
 	AWSConfig awsConfig = new AWSConfig();
 	
-	public String recipeDefInfo(RecipeRegist recipeRegist) {
+	public String recipeDefInfo(Recipe recipeRegist) {
 		logger.info("====================== recipeDefInfo start ======================");
 		
 		String recipe_write_status = recipeRegist.getRecipe_write_status();
@@ -72,7 +72,7 @@ public class RecipeRegistService {
 	}
 	
 	// 레시피 부가정보 작성
-	public String recipeAddInfo(RecipeRegist recipeRegist) {
+	public String recipeAddInfo(Recipe recipeRegist) {
 		logger.info("====================== recipeAddInfo start ======================");
 		
 		recipeRegist.setRecipe_check_status("임시저장중");
@@ -88,7 +88,7 @@ public class RecipeRegistService {
 	}
 	
 	// 레시피 재료정보 작성
-	public String recipeMaterialInfo(RecipeRegist recipeRegist) {
+	public String recipeMaterialInfo(Recipe recipeRegist) {
 		logger.info("====================== recipeMaterialInfo start ======================");
 		ArrayList<RecipeMaterial> recipe_material_list = recipeRegist.getRecipe_material_arr();
 		
@@ -117,7 +117,7 @@ public class RecipeRegistService {
 	}
 	
 	// 레시피 순서정보 작성
-	public String recipeOrderInfo(RecipeRegist recipeRegist) {
+	public String recipeOrderInfo(Recipe recipeRegist) {
 		logger.info("====================== recipeOrderInfo start ======================");
 		ArrayList<RecipeOrder> recipe_order_list = recipeRegist.getRecipe_order_arr();
 		
@@ -260,7 +260,7 @@ public class RecipeRegistService {
 	public int recipeUpload(String recipe_temp_step) {
 		logger.info("====================== recipeUpload start ======================");
 		
-		RecipeRegist recipeRegist = new RecipeRegist();
+		Recipe recipeRegist = new Recipe();
 		recipeRegist.setRecipe_check_status("검수대기");
 		recipeRegist.setRecipe_temp_step(recipe_temp_step);
 		int result = recipeRegistMapper.updateRecipeStatus(recipeRegist);
