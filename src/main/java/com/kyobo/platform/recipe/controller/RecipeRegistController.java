@@ -43,7 +43,7 @@ public class RecipeRegistController {
 	
 	private final RecipeRegistService recipeRegistService;
 	
-//	public String recipeRegist(@RequestBody RecipeRegist recipeRegist) {
+//	public String recipeRegist(@RequestBody RecipeRegist recipe) {
 		//Redis 세션체크
 //		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
 //    }
@@ -52,22 +52,22 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeDefInfo", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.POST)
 	@ResponseBody
-	public String recipeDefInfo(@RequestParam("recipe_def_info") Recipe recipeRegist) {
+	public String recipeDefInfo(@RequestParam("recipe_def_info") Recipe recipe) {
 		logger.info("====================== recipeDefInfo start ======================");
 		
-//		recipeRegist.setRecipe_user_id("rhtjdwls84");
-//		recipeRegist.setRecipe_name("연어빠바요뜨");
-//		recipeRegist.setRecipe_desc("아이들이 좋아하는 레시피");
-//		recipeRegist.setRecipe_category("밥/죽");
-//		recipeRegist.setRecipe_main_img_key_name("20221031-071634982.csv");
-//		recipeRegist.setRecipe_main_img_path("s3://kyobo-ml/ml-rds-recipe/recipe_db_ml/RECIPE_MATERIAL_TB/");
+//		recipe.setRecipe_user_id("rhtjdwls84");
+//		recipe.setRecipe_name("연어빠바요뜨");
+//		recipe.setRecipe_desc("아이들이 좋아하는 레시피");
+//		recipe.setRecipe_category("밥/죽");
+//		recipe.setRecipe_main_img_key_name("20221031-071634982.csv");
+//		recipe.setRecipe_main_img_path("s3://kyobo-ml/ml-rds-recipe/recipe_db_ml/RECIPE_MATERIAL_TB/");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			String recipe_key = recipeRegistService.recipeDefInfo(recipeRegist);
+			String recipe_key = recipeRegistService.recipeDefInfo(recipe);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -93,21 +93,21 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeAddInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeAddInfo(@RequestParam("recipe_add_info") Recipe recipeRegist, 
+	public String recipeAddInfo(@RequestParam("recipe_add_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeAddInfo start ======================");
 		
-//		recipeRegist.setRecipe_health_note("건강노트입니다");
-//		recipeRegist.setRecipe_lead_time("1시간이내");
-//		recipeRegist.setRecipe_level("쉬워요");
-//		recipeRegist.setRecipe_babyfood_step("중기 이유식");
+//		recipe.setRecipe_health_note("건강노트입니다");
+//		recipe.setRecipe_lead_time("1시간이내");
+//		recipe.setRecipe_level("쉬워요");
+//		recipe.setRecipe_babyfood_step("중기 이유식");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			recipe_key = recipeRegistService.recipeAddInfo(recipeRegist);
+			recipe_key = recipeRegistService.recipeAddInfo(recipe);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -133,11 +133,11 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeMaterialInfo(@RequestParam("recipe_material_info") Recipe recipeRegist, 
+	public String recipeMaterialInfo(@RequestParam("recipe_material_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeMaterialInfo start ======================");
 		
-//		recipeRegist.setRecipe_servings(1);
+//		recipe.setRecipe_servings(1);
 //		
 //		ArrayList<RecipeMaterial> recipeMaterialList = new ArrayList<RecipeMaterial>();
 //
@@ -155,14 +155,14 @@ public class RecipeRegistController {
 //		recipeMaterial1.setRecipe_material_meature("1개");
 //		recipeMaterialList.add(recipeMaterial1);
 //		
-//		recipeRegist.setRecipe_material_arr(recipeMaterialList);
+//		recipe.setRecipe_material_arr(recipeMaterialList);
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			recipe_key = recipeRegistService.recipeMaterialInfo(recipeRegist);
+			recipe_key = recipeRegistService.recipeMaterialInfo(recipe);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -188,7 +188,7 @@ public class RecipeRegistController {
 	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeOrderInfo(@RequestParam("recipe_order_info") Recipe recipeRegist, 
+	public String recipeOrderInfo(@RequestParam("recipe_order_info") Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeOrderInfo start ======================");
 		
@@ -208,14 +208,14 @@ public class RecipeRegistController {
 //		recipeOrder1.setRecipe_order_img_path("s3://kyobo-ml/ml-rds-recipe/recipe_db_ml/RECIPE_MATERIAL_TB/");
 //		recipeOrderList.add(recipeOrder1);
 //		
-//		recipeRegist.setRecipe_order_arr(recipeOrderList);
+//		recipe.setRecipe_order_arr(recipeOrderList);
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			recipe_key = recipeRegistService.recipeOrderInfo(recipeRegist);
+			recipe_key = recipeRegistService.recipeOrderInfo(recipe);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

@@ -17,16 +17,16 @@ import com.kyobo.platform.recipe.dao.Recipe;
 public interface RecipeRegistMapper {
 	
 	@Transactional
-	int insertRecipeDefInfo(Recipe recipeRegist);
+	int insertRecipeDefInfo(Recipe recipe);
 	
 	@Transactional
-	int updateRecipeDefInfo(Recipe recipeRegist);
+	int updateRecipeDefInfo(Recipe recipe);
 	
 	@Transactional
-	int updateRecipeAddInfo(Recipe recipeRegist);
+	int updateRecipeAddInfo(Recipe recipe);
 	
 	@Transactional
-	int updateRecipeMaterialInfo(Recipe recipeRegist);
+	int updateRecipeMaterialInfo(Recipe recipe);
 	
 	@Transactional
 	int deleteRecipeMaterialInfo(String recipe_key);
@@ -41,7 +41,7 @@ public interface RecipeRegistMapper {
 	int insertRecipeOrderInfo(RecipeOrder recipeOrder);
 	
 	@Transactional
-	int updateRecipeStatus(Recipe recipeRegist);
+	int updateRecipeStatus(Recipe recipe);
 	
 	@Transactional
 	String selectCheckRecipeTempSave(String user_id);

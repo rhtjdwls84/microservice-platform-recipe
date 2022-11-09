@@ -50,96 +50,96 @@ public class RecipeRegistService {
 	
 	AWSConfig awsConfig = new AWSConfig();
 	
-	public String recipeDefInfo(Recipe recipeRegist) {
+	public String recipeDefInfo(Recipe recipe) {
 		logger.info("====================== recipeDefInfo start ======================");
 		
-		String recipe_write_status = recipeRegist.getRecipe_write_status();
-		recipeRegist.setRecipe_check_status("임시저장중");
-		recipeRegist.setRecipe_temp_step("기본정보");
+		String recipe_write_status = recipe.getRecipe_write_status();
+		recipe.setRecipe_check_status("임시저장중");
+		recipe.setRecipe_temp_step("기본정보");
 		
 		if(recipe_write_status.equals("임시저장")) {
-			recipeRegistMapper.insertRecipeDefInfo(recipeRegist);
+			recipeRegistMapper.insertRecipeDefInfo(recipe);
 		} else {
-			recipeRegistMapper.updateRecipeDefInfo(recipeRegist);
+			recipeRegistMapper.updateRecipeDefInfo(recipe);
 		}
 		
-		if(recipeRegist.getRecipe_key() != null) {
+		if(recipe.getRecipe_key() != null) {
 			logger.info("====================== recipeDefInfo end ======================");
-			return recipeRegist.getRecipe_key();
+			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
 		}
 	}
 	
 	// 레시피 부가정보 작성
-	public String recipeAddInfo(Recipe recipeRegist) {
+	public String recipeAddInfo(Recipe recipe) {
 		logger.info("====================== recipeAddInfo start ======================");
 		
-		recipeRegist.setRecipe_check_status("임시저장중");
-		recipeRegist.setRecipe_temp_step("부가정보");
-		recipeRegistMapper.updateRecipeAddInfo(recipeRegist);
+		recipe.setRecipe_check_status("임시저장중");
+		recipe.setRecipe_temp_step("부가정보");
+		recipeRegistMapper.updateRecipeAddInfo(recipe);
 		
-		if(recipeRegist.getRecipe_key() != null) {
+		if(recipe.getRecipe_key() != null) {
 			logger.info("====================== recipeAddInfo end ======================");
-			return recipeRegist.getRecipe_key();
+			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
 		}
 	}
 	
 	// 레시피 재료정보 작성
-	public String recipeMaterialInfo(Recipe recipeRegist) {
+	public String recipeMaterialInfo(Recipe recipe) {
 		logger.info("====================== recipeMaterialInfo start ======================");
-		ArrayList<RecipeMaterial> recipe_material_list = recipeRegist.getRecipe_material_arr();
+		ArrayList<RecipeMaterial> recipe_material_list = recipe.getRecipe_material_arr();
 		
 		// 기존 레시피 재료정보는 삭제
-		int result = recipeRegistMapper.deleteRecipeMaterialInfo(recipeRegist.getRecipe_key());
+		int result = recipeRegistMapper.deleteRecipeMaterialInfo(recipe.getRecipe_key());
 		
 		if(result >= 0) {
 			for(int i = 0; i < recipe_material_list.size(); i++) {
-				recipe_material_list.get(i).setRecipe_key(recipeRegist.getRecipe_key());
+				recipe_material_list.get(i).setRecipe_key(recipe.getRecipe_key());
 				result = recipeRegistMapper.insertRecipeMaterialInfo(recipe_material_list.get(i));
 			}
 			if(result > 0) {
 				// 레시피 몇 인분 수 업데이트
-				recipeRegist.setRecipe_check_status("임시저장중");
-				recipeRegist.setRecipe_temp_step("재료");
-				recipeRegistMapper.updateRecipeMaterialInfo(recipeRegist);
+				recipe.setRecipe_check_status("임시저장중");
+				recipe.setRecipe_temp_step("재료");
+				recipeRegistMapper.updateRecipeMaterialInfo(recipe);
 			}
 		}
 		
-		if(recipeRegist.getRecipe_key() != null) {
+		if(recipe.getRecipe_key() != null) {
 			logger.info("====================== recipeMaterialInfo end ======================");
-			return recipeRegist.getRecipe_key();
+			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
 		}
 	}
 	
 	// 레시피 순서정보 작성
-	public String recipeOrderInfo(Recipe recipeRegist) {
+	public String recipeOrderInfo(Recipe recipe) {
 		logger.info("====================== recipeOrderInfo start ======================");
-		ArrayList<RecipeOrder> recipe_order_list = recipeRegist.getRecipe_order_arr();
+		ArrayList<RecipeOrder> recipe_order_list = recipe.getRecipe_order_arr();
 		
 		// 기존 레시피 순서정보는 삭제
-		int result = recipeRegistMapper.deleteRecipeOrderInfo(recipeRegist.getRecipe_key());
+		int result = recipeRegistMapper.deleteRecipeOrderInfo(recipe.getRecipe_key());
 		
 		if(result >= 0) {
 			for(int i = 0; i < recipe_order_list.size(); i++) {
-				recipe_order_list.get(i).setRecipe_key(recipeRegist.getRecipe_key());
+				recipe_order_list.get(i).setRecipe_key(recipe.getRecipe_key());
 				result = recipeRegistMapper.insertRecipeOrderInfo(recipe_order_list.get(i));
 			}
 			// 레시피 현재 임시저장 상태 업데이트
 			if(result > 0) {
-				recipeRegist.setRecipe_check_status("임시저장중");
-				recipeRegist.setRecipe_temp_step("요리순서");
-				recipeRegistMapper.updateRecipeStatus(recipeRegist);
+				recipe.setRecipe_check_status("임시저장중");
+				recipe.setRecipe_temp_step("요리순서");
+				recipeRegistMapper.updateRecipeStatus(recipe);
 			}
 		}
 		
-		if(recipeRegist.getRecipe_key() != null) {
+		if(recipe.getRecipe_key() != null) {
 			logger.info("====================== recipeOrderInfo end ======================");
-			return recipeRegist.getRecipe_key();
+			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
 		}
@@ -260,10 +260,10 @@ public class RecipeRegistService {
 	public int recipeUpload(String recipe_temp_step) {
 		logger.info("====================== recipeUpload start ======================");
 		
-		Recipe recipeRegist = new Recipe();
-		recipeRegist.setRecipe_check_status("검수대기");
-		recipeRegist.setRecipe_temp_step(recipe_temp_step);
-		int result = recipeRegistMapper.updateRecipeStatus(recipeRegist);
+		Recipe recipe = new Recipe();
+		recipe.setRecipe_check_status("검수대기");
+		recipe.setRecipe_temp_step(recipe_temp_step);
+		int result = recipeRegistMapper.updateRecipeStatus(recipe);
 		
 		logger.info("====================== recipeUpload end ======================");
 		return result;
