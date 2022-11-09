@@ -1,4 +1,4 @@
-package com.kyobo.platform.recipe.recipeRegist;
+package com.kyobo.platform.recipe.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

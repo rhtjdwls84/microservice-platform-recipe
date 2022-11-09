@@ -1,4 +1,4 @@
-package com.kyobo.platform.recipe.recipeRegist;
+package com.kyobo.platform.recipe.dao;
 
 import java.util.ArrayList;
 
@@ -36,23 +36,23 @@ public class RecipeRegist {
 	
     private String recipe_babyfood_step;
 	
-    private String recipe_main_img_name;
+    private String recipe_main_img_key_name;
 	
     private String recipe_main_img_path;
 
-    private String recipe_img_name_1;
+    private String recipe_img_key_name_1;
 
     private String recipe_img_path_1;
     
-    private String recipe_img_name_2;
+    private String recipe_img_key_name_2;
 
     private String recipe_img_path_2;
     
-    private String recipe_img_name_3;
+    private String recipe_img_key_name_3;
 
     private String recipe_img_path_3;
     
-    private String recipe_img_name_4;
+    private String recipe_img_key_name_4;
 
     private String recipe_img_path_4;
     
@@ -60,11 +60,11 @@ public class RecipeRegist {
 
     private int recipe_servings;
     
-    private String recipe_temp_step;
+    private String recipe_temp_step; //기본정보, 부가정보, 재료, 요리순서, 완료
     
-    private String recipe_check_status;
+    private String recipe_check_status; //임시저장, 검수대기, 검수완료, 보완요청, 등록완료
     
-    private String recipe_write_status;
+    private String recipe_write_status; //임시저장, 수정
     
     private ArrayList<RecipeMaterial> recipe_material_arr = new ArrayList<RecipeMaterial>();
     

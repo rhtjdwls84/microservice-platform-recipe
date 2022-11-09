@@ -7,6 +7,7 @@ import java.security.Security;
 import java.text.ParseException;
 import java.util.Properties;
 
+
 import org.jets3t.service.CloudFrontService;
 import org.jets3t.service.CloudFrontServiceException;
 import org.jets3t.service.utils.ServiceUtils;
@@ -35,25 +36,26 @@ public class AWSConfig {
     @Value("${cloud.aws.region.static}")
     private String region;
     
+    AmazonS3 amazonS3 = null;
+    
 	/* 사전작업
      * SecretAccess pem key를 아래 명령어로 DER 파일로 변환시킨 후 privateKeyFilePath 경로에 추가한다.
      * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
      */
-    private String privateKeyFilePath = "src\\\\main\\\\resources\\pk8-APKAZ3MKOJFETMDPAWV6.der";
+    private String privateKeyFilePath = "src\\main\\resources\\pk8-APKAZ3MKOJFETMDPAWV6.der";
     
     private byte[] derPrivateKey;
     
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AWSConfig.class);
     
-    //s3 사용을 위한 인증
     @Bean
+    //s3 사용을 위한 인증
 	public AmazonS3 amazonS3() {
     	logger.info("====================== amazonS3 start ======================");
-    	
     	AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
     	
     	//Amazon S3
-    	AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
+    	amazonS3 = AmazonS3ClientBuilder.standard()
         .withRegion(region)
         .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
         .build();
@@ -64,12 +66,14 @@ public class AWSConfig {
 	}
     
     public void CloudFrontManager() throws IOException {
+    	logger.info("Signed Url privateKeyFilePath ====================== {} =========================", privateKeyFilePath);
         derPrivateKey = ServiceUtils.readInputStreamToBytes(new FileInputStream(privateKeyFilePath));
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
     
     // 미리 준비된 정책
-    public String createSignedUrlCanned(String s3FileName) throws ParseException, CloudFrontServiceException, FileNotFoundException, IOException {
+    public String createSignedUrlCanned(String s3FileName) 
+    		throws ParseException, CloudFrontServiceException, FileNotFoundException, IOException {
     	logger.info("====================== createSignedUrlCanned start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();

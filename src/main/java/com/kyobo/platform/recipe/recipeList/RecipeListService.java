@@ -50,4 +50,20 @@ public class RecipeListService {
 //		}
 //	}
 	
+//	@Cacheable(value = "RecipeList", key = "#recipe_user_id", cacheManager = "cacheManager")
+//	public List<RecipeList> getSearchRecipeList(String search_text, String search_type) {
+//		logger.info("====================== getSearchRecipeList start ======================");
+//		List<RecipeList> recipeList = this.recipeListRepository.getSearchRecipeList(search_text, search_type);
+//		HashMap<String, String> searchMap = new HashMap<String, String>();
+//		searchMap.put("search_text", search_text);
+//		searchMap.put("search_type", search_type);
+//		List<RecipeList> recipeList = recipeListMapper.getSearchRecipeList(searchMap);
+//		if(recipeList != null) {
+//			logger.info("====================== getSearchRecipeList end ======================");
+//			return recipeList;
+//		}else {
+//			throw new GlobalExceptionHandler();
+//		}
+//	}
+	
 }

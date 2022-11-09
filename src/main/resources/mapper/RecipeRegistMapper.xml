@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kyobo.platform.recipe.recipeRegist.RecipeRegistMapper">
 	<!-- 기본정보 임시저장-->
-	<insert id="insertRecipeDefaultStep" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist" 
+	<insert id="insertRecipeDefInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist" 
     	useGeneratedKeys="true" keyProperty="recipe_key">
     	INSERT INTO recipe_tb (
         	recipe_name, 
@@ -28,15 +28,15 @@
         	#{recipe_name}, 
         	#{recipe_desc}, 
         	#{recipe_category}, 
-        	#{recipe_main_img_name}, 
+        	#{recipe_main_img_key_name}, 
         	#{recipe_main_img_path}, 
-        	#{recipe_img_name_1}, 
+        	#{recipe_img_key_name_1}, 
         	#{recipe_img_path_1}, 
-        	#{recipe_img_name_2}, 
+        	#{recipe_img_key_name_2}, 
         	#{recipe_img_path_2}, 
-        	#{recipe_img_name_3}, 
+        	#{recipe_img_key_name_3}, 
         	#{recipe_img_path_3}, 
-        	#{recipe_img_name_4}, 
+        	#{recipe_img_key_name_4}, 
         	#{recipe_img_path_4}, 
         	#{recipe_user_id},	
         	'N', 
@@ -48,20 +48,20 @@
 	</insert>
 	
 	<!-- 기본정보 수정-->
-	<update id="updateRecipeDefaultStep" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
+	<update id="updateRecipeDefInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
 		UPDATE recipe_tb SET
 			recipe_name = #{recipe_name},
         	recipe_desc = #{recipe_desc}, 
         	recipe_category = #{recipe_category}, 
-        	recipe_main_img_name = #{recipe_main_img_name},
+        	recipe_main_img_name = #{recipe_main_img_key_name},
         	recipe_main_img_path = #{recipe_main_img_path},
-        	recipe_img_name_1 = #{recipe_img_name_1},
+        	recipe_img_name_1 = #{recipe_img_key_name_1},
         	recipe_img_path_1 = #{recipe_img_path_1},
-        	recipe_img_name_2 = #{recipe_img_name_2},
+        	recipe_img_name_2 = #{recipe_img_key_name_2},
         	recipe_img_path_2 = #{recipe_img_path_2},
-        	recipe_img_name_3 = #{recipe_img_name_3},
+        	recipe_img_name_3 = #{recipe_img_key_name_3},
         	recipe_img_path_3 = #{recipe_img_path_3},
-        	recipe_img_name_4 = #{recipe_img_name_4},
+        	recipe_img_name_4 = #{recipe_img_key_name_4},
         	recipe_img_path_4 = #{recipe_img_path_4},
         	recipe_expose_yn = 'N',
         	recipe_check_status = #{recipe_check_status},
@@ -71,7 +71,7 @@
 	</update>
 	
 	<!-- 부가정보 임시저장 및 수정-->
-	<update id="updateRecipeSideInfoStep" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
+	<update id="updateRecipeAddInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
 		UPDATE recipe_tb SET
 			recipe_lead_time = #{recipe_lead_time},
         	recipe_level = #{recipe_level}, 
@@ -85,7 +85,7 @@
 	</update>
 	
 	<!-- 재료 몇인분 여부 recipe_tb 업데이트-->
-	<update id="updateRecipeMaterialStep" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
+	<update id="updateRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeRegist">
 		UPDATE recipe_tb SET
 			recipe_servings = #{recipe_servings},
         	recipe_check_status = #{recipe_check_status},
@@ -96,14 +96,14 @@
 	</update>
 	
 	<!-- 재료 임시저장 및 수정 시 insert 전 delete-->
-	<delete id="deleteRecipeMaterial" parameterType="java.lang.String">	
+	<delete id="deleteRecipeMaterialInfo" parameterType="java.lang.String">	
 		DELETE FROM recipe_material_tb
 		WHERE
 			recipe_key = #{recipe_key}
 	</delete>
 	
 	<!-- 재료 임시저장 및 수정-->
-	<insert id="insertRecipeMaterial" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeMaterial">
+	<insert id="insertRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeMaterial">
 		INSERT INTO recipe_material_tb (
 			recipe_key, 
 			recipe_material_name, 
@@ -124,14 +124,14 @@
 	</insert>
 	
 	<!-- 요리순서 임시저장 및 수정 시 insert 전 delete-->
-	<delete id="deleteRecipeOrder" parameterType="java.lang.String">	
+	<delete id="deleteRecipeOrderInfo" parameterType="java.lang.String">	
 		DELETE FROM recipe_order_tb
 		WHERE
 			recipe_key = #{recipe_key}
 	</delete>
 	
 	<!-- 요리순서 임시저장 및 수정-->
-	<insert id="insertRecipeOrder" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeOrder">
+	<insert id="insertRecipeOrderInfo" parameterType="com.kyobo.platform.recipe.recipeRegist.RecipeOrder">
 		INSERT INTO recipe_order_tb (
 			recipe_key, 
 			recipe_order, 
@@ -144,7 +144,7 @@
 			#{recipe_key}, 
 			#{recipe_order}, 
 			#{recipe_order_desc}, 
-			#{recipe_order_img_name}, 
+			#{recipe_order_img_key_name}, 
 			#{recipe_order_img_path}, 
 			NOW(), 
 			NOW()
@@ -160,4 +160,29 @@
         WHERE 
         	recipe_key = #{recipe_key}	
 	</update>
+	
+	<!-- 레시피 임시저장 체크 -->
+	<select id="selectCheckRecipeTempSave" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT recipe_key
+		FROM recipe_tb
+		WHERE 
+			recipe_user_id = #{user_id}
+	</select>
+	
+	<!-- 레시피 임시저장 삭제 -->
+	<delete id="deleteRecipeTempSave" parameterType="java.lang.String">
+		DELETE FROM recipe_tb
+		WHERE
+			recipe_key = #{recipe_key}
+	</delete>
+	
+	<!-- 레시피 베이스 재료 조회 -->
+	<select id="selectListRecipeBaseMaterial" parameterType="java.lang.String" resultType="map">
+		SELECT 
+			recipe_base_material_name, 
+			recipe_base_material_meature
+		FROM recipe_base_material_tb
+		WHERE 
+			recipe_base_material_classify = #{search_text}
+	</select>
 </mapper> 

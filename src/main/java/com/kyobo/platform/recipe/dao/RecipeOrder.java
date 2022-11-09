@@ -1,4 +1,4 @@
-package com.kyobo.platform.recipe.recipeRegist;
+package com.kyobo.platform.recipe.dao;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +26,7 @@ public class RecipeOrder {
 	
     private String recipe_order_desc;
 	
-    private String recipe_order_img_name;
+    private String recipe_order_img_key_name;
     
     private String recipe_order_img_path;
 	
