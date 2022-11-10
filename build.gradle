@@ -66,9 +66,9 @@ dependencies {
  	testImplementation group: 'junit', name: 'junit', version: '4.11'
  	
 	// spring에서 redis에 대한 의존성
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// spring에서 redis를 session storage로 사용하기 위한 의존성
-	implementation 'org.springframework.session:spring-session-data-redis'
+	//implementation 'org.springframework.session:spring-session-data-redis'
 	
 	// MyBatis 라이브러리 의존성 추가
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
