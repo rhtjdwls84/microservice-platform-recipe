@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kyobo.platform.recipe.dao.Recipe;
-import com.kyobo.platform.recipe.redis.RedisService;
+//import com.kyobo.platform.recipe.redis.RedisService;
 import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeRegistService;
 
@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeRegistController {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeRegistController.class);
 	
-	private final RedisService redisService = new RedisService();
+//	private final RedisService redisService = new RedisService();
 	
 	private final RecipeRegistService recipeRegistService;
 	

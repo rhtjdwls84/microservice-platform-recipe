@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.kyobo.platform.recipe.redis.RedisService;
+//import com.kyobo.platform.recipe.redis.RedisService;
 import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeSearchService;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeSearchController {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeSearchController.class);
 	
-	private final RedisService redisService = new RedisService();
+//	private final RedisService redisService = new RedisService();
 	
 	private final RecipeSearchService recipeSearchService;
 	

@@ -79,14 +79,5 @@ public class Recipe {
     private String category_name;
     
     private String except_material_yn;
-    
-    //재료
-    private String recipe_material_name;
-    
-    private String recipe_material_classify;
-    
-    private String recipe_material_main_classify;
-    
-    private String recipe_material_meature;
 }
 
