@@ -6,8 +6,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @SpringBootApplication
-@EnableRedisHttpSession
-@EnableCaching
+//@EnableRedisHttpSession
+//@EnableCaching
 public class MicroservicePlatformRecipeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MicroservicePlatformRecipeApplication.class, args);
