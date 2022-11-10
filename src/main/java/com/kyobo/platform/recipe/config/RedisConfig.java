@@ -18,7 +18,7 @@ public class RedisConfig {
 	@Value("${spring.redis.port}")
 	public int port;
 
-	@Bean
+//	@Bean
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -27,7 +27,7 @@ public class RedisConfig {
 		return redisTemplate;
         }
 
-	@Bean
+//	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
 		configuration.setHostName(host);
