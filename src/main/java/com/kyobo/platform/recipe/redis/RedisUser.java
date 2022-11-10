@@ -5,14 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.data.redis.core.RedisHash;
+//import org.springframework.data.redis.core.RedisHash;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RedisHash(value = "redisUser", timeToLive = 10)
+//@RedisHash(value = "redisUser", timeToLive = 10)
 public class RedisUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
