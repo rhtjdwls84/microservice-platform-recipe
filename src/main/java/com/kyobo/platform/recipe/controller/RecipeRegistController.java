@@ -369,10 +369,10 @@ public class RecipeRegistController {
 	}
 	
 	//레시피 업로드
-	@RequestMapping(value = "/recipeUpload/{recipe_temp_step}", produces = "application/json; charset=UTF-8", 
+	@RequestMapping(value = "/recipeUpload/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeUpload(@PathVariable("recipe_temp_step") String recipe_temp_step) {
+	public String recipeUpload(@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeUpload controller start ======================");
 		
 		String jsonRecipeList = null;
@@ -380,7 +380,7 @@ public class RecipeRegistController {
 		Gson gson = new Gson();
 		
 		try {
-			recipeRegistService.recipeUpload(recipe_temp_step);
+			recipeRegistService.recipeUpload(recipe_key);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

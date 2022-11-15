@@ -50,5 +50,8 @@ public interface RecipeRegistMapper {
 	int deleteRecipeTempSave(String recipe_key);
 	
 	@Transactional
+	int insertRecipeTag(Recipe recipe);
+	
+	@Transactional
 	List<Map.Entry<String, Object>> selectListRecipeBaseMaterial(String search_text);
 }

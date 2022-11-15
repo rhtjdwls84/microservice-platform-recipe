@@ -79,5 +79,7 @@ public class Recipe {
     private String category_name;
     
     private String except_material_yn;
+    
+    private String recipe_tag_desc;
 }
 

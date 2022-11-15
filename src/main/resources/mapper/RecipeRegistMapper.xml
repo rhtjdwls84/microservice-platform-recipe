@@ -123,6 +123,23 @@
 		)
 	</insert>
 	
+	<!-- 매인재료 태그값 설정-->
+	<insert id="insertRecipeTag" parameterType="com.kyobo.platform.recipe.dao.Recipe">
+		INSERT INTO recipe_tag_tb (
+			recipe_key,
+			recipe_tag_no
+			recipe_tag_desc,
+			created_datetime, 
+			last_modified_datetime
+		) VALUES (
+			#{recipe_key}, 
+			1
+			#{recipe_tag_desc}
+			NOW(), 
+			NOW()
+		}
+	</insert>
+	
 	<!-- 요리순서 임시저장 및 수정 시 insert 전 delete-->
 	<delete id="deleteRecipeOrderInfo" parameterType="java.lang.String">	
 		DELETE FROM recipe_order_tb

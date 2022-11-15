@@ -29,5 +29,7 @@ public class RecipeMaterial {
     private String recipe_material_main_classify;
 	
     private String recipe_material_meature;
+    
+    private String recipe_material_main_yn;
 	
 }

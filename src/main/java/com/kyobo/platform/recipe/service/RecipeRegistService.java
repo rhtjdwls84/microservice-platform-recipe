@@ -99,6 +99,12 @@ public class RecipeRegistService {
 			for(int i = 0; i < recipe_material_list.size(); i++) {
 				recipe_material_list.get(i).setRecipe_key(recipe.getRecipe_key());
 				result = recipeRegistMapper.insertRecipeMaterialInfo(recipe_material_list.get(i));
+				
+				if(recipe_material_list.get(i).getRecipe_material_main_yn().equals("Y")) {
+					recipe.setRecipe_tag_desc(recipe_material_list.get(i).getRecipe_material_name());
+					recipeRegistMapper.insertRecipeTag(recipe);
+					
+				}
 			}
 			if(result > 0) {
 				// 레시피 몇 인분 수 업데이트
@@ -257,12 +263,13 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 업로드
-	public int recipeUpload(String recipe_temp_step) {
+	public int recipeUpload(String recipe_key) {
 		logger.info("====================== recipeUpload service start ======================");
 		
 		Recipe recipe = new Recipe();
 		recipe.setRecipe_check_status("검수대기");
-		recipe.setRecipe_temp_step(recipe_temp_step);
+		recipe.setRecipe_temp_step("완료");
+		recipe.setRecipe_key(recipe_key);
 		int result = recipeRegistMapper.updateRecipeStatus(recipe);
 		
 		logger.info("====================== recipeUpload service end ======================");

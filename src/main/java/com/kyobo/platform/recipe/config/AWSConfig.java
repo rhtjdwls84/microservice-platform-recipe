@@ -27,12 +27,6 @@ import ch.qos.logback.classic.Logger;
 @Configuration
 public class AWSConfig {
 	
-	@Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
-
     @Value("${cloud.aws.region.static}")
     private String region;
     
@@ -50,8 +44,15 @@ public class AWSConfig {
     
     @Bean
     //s3 사용을 위한 인증
-	public AmazonS3 amazonS3() {
+	public AmazonS3 amazonS3() throws FileNotFoundException, IOException {
     	logger.info("====================== amazonS3 start ======================");
+    	//cloudfront 사용을 위한 인증 properties 파일 로드
+    	Properties properties = new Properties();
+        properties.load(new FileInputStream("src\\main\\resources\\awsAuth.properties"));
+        
+        String accessKey = properties.getProperty("accessKey");
+        String secretKey = properties.getProperty("secretKey");
+        
     	AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
     	
     	//Amazon S3
