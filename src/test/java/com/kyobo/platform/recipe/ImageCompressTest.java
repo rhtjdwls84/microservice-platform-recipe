@@ -3,6 +3,8 @@ package com.kyobo.platform.recipe;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Iterator;
+import java.util.UUID;
+
 import javax.imageio.*;
 import javax.imageio.stream.*;
 
@@ -13,7 +15,8 @@ public class ImageCompressTest {
     File input = new File("C:\\Users\\sejin\\Downloads\\JIN08417.jpg");
     BufferedImage image = ImageIO.read(input);
 
-    File compressedImageFile = new File("C:\\Users\\sejin\\Downloads\\JIN08417_1.jpg");
+    String s3FileName = "setseshekfjsdjfghgj";
+    File compressedImageFile = new File(s3FileName + ".jpg");
     OutputStream os = new FileOutputStream(compressedImageFile);
 
     Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");

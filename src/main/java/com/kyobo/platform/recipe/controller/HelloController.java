@@ -228,5 +228,27 @@ public class HelloController {
 	    	System.out.println(e);
 	    }
 	    return "redirect:/profile?access_token=" + access_token;
-	}    
+	} 
+	
+//	//검색 레시피 목록 조회
+//	@RequestMapping(value = "/searchRecipeList", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+//	@ResponseBody
+//	@GetMapping("/searchRecipeList/{search_text}/{search_type}")
+//	@Cacheable(value = "post-single", key = "#user_id", cacheManager = "cacheManager")
+//    public String searchRecipeList(@RequestParam(value = "search_text", required = true) String search_text, 
+//    		@RequestParam(value = "search_type", required = false) String search_type) {
+//		logger.info("====================== recipeList start ======================");
+//		//Redis 세션체크
+////			Optional<RedisUser> redisUser = redisService.redisGetSession(id);
+//		
+//		String jsonRecipeList = null;
+////			if(redisUser != null) {
+//			//목록 조회
+//			List<RecipeList> recipeList = recipeListService.getSearchRecipeList(search_text, search_type);
+//			Gson gson = new Gson();
+//			jsonRecipeList = gson.toJson(recipeList);
+////			}
+//		logger.info("====================== recipeList end ======================");
+//        return jsonRecipeList;     
+//    }
 }
