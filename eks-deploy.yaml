@@ -53,14 +53,14 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "platform-recipe-ingress"
+  name: platform-recipe-ingress
   namespace: default
   annotations:
-    kubernetes.io/ingress.class:alb
-    kubernetes.io/role/internal-elb:'1'
-    kubernetes.io/cluster/baby-cluster:shared
-    alb.ingress.kubernetes.io/scheme:internal
-    alb.ingress.kubernetes.io/target-type:ip
+    kubernetes.io/ingress.class: alb
+    kubernetes.io/role/internal-elb: 1
+    kubernetes.io/cluster/baby-cluster: shared
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
   - http:
