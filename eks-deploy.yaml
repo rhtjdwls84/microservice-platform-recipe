@@ -50,23 +50,25 @@ spec:
 #              cpu: "256m"
 #              memory: "512Mi"
 ---
-#apiVersion: networking.k8s.io/v1
-#kind: Ingress
-#metadata:
-#  name: "backend-ingress"
-#  namespace: default
-#  annotations:
-#    kubernetes.io/ingress.class: alb
-#    alb.ingress.kubernetes.io/scheme: internal
-#    alb.ingress.kubernetes.io/target-type: ip
-#spec:
-#  rules:
-#  - http:
-#      paths:
-#        - path: /
-#          pathType: Prefix
-#          backend:
-#            service:
-#              name: "community-service"
-#              port:
-#                number: 80         
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "platform-recipe-ingress"
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: alb
+    kubernetes.io/role/internal-elb: 1
+    kubernetes.io/cluster/baby-cluster: shared
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: "platform-recipe-service"
+              port:
+                number: 8080         
