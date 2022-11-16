@@ -71,4 +71,4 @@ spec:
             service:
               name: "platform-recipe-service"
               port:
-                number: 8080       
+                number: 8080      
