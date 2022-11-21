@@ -90,7 +90,7 @@ public class RecipeRegistService {
 	// 레시피 재료정보 작성
 	public String recipeMaterialInfo(Recipe recipe) {
 		logger.info("====================== recipeMaterialInfo service start ======================");
-		ArrayList<RecipeMaterial> recipe_material_list = recipe.getRecipe_material_arr();
+		ArrayList<RecipeMaterial> recipe_material_list = recipe.getRecipe_material_list();
 		
 		// 기존 레시피 재료정보는 삭제
 		int result = recipeRegistMapper.deleteRecipeMaterialInfo(recipe.getRecipe_key());
@@ -125,7 +125,7 @@ public class RecipeRegistService {
 	// 레시피 순서정보 작성
 	public String recipeOrderInfo(Recipe recipe) {
 		logger.info("====================== recipeOrderInfo service start ======================");
-		ArrayList<RecipeOrder> recipe_order_list = recipe.getRecipe_order_arr();
+		ArrayList<RecipeOrder> recipe_order_list = recipe.getRecipe_order_list();
 		
 		// 기존 레시피 순서정보는 삭제
 		int result = recipeRegistMapper.deleteRecipeOrderInfo(recipe.getRecipe_key());

@@ -31,11 +31,11 @@ public class RecipeSearchController {
 	private final RecipeSearchService recipeSearchService;
 	
 //	public String recipeRegist(@RequestBody RecipeRegist recipeRegist) {
-		//Redis 세션체크
+		// Redis 세션체크
 //		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
 //    }
 	
-	//레시피 검색 조회
+	// 레시피 검색 조회
 	@RequestMapping(value = "/searchRecipe", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
 	public String searchRecipe(@RequestParam(required = false) String recipe_search_text,

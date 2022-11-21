@@ -26,6 +26,7 @@ import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeRegistService;
 
 import ch.qos.logback.classic.Logger;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/recipe")
@@ -39,15 +40,15 @@ public class RecipeRegistController {
 	private final RecipeRegistService recipeRegistService;
 	
 //	public String recipeRegist(@RequestBody RecipeRegist recipe) {
-		//Redis 세션체크
+		// Redis 세션체크
 //		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
 //    }
 	
-	//레시피 기본정보 작성
+	// 레시피 기본정보 작성
 	@RequestMapping(value = "/recipeDefInfo", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.POST)
 	@ResponseBody
-	public String recipeDefInfo(@RequestParam("recipe_def_info") Recipe recipe) {
+	public String recipeDefInfo(@RequestBody Recipe recipe) {
 		logger.info("====================== recipeDefInfo controller start ======================");
 		
 //		recipe.setRecipe_user_id("rhtjdwls84");
@@ -84,11 +85,11 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//레시피 부가정보 작성
+	// 레시피 부가정보 작성
 	@RequestMapping(value = "/recipeAddInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeAddInfo(@RequestParam("recipe_add_info") Recipe recipe, 
+	public String recipeAddInfo(@RequestBody Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeAddInfo controller start ======================");
 		
@@ -124,11 +125,11 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//레시피 재료정보 작성
+	// 레시피 재료정보 작성
 	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeMaterialInfo(@RequestParam("recipe_material_info") Recipe recipe, 
+	public String recipeMaterialInfo(@RequestBody Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeMaterialInfo controller start ======================");
 		
@@ -179,11 +180,11 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//레시피 순서정보 작성
+	// 레시피 순서정보 작성
 	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeOrderInfo(@RequestParam("recipe_order_info") Recipe recipe, 
+	public String recipeOrderInfo(@RequestBody Recipe recipe, 
 			@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeOrderInfo controller start ======================");
 		
@@ -232,11 +233,11 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//이미지 업로드
+	// 이미지 업로드
 	@RequestMapping(value = "/recipeImageUpload", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.POST)
 	@ResponseBody
-    public String recipeImageUpload(@RequestParam("recipe_image_list") List<MultipartFile> multipartFiles) 
+    public String recipeImageUpload(@RequestBody List<MultipartFile> multipartFiles) 
     		throws IOException, ParseException, CloudFrontServiceException {
 		logger.info("====================== recipeImageUpload controller start ======================");
 		
@@ -267,7 +268,7 @@ public class RecipeRegistController {
 		}
     }
 	
-	//레시피 임시저장 체크
+	// 레시피 임시저장 체크
 	@RequestMapping(value = "/checkRecipeTempSave/{user_id}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.GET)
 	@ResponseBody
@@ -301,7 +302,7 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//레시피 임시저장 삭제(새로작성시)
+	// 레시피 임시저장 삭제(새로작성시)
 	@RequestMapping(value = "/deleteRecipeTempSave/{user_id}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.DELETE)
 	@ResponseBody
@@ -334,7 +335,7 @@ public class RecipeRegistController {
 		}
 	}
 		
-	//레시피 베이스 재료 조회
+	// 레시피 베이스 재료 조회
 	@RequestMapping(value = "/listRecipeBaseMaterial/{search_text}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.GET)
 	@ResponseBody
@@ -368,7 +369,7 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//레시피 업로드
+	// 레시피 업로드
 	@RequestMapping(value = "/recipeUpload/{recipe_key}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.PUT)
 	@ResponseBody
@@ -401,7 +402,7 @@ public class RecipeRegistController {
 		}
 	}
 	
-	//이미지 삭제
+	// 이미지 삭제
 	@PostMapping("/recipeImageDelete")
 	@ResponseBody
     public String recipeImageDelete(@RequestParam("images") String imageFileName) {

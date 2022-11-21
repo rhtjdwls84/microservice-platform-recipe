@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyobo.platform.recipe.mapper.RecipeDetailMapper">
+	<!-- 레시피 조회수 +1 카운트 -->
+	<update id="updateRecipeSearchCnt" parameterType="java.lang.String">
+		UPDATE recipe_tb SET
+        	recipe_view_cnt = recipe_view_cnt + 1,
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}	
+	</update>
+	
+	<!-- 레시피 상세 -->
+	<select id="selectRecipeDetail" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.Recipe">
+		SELECT 
+			rt.recipe_key,
+			rt.recipe_name,
+			rt.recipe_desc,
+			rt.recipe_category,
+			rt.recipe_health_develop,
+			<!-- rt.recipe_health_tag, -->
+			rt.recipe_lead_time,
+			rt.recipe_level,
+			rt.recipe_babyfood_step,
+			rt.recipe_health_note,
+			rt.recipe_scrap_cnt,
+			rt.recipe_view_cnt,
+			rt.recipe_comment,
+			rt.recipe_main_img_name,
+			rt.recipe_main_img_path,
+			rt.recipe_img_name_1,
+			rt.recipe_img_path_1,
+			rt.recipe_img_name_2,
+			rt.recipe_img_path_2,
+			rt.recipe_img_name_3,
+			rt.recipe_img_path_3,
+			rt.recipe_img_name_4,
+			rt.recipe_img_path_4,
+			rt.recipe_servings,
+			rt.recipe_cal,
+			<!-- rt.recipe_reject_msg, -->
+			rst.recipe_scrap_yn,
+			rrt.recipe_select_review
+		FROM recipe_tb rt 
+		LEFT OUTER JOIN recipe_scrap_tb rst
+		ON rt.recipe_key = rst.recipe_key
+		AND rst.recipe_scrap_user_id = #{recipe_user_id} 
+		LEFT OUTER JOIN recipe_review_tb rrt
+		ON rt.recipe_key = rrt.recipe_key
+		AND rrt.recipe_review_user_id = #{recipe_user_id} 
+		WHERE 
+			rt.recipe_key = #{recipe_key}
+	</select>
+	
+	<!-- 레시피 재료 조회 -->
+	<select id="selectRecipeMaterial" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.RecipeMaterial">
+		SELECT 
+			recipe_material_name, 
+			recipe_material_classify,
+			recipe_material_main_classify,
+			recipe_material_meature
+		FROM recipe_material_tb
+		WHERE 
+			recipe_key = #{recipe_key}
+	</select>
+	
+	<!-- 레시피 순서 조회 -->
+	<select id="selectRecipeOrder" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.RecipeOrder">
+		SELECT 
+			recipe_order, 
+			recipe_order_desc,
+			recipe_order_img_key_name,
+			recipe_order_img_path
+		FROM recipe_order_tb
+		WHERE 
+			recipe_key = #{recipe_key}
+	</select>
+	
+	<!-- 레시피 리뷰 갯수 조회 -->
+	<select id="selectRecipeReview" parameterType="java.lang.String" resultType="HashMap">
+		SELECT 
+			recipe_review_cnt_1, 
+			recipe_review_cnt_2, 
+			recipe_review_cnt_3, 
+			recipe_review_cnt_4 
+		FROM
+			(
+				SELECT 
+					count(*) recipe_review_cnt_1
+				FROM recipe_review_tb 
+				WHERE recipe_select_review = '아이취향'
+			) recipe_review_cnt_1,
+			(
+				SELECT 
+					count(*) recipe_review_cnt_2
+				FROM recipe_review_tb 
+				WHERE recipe_select_review = '맛이훌륭'
+			) recipe_review_cnt_2,
+			(
+				SELECT 
+					count(*) recipe_review_cnt_3
+				FROM recipe_review_tb 
+				WHERE recipe_select_review = '조리쉬움'
+			) recipe_review_cnt_3,
+			(
+				SELECT 
+					count(*) recipe_review_cnt_4
+				FROM recipe_review_tb 
+				WHERE recipe_select_review = '영양풍부'
+			) recipe_review_cnt_4
+	</select>
+	
+	<!-- 레시피 리뷰 등록 -->
+	<insert id="insertRecipeReview" parameterType="com.kyobo.platform.recipe.dao.Recipe">
+		INSERT INTO recipe_review_tb (
+			recipe_key, 
+			recipe_select_review, 
+			recipe_review_user_id, 
+			created_datetime, 
+			last_modified_datetime
+		) VALUES (
+			#{recipe_key}, 
+			#{recipe_select_review}, 
+			#{recipe_user_id}, 
+			NOW(), 
+			NOW()
+		)
+	</insert>
+	
+	<!-- 레시피 스크랩 등록 -->
+	<insert id="insertRecipeScrap" parameterType="com.kyobo.platform.recipe.dao.Recipe">
+		INSERT INTO recipe_scrap_tb (
+			recipe_key, 
+			recipe_scrap_user_id,
+			recipe_scrap_yn, 
+			created_datetime, 
+			last_modified_datetime
+		) VALUES (
+			#{recipe_key}, 
+			#{recipe_user_id},
+			#{recipe_scrap_yn}, 
+			NOW(), 
+			NOW()
+		)
+	</insert>
+	
+	<!-- 레시피 스크랩수 +1 카운트 -->
+	<update id="updateRecipeScrapPlus" parameterType="java.lang.String">
+		UPDATE recipe_tb SET
+        	recipe_scrap_cnt = recipe_scrap_cnt + 1,
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}
+	</update>
+	
+	<!-- 레시피 스크랩 취소 -->
+	<update id="updateRecipeScrap" parameterType="com.kyobo.platform.recipe.dao.Recipe">
+		UPDATE recipe_scrap_tb SET
+        	recipe_scrap_yn = #{recipe_scrap_yn},
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}
+        AND
+        	recipe_scrap_user_id = #{recipe_user_id}
+	</update>
+	
+	<!-- 레시피 스크랩수 -1 카운트 -->
+	<update id="updateRecipeScrapMinus" parameterType="java.lang.String">
+		UPDATE recipe_tb SET
+        	recipe_scrap_cnt = recipe_scrap_cnt - 1,
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}
+	</update>
+</mapper> 

@@ -1,6 +1,7 @@
 package com.kyobo.platform.recipe.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,12 +32,24 @@ public class Recipe {
     private String recipe_category;
     
     private String recipe_health_develop;
+    
+    private String recipe_health_tag;
 	 
     private String recipe_lead_time;
 	
     private String recipe_level;
 	
     private String recipe_babyfood_step;
+    
+    private String recipe_health_note;
+    
+    private int recipe_scrap_cnt;
+    
+    private int recipe_view_cnt;
+    
+    private String recipe_scrap_yn;
+    
+    private String recipe_comment;
 	
     private String recipe_main_img_key_name;
 	
@@ -58,9 +71,11 @@ public class Recipe {
 
     private String recipe_img_path_4;
     
-    private String recipe_health_note;
-
     private int recipe_servings;
+    
+    private int recipe_cal;
+    
+    private String recipe_reject_msg;
     
     private String recipe_temp_step; //기본정보, 부가정보, 재료, 요리순서, 완료
     
@@ -68,9 +83,9 @@ public class Recipe {
     
     private String recipe_write_status; //임시저장, 수정
     
-    private ArrayList<RecipeMaterial> recipe_material_arr = new ArrayList<RecipeMaterial>();
+    private ArrayList<RecipeMaterial> recipe_material_list = new ArrayList<RecipeMaterial>();
     
-    private ArrayList<RecipeOrder> recipe_order_arr = new ArrayList<RecipeOrder>();
+    private ArrayList<RecipeOrder> recipe_order_list = new ArrayList<RecipeOrder>();
     
     private String recipe_search_text;
     
@@ -81,5 +96,11 @@ public class Recipe {
     private String except_material_yn;
     
     private String recipe_tag_desc;
+    
+    private String recipe_select_review;
+    
+    private HashMap<RecipeReview, Object> recipe_review_cnt_info = new HashMap<RecipeReview, Object>();
+    
+    private HashMap<RecipeWriter, Object> recipe_writer_info = new HashMap<RecipeWriter, Object>();
 }
 
