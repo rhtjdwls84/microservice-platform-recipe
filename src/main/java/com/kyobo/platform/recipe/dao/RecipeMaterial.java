@@ -22,6 +22,8 @@ public class RecipeMaterial {
 	@Id
 	private String recipe_material_key;
 	
+	private String recipe_common_material_key;
+	
     private String recipe_material_name;
 	
     private String recipe_material_classify;
@@ -31,5 +33,6 @@ public class RecipeMaterial {
     private String recipe_material_meature;
     
     private String recipe_material_main_yn;
-	
+    
+    private String recipe_material_allergy_yn;
 }

@@ -106,18 +106,24 @@
 	<insert id="insertRecipeMaterialInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		INSERT INTO recipe_material_tb (
 			recipe_key, 
+			recipe_common_material_key,
 			recipe_material_name, 
 			recipe_material_classify, 
 			recipe_material_main_classify, 
 			recipe_material_meature, 
+			recipe_material_main_yn,
+			recipe_material_allergy_yn,
 			created_datetime, 
 			last_modified_datetime
 		) VALUES (
 			#{recipe_key}, 
+			#{recipe_common_material_key},
 			#{recipe_material_name}, 
 			#{recipe_material_classify}, 
 			#{recipe_material_main_classify}, 
 			#{recipe_material_meature}, 
+			#{recipe_material_main_yn},
+			#{recipe_material_allergy_yn},
 			NOW(), 
 			NOW()
 		)
@@ -202,4 +208,14 @@
 		WHERE 
 			recipe_base_material_classify = #{search_text}
 	</select>
+	
+	<!-- 건강태그, 칼로리 업데이트(ML 영역 호출) -->
+	<update id="updateRecipeAnalysis" parameterType="com.kyobo.platform.recipe.dao.Recipe">
+		UPDATE recipe_tb SET
+        	recipe_health_tag = #{recipe_health_tag},
+        	recipe_cal = #{recipe_cal},
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}
+	</update>
 </mapper> 

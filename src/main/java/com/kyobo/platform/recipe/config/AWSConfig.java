@@ -36,7 +36,7 @@ public class AWSConfig {
      * SecretAccess pem key를 아래 명령어로 DER 파일로 변환시킨 후 privateKeyFilePath 경로에 추가한다.
      * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
      */
-    private String privateKeyFilePath = "src\\main\\resources\\pk8-APKAZ3MKOJFETMDPAWV6.der";
+    private String pre_path = "src\\main\\resources\\";
     
     private byte[] derPrivateKey;
     
@@ -48,7 +48,7 @@ public class AWSConfig {
     	logger.info("====================== amazonS3 start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream("src\\main\\resources\\awsAuth.properties"));
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
         
         String accessKey = properties.getProperty("accessKey");
         String secretKey = properties.getProperty("secretKey");
@@ -67,9 +67,15 @@ public class AWSConfig {
 	}
     
     public void CloudFrontManager() throws IOException {
-    	logger.info("Signed Url privateKeyFilePath ====================== {} =========================", privateKeyFilePath);
-        derPrivateKey = ServiceUtils.readInputStreamToBytes(new FileInputStream(privateKeyFilePath));
+    	logger.info("====================== CloudFrontManager start ======================");
+    	Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String privateKeyFile = properties.getProperty("privateKeyFile");
+        logger.info("privateKeyFile ====================== {} =========================", privateKeyFile);
+        derPrivateKey = ServiceUtils.readInputStreamToBytes(new FileInputStream(pre_path + privateKeyFile));
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        logger.info("====================== CloudFrontManager end ======================");
     }
     
     // 미리 준비된 정책
@@ -78,7 +84,7 @@ public class AWSConfig {
     	logger.info("====================== createSignedUrlCanned start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream("src\\main\\resources\\awsAuth.properties"));
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
         
         String distributionDomain = properties.getProperty("distributionDomain");
         String keyPairId = properties.getProperty("keyPairId");

@@ -39,10 +39,8 @@ public class RecipeSearchController {
 	@RequestMapping(value = "/searchRecipe", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
 	public String searchRecipe(@RequestParam(required = false) String recipe_search_text,
-			@RequestParam(required = false) String category_main_name,
-			@RequestParam(required = false) String category_name,
-			@RequestParam(required = false) String recipe_babyfood_step,
-			@RequestParam(required = false) String except_material_yn) {
+			@RequestParam(required = false) String category_main_name, @RequestParam(required = false) String category_name,
+			@RequestParam(required = false) String recipe_babyfood_step, @RequestParam(required = false) String except_material_yn) {
 		logger.info("====================== searchRecipe controller start ======================");
 		
 		String jsonRecipeList = null;
@@ -61,7 +59,7 @@ public class RecipeSearchController {
 			
 			logger.info("====================== searchRecipe controller end ======================");
 			return jsonRecipeList;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			map.put("response_code", "500");
 			map.put("response_desc", e);

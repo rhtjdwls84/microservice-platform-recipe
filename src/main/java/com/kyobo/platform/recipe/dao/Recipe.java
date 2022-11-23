@@ -2,6 +2,7 @@ package com.kyobo.platform.recipe.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -83,8 +84,10 @@ public class Recipe {
     
     private String recipe_write_status; //임시저장, 수정
     
+    // 레시피 재료 테이블
     private ArrayList<RecipeMaterial> recipe_material_list = new ArrayList<RecipeMaterial>();
     
+    // 레시피 순서 테이블
     private ArrayList<RecipeOrder> recipe_order_list = new ArrayList<RecipeOrder>();
     
     private String recipe_search_text;
@@ -99,8 +102,19 @@ public class Recipe {
     
     private String recipe_select_review;
     
+    // 레시피 리뷰 카운트
     private HashMap<RecipeReview, Object> recipe_review_cnt_info = new HashMap<RecipeReview, Object>();
     
+    // 레시피 작성자 정보
     private HashMap<RecipeWriter, Object> recipe_writer_info = new HashMap<RecipeWriter, Object>();
+    
+    //레시피 섭취자제재료 정보(ML 연계)
+    private ArrayList<Map<String, Object>> recipe_control_material_list = new ArrayList<Map<String, Object>>();
+    
+    //레시피 알러지재료 정보(ML 연계)
+    private ArrayList<Map<String, Object>> recipe_allergy_material_list = new ArrayList<Map<String, Object>>();
+    
+    //레시피 영양소 정보(ML 연계)
+    private ArrayList<Map<String, Object>> recipe_nutrient_material_list = new ArrayList<Map<String, Object>>();
 }
 

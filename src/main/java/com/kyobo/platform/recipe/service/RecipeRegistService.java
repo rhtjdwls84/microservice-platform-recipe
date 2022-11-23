@@ -21,13 +21,16 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.jets3t.service.CloudFrontServiceException;
+import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.google.gson.JsonObject;
 //import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
+import com.kyobo.platform.recipe.config.HttpConfig;
 import com.kyobo.platform.recipe.dao.RecipeMaterial;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.Recipe;
@@ -266,11 +269,29 @@ public class RecipeRegistService {
 	public int recipeUpload(String recipe_key) {
 		logger.info("====================== recipeUpload service start ======================");
 		
+		JSONObject responseJson = null;
+		
 		Recipe recipe = new Recipe();
 		recipe.setRecipe_check_status("검수대기");
 		recipe.setRecipe_temp_step("완료");
 		recipe.setRecipe_key(recipe_key);
 		int result = recipeRegistMapper.updateRecipeStatus(recipe);
+		
+		// 건강태그, 칼로리 업데이트(ML 영역 호출)
+		if(result > 0) {
+			HttpConfig httpConfig = new HttpConfig();
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("recipe_id", recipe_key);
+			String url = "/recipe/analysis";
+			String type = "POST";
+			
+			responseJson = httpConfig.callApi(jsonObject, url, type);
+			
+			recipe.setRecipe_health_tag(responseJson.get("health_tags").toString());
+			recipe.setRecipe_cal((int) responseJson.get("calory"));
+			
+			result = recipeRegistMapper.updateRecipeAnalysis(recipe);
+		}
 		
 		logger.info("====================== recipeUpload service end ======================");
 		return result;

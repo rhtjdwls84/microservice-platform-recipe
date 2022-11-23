@@ -54,4 +54,7 @@ public interface RecipeRegistMapper {
 	
 	@Transactional
 	List<Map.Entry<String, Object>> selectListRecipeBaseMaterial(String search_text);
+	
+	@Transactional
+	int updateRecipeAnalysis(Recipe recipe);
 }

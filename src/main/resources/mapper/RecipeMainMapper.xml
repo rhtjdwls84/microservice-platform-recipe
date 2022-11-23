@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyobo.platform.recipe.mapper.RecipeMainMapper">
+
+<resultMap id="interest_map" type="java.util.HashMap">
+	<result column="recipe_key" property="recipe_key" javaType="String"/>
+	<result column="recipe_name" property="recipe_name" javaType="String"/>
+  	<result column="recipe_desc" property="recipe_desc" javaType="String"/>
+  	<result column="recipe_lead_time" property="recipe_lead_time" javaType="String"/>
+  	<result column="recipe_level" property="recipe_level" javaType="String"/>
+  	<result column="recipe_main_img_path" property="recipe_main_img_path" javaType="String"/>
+  	<result column="recipe_tag" property="recipe_tag" javaType="String"/>
+  	<result column="recipe_user_id" property="recipe_user_id" javaType="String"/>
+</resultMap>
+
+	<!-- 사용자 기반 맞춤 메인 레시피 조회 -->
+	<select id="selectRecipeList" parameterType="hashmap" resultMap="interest_map">
+		SELECT 
+			recipe_key, 
+			recipe_name,
+			recipe_desc,
+			recipe_lead_time,
+			recipe_level,
+			recipe_main_img_path,
+			recipe_tag,
+			recipe_user_id
+		FROM recipe_tb
+		WHERE 
+			recipe_key IN
+		<foreach collection="json_interest_array" item="json_interest_array" open="(" close=")" separator=",">
+			#{json_interest_array}
+		</foreach>	
+	</select>
+	
+	<!-- 레시피 리뷰 카운트 조회 -->
+	<select id="selectRecipeReviewCount" parameterType="java.lang.String" resultType="Integer">
+		SELECT 
+			COUNT(*)
+		FROM recipe_review_tb
+		WHERE 
+			recipe_key = #{recipe_key}
+	</select>
+	
+	<!-- 제철재료기반 메인 레시피 조회 -->
+	<select id="seasonMaterialBasedRecipeList" parameterType="java.lang.String" resultMap="interest_map">
+		SELECT 
+			A.*, 
+			COUNT(CASE WHEN A.recipe_key = B.recipe_key THEN 1 END) AS recipe_review_total_count
+		FROM 
+		(
+			SELECT 
+				rt.recipe_key, 
+				recipe_name,
+				recipe_desc,
+				recipe_lead_time,
+				recipe_level,
+				recipe_main_img_path,
+				recipe_tag,
+				recipe_user_id
+			FROM recipe_tb rt LEFT OUTER JOIN recipe_material_tb rmt
+			ON rt.recipe_key = rmt.recipe_key
+			WHERE 1=1
+			AND rmt.recipe_material_name LIKE CONCAT('%',#{season_material},'%')
+        	GROUP BY recipe_key
+        ) A LEFT OUTER JOIN recipe_review_tb B
+        ON A.recipe_key = B.recipe_key
+        GROUP BY A.recipe_key
+	</select>
+</mapper> 
