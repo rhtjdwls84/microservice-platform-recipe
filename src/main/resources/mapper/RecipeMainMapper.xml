@@ -44,12 +44,12 @@
 	<!-- 제철재료기반 메인 레시피 조회 -->
 	<select id="seasonMaterialBasedRecipeList" parameterType="java.lang.String" resultMap="interest_map">
 		SELECT 
-			A.*, 
-			COUNT(CASE WHEN A.recipe_key = B.recipe_key THEN 1 END) AS recipe_review_total_count
+			rt.*, 
+			COUNT(CASE WHEN rt.recipe_key = rrt.recipe_key THEN 1 END) AS recipe_review_total_count
 		FROM 
 		(
 			SELECT 
-				rt.recipe_key, 
+				recipe_key, 
 				recipe_name,
 				recipe_desc,
 				recipe_lead_time,
@@ -57,13 +57,12 @@
 				recipe_main_img_path,
 				recipe_tag,
 				recipe_user_id
-			FROM recipe_tb rt LEFT OUTER JOIN recipe_material_tb rmt
-			ON rt.recipe_key = rmt.recipe_key
+			FROM recipe_tb rt
 			WHERE 1=1
-			AND rmt.recipe_material_name LIKE CONCAT('%',#{season_material},'%')
+			AND rt.recipe_name LIKE CONCAT('%',#{season_material},'%')
         	GROUP BY recipe_key
-        ) A LEFT OUTER JOIN recipe_review_tb B
-        ON A.recipe_key = B.recipe_key
-        GROUP BY A.recipe_key
+        ) rt LEFT OUTER JOIN recipe_review_tb rrt
+        ON rt.recipe_key = rrt.recipe_key
+        GROUP BY rt.recipe_key
 	</select>
 </mapper> 

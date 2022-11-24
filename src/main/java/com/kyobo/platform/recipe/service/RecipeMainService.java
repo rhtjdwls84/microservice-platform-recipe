@@ -1,6 +1,7 @@
 package com.kyobo.platform.recipe.service;
 
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,45 @@ public class RecipeMainService {
 //	private final RecipeListRepository recipeListRepository;
 	
 	private final RecipeMainMapper recipeMainMapper;
+	
+	public HashMap<String, Object> mainInfo() {
+		logger.info("====================== mainInfo service start ======================");
+		
+		try {
+			// 건강키워드의 경우 현재는 MVP1에서는 고정
+			// 배너의 경우에는 MVP1에서 어드민 관리 테이블을 개발할 경우 DB에서 조회 개발 불가일경우 고정된 배너 형테로 전달
+			// 제철재료 문구의 경우 어드민에서 관리하고 테이블을 만듬, 시스템 날짜에 준해서 주단위 재료를 테이블에서 조회
+			// 다이나믹 문구는 MVP1에서는 정해진 값으로 시스템 날짜 체크해서 값 고정 시킴
+			HashMap<String, Object> main_info_map = new HashMap<String, Object>();
+			
+			main_info_map.put("health_keywords", "[\"성장\", \"두뇌발달\", \"소화불량\", \"장염\", \"아토피\", \"감기\"]");
+			main_info_map.put("dynamic_sentense", "기분좋은 주말 아침이에요");
+			
+//			String season_material_sentence = recipeMainMapper.selectSeasonMaterialSentence();
+			main_info_map.put("season_material_sentence", "10월 제철 재료 감자");
+			
+			
+//			List<Map<String, Object>> banner_list = recipeMainMapper.selectBannerList();
+			ArrayList<Map<String, Object>> banner_list = new ArrayList<Map<String, Object>>();
+			
+			for(int i = 0; i < 3; i++) {
+				HashMap<String, Object> banner_info_map = new HashMap<String, Object>();
+				banner_info_map.put("banner_type", "이벤트");
+				banner_info_map.put("banner_name", "꼬미의 몸무게에 관심을 가져주세요.");
+				banner_info_map.put("baby_weight_text", "이 시기의 몸무게는 키 성좡과 관련이 높아요. 성장에 도움이 되는 단백질과 철분이 많은 레시피를 알아볼까요?");
+				banner_info_map.put("banner_img_path", "http://d3am0bqv86scod.cloudfront.net/0bc30422-ecb7-45b1-9505-b0b954bfee9e-JIN07742.jpg?Expires=1605392400&Signature=A7lATLrD-bhgiWSkNpz~LfPbCg5-M61mRBhVixLPnRD9wQkHBY1m6G8Cjv88Bg1xcnIq36xOL61qT95GaqfHc~AodPXiI4ZHz4i30tfQrvKGgNEfaj5hEeiEHcTHsmMLIkxFZd9OUNJhJW9pvIrbrKSIOFCzBmuGb0gAcf0NNcdPwuahSl~DdATIbN2A7gN6gCBoDBpKitBKvPSmHqmAR7iEx4jzahFS8hNaumvlIgLSUQxE~7BAG~BID7I2MjAPJYA4vaPr1B~AZJFzkhpINDQaPnHjoWf02lagBFMBoFVtsLStJuBdHG7O1LtSfMTXcviafrDlDgV7KgwByLIHEA__&Key-Pair-Id=APKAZ3MKOJFETMDPAWV6");
+				
+				banner_list.add(banner_info_map);
+			}
+			main_info_map.put("banner_list", banner_list);
+			
+			logger.info("====================== mainInfo service end ======================");
+			return main_info_map;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new GlobalExceptionHandler();
+		}
+	}
 	
 	public List<Map<String, Object>> recipeCustomBasedList(String user_id) {
 		logger.info("====================== recipeCustomBasedList service start ======================");

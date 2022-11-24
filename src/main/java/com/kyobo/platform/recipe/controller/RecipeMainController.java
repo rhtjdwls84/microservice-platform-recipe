@@ -37,6 +37,39 @@ public class RecipeMainController {
 //		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
 //  }
 	
+	// 메인화면 정보
+	@RequestMapping(value = "/mainInfo", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public String mainInfo() {
+		logger.info("====================== mainInfo controller start ======================");
+		
+		String jsonRecipeList = null;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		Gson gson = new Gson();
+		
+		try {
+			HashMap<String, Object> main_info = recipeMainService.mainInfo();
+			
+			map.put("response_code", "200");
+			map.put("response_desc", "ok");
+			map.put("main_info", main_info);
+			
+			jsonRecipeList = gson.toJson(map);
+			
+			logger.info("====================== mainInfo controller end ======================");
+	        return jsonRecipeList;
+		} catch(Exception e) {
+			e.printStackTrace();
+			map.put("response_code", "500");
+			map.put("response_desc", e);
+			
+			jsonRecipeList = gson.toJson(map);
+			
+			logger.info("====================== mainInfo controller error ======================");
+	        return jsonRecipeList;
+		}
+	}
+	
 	// 맞춤기반 메인 레시피 목록
 	@RequestMapping(value = "/recipeCustomBasedList/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
