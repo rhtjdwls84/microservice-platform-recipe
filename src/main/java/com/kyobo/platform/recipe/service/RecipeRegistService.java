@@ -21,7 +21,9 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.jets3t.service.CloudFrontServiceException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -104,6 +106,7 @@ public class RecipeRegistService {
 				result = recipeRegistMapper.insertRecipeMaterialInfo(recipe_material_list.get(i));
 				
 				if(recipe_material_list.get(i).getRecipe_material_main_yn().equals("Y")) {
+					recipe.setRecipe_tag_no(i + 1);
 					recipe.setRecipe_tag_desc(recipe_material_list.get(i).getRecipe_material_name());
 					recipeRegistMapper.insertRecipeTag(recipe);
 					
@@ -266,7 +269,7 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 업로드
-	public int recipeUpload(String recipe_key) {
+	public int recipeUpload(String recipe_key) throws org.json.simple.parser.ParseException {
 		logger.info("====================== recipeUpload service start ======================");
 		
 		JSONObject responseJson = null;
@@ -279,16 +282,29 @@ public class RecipeRegistService {
 		
 		// 건강태그, 칼로리 업데이트(ML 영역 호출)
 		if(result > 0) {
-			HttpConfig httpConfig = new HttpConfig();
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("recipe_id", recipe_key);
-			String url = "/recipe/analysis";
-			String type = "POST";
+//			HttpConfig httpConfig = new HttpConfig();
+//			JsonObject jsonObject = new JsonObject();
+//			jsonObject.addProperty("recipe_id", recipe_key);
+//			String url = "/recipe/analysis";
+//			String type = "POST";
+//			
+//			responseJson = httpConfig.callApi(jsonObject, url, type);
+			String health_data = "{\r\n"
+					+ "  \"recipe_key\": \"1000012\",\r\n"
+					+ "  \"nutrient_content_tag\": [\"식이섬유풍부\", \"칼슘풍부\"],\r\n"
+					+ "  \"intake_calory\": 500,\r\n"
+					+ "  \"health\": [{\r\n"
+					+ "    \"health_cd\": \"HINT000001\",\r\n"
+					+ "    \"health_name\": \"모발\",\r\n"
+					+ "  }]\r\n"
+					+ "}";
+			JSONParser health_parser = new JSONParser();
+			JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
 			
-			responseJson = httpConfig.callApi(jsonObject, url, type);
-			
-			recipe.setRecipe_health_tag(responseJson.get("health_tags").toString());
-			recipe.setRecipe_cal((int) responseJson.get("calory"));
+			recipe.setRecipe_health_tag(json_health_obj.get("nutrient_content_tag").toString());
+			recipe.setRecipe_cal(Integer.parseInt(json_health_obj.get("intake_calory").toString()));
+//			JSONArray json_health_array = (JSONArray) json_health_obj.get("health");
+//			ArrayList<Map<String, Object>> recipe_health_map_list = new ArrayList<Map<String, Object>>();
 			
 			result = recipeRegistMapper.updateRecipeAnalysis(recipe);
 		}

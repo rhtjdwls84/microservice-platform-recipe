@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,12 +15,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-@Entity
 public class Recipe {
 	
     private String recipe_user_id;
 	
-    @Id
     private String recipe_key;
 	
     private String recipe_name;
@@ -97,6 +92,8 @@ public class Recipe {
     private String category_name;
     
     private String except_material_yn;
+    
+    private int recipe_tag_no;
     
     private String recipe_tag_desc;
     

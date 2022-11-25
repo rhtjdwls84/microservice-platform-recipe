@@ -88,25 +88,29 @@
 				SELECT 
 					count(*) recipe_review_cnt_1
 				FROM recipe_review_tb 
-				WHERE recipe_select_review = '아이취향'
+				WHERE recipe_key = #{recipe_key}
+				AND recipe_select_review = '아이취향'
 			) recipe_review_cnt_1,
 			(
 				SELECT 
 					count(*) recipe_review_cnt_2
 				FROM recipe_review_tb 
-				WHERE recipe_select_review = '맛이훌륭'
+				WHERE recipe_key = #{recipe_key}
+				AND recipe_select_review = '맛이훌륭'
 			) recipe_review_cnt_2,
 			(
 				SELECT 
 					count(*) recipe_review_cnt_3
 				FROM recipe_review_tb 
-				WHERE recipe_select_review = '조리쉬움'
+				WHERE recipe_key = #{recipe_key}
+				AND recipe_select_review = '조리쉬움'
 			) recipe_review_cnt_3,
 			(
 				SELECT 
 					count(*) recipe_review_cnt_4
 				FROM recipe_review_tb 
-				WHERE recipe_select_review = '영양풍부'
+				WHERE recipe_key = #{recipe_key}
+				AND recipe_select_review = '영양풍부'
 			) recipe_review_cnt_4
 	</select>
 	

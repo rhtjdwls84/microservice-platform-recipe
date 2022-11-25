@@ -2,6 +2,7 @@ package com.kyobo.platform.recipe.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.gson.Gson;
 import com.kyobo.platform.recipe.dao.Recipe;
+import com.kyobo.platform.recipe.dao.RecipeMaterial;
+import com.kyobo.platform.recipe.dao.RecipeOrder;
 //import com.kyobo.platform.recipe.redis.RedisService;
 import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeRegistService;
@@ -124,7 +132,9 @@ public class RecipeRegistController {
 	// 레시피 재료정보 작성
 	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeMaterialInfo(@RequestBody Recipe recipe, @PathVariable("recipe_key") String recipe_key) {
+	public String recipeMaterialInfo(@RequestParam("recipe_servings") String recipe_servings, 
+			@RequestParam("recipe_material_list") String recipe_material_list, @PathVariable("recipe_key") String recipe_key) 
+					throws JsonMappingException, JsonProcessingException {
 		logger.info("====================== recipeMaterialInfo controller start ======================");
 		
 //		recipe.setRecipe_servings(1);
@@ -149,6 +159,15 @@ public class RecipeRegistController {
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		Recipe recipe = new Recipe();
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+		ArrayList<RecipeMaterial> recipe_material_arr_list = objectMapper.readValue(recipe_material_list, new TypeReference<>(){});
+		
+		recipe.setRecipe_material_list(recipe_material_arr_list);
+		recipe.setRecipe_servings(Integer.parseInt(recipe_servings));
+		recipe.setRecipe_key(recipe_key);
+		
 		Gson gson = new Gson();
 		
 		try {
@@ -177,7 +196,8 @@ public class RecipeRegistController {
 	// 레시피 순서정보 작성
 	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
 	@ResponseBody
-	public String recipeOrderInfo(@RequestBody Recipe recipe, @PathVariable("recipe_key") String recipe_key) {
+	public String recipeOrderInfo(@RequestParam("recipe_order_list") String recipe_order_list, 
+			@PathVariable("recipe_key") String recipe_key) throws JsonMappingException, JsonProcessingException {
 		logger.info("====================== recipeOrderInfo controller start ======================");
 		
 //		ArrayList<RecipeOrder> recipeOrderList = new ArrayList<RecipeOrder>();
@@ -201,6 +221,13 @@ public class RecipeRegistController {
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
+		
+		Recipe recipe = new Recipe();
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+		ArrayList<RecipeOrder> recipe_order_arr_list = objectMapper.readValue(recipe_order_list, new TypeReference<>(){});
+		
+		recipe.setRecipe_order_list(recipe_order_arr_list);
+		recipe.setRecipe_key(recipe_key);
 		
 		try {
 			recipe_key = recipeRegistService.recipeOrderInfo(recipe);
