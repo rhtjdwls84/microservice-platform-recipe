@@ -56,4 +56,10 @@ public interface RecipeRegistMapper {
 	
 	@Transactional
 	int updateRecipeAnalysis(Recipe recipe);
+	
+	@Transactional
+	int updateRecipeImage(Map<String, Object> recipe_image_url_map);
+	
+	@Transactional
+	int updateRecipeOrderImage(Map<String, Object> recipe_image_url_map);
 }

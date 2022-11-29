@@ -12,8 +12,6 @@ import org.jets3t.service.CloudFrontService;
 import org.jets3t.service.CloudFrontServiceException;
 import org.jets3t.service.utils.ServiceUtils;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -27,13 +25,12 @@ import ch.qos.logback.classic.Logger;
 @Configuration
 public class AWSConfig {
 	
-    @Value("${cloud.aws.region.static}")
-    private String region;
-    
     AmazonS3 amazonS3 = null;
     
 	/* 사전작업
      * SecretAccess pem key를 아래 명령어로 DER 파일로 변환시킨 후 privateKeyFilePath 경로에 추가한다.
+     * openssl genrsa -out pk8-APKAZ3MKOJFETMDPAWV6.pem 2048
+     * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
      * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
      */
     private String pre_path = "src\\main\\resources\\";
@@ -42,9 +39,8 @@ public class AWSConfig {
     
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AWSConfig.class);
     
-    @Bean
     //s3 사용을 위한 인증
-	public AmazonS3 amazonS3() throws FileNotFoundException, IOException {
+	public AmazonS3 amazonS3(String region) throws FileNotFoundException, IOException {
     	logger.info("====================== amazonS3 start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
@@ -79,7 +75,7 @@ public class AWSConfig {
     }
     
     // 미리 준비된 정책
-    public String createSignedUrlCanned(String s3FileName) 
+    public String createSignedUrlCanned(String s3FileName, String sign_time) 
     		throws ParseException, CloudFrontServiceException, FileNotFoundException, IOException {
     	logger.info("====================== createSignedUrlCanned start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
@@ -95,11 +91,54 @@ public class AWSConfig {
         		policyResourcePath, // Resource URL or Path
                 keyPairId,     // Certificate identifier,
                 derPrivateKey, // DER Private key data
-                ServiceUtils.parseIso8601Date("2020-11-14T22:20:00.000Z") // DateLessThan
+                ServiceUtils.parseIso8601Date(sign_time) // DateLessThan
         );
         logger.info("Signed Url Canned ====================== {} =========================", signedUrlCanned);
         logger.info("====================== createSignedUrlCanned end ======================");
 
         return signedUrlCanned;
+    }
+    
+    public String createCustomSingedUrl(String s3FileName, String sign_time, String signed_time) 
+    		throws ParseException, CloudFrontServiceException, FileNotFoundException, IOException {
+    	logger.info("====================== createCustomSingedUrl start ======================");
+    	//cloudfront 사용을 위한 인증 properties 파일 로드
+    	Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String distributionDomain = properties.getProperty("distributionDomain");
+        String keyPairId = properties.getProperty("keyPairId");
+    	
+    	String policyResourcePath = "http://" + distributionDomain + "/" + s3FileName;
+
+        String policy = CloudFrontService.buildPolicyForSignedUrl(
+                // Resource path (optional, can include '*' and '?' wildcards)
+                policyResourcePath,
+                // DateLessThan
+                // 접근 만료시간 세팅
+                ServiceUtils.parseIso8601Date(sign_time),
+                // CIDR IP address restriction (optional, 0.0.0.0/0 means everyone)
+                "0.0.0.0/0",
+                // DateGreaterThan (optional)
+                ServiceUtils.parseIso8601Date(signed_time)
+        );
+
+        // Generate a signed URL using a custom policy document.
+
+        String signedUrl = CloudFrontService.signUrl(
+                // Resource URL or Path
+        		policyResourcePath,
+                // Certificate identifier, an active trusted signer for the distribution
+                keyPairId,
+                // DER Private key data
+                derPrivateKey,
+                // Access control policy
+                policy
+        );
+
+        logger.info("Signed Url By Custom Policy ====================== {} =========================", signedUrl);
+        logger.info("====================== createCustomSingedUrl end ======================");
+        return signedUrl;
+
     }
 }

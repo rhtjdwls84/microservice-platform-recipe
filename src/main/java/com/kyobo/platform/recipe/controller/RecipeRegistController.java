@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.jets3t.service.CloudFrontServiceException;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -92,7 +93,7 @@ public class RecipeRegistController {
 	}
 	
 	// 레시피 부가정보 작성
-	@RequestMapping(value = "/recipeAddInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
+	@RequestMapping(value = "/recipeAddInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PATCH)
 	@ResponseBody
 	public String recipeAddInfo(@RequestBody Recipe recipe, @PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeAddInfo controller start ======================");
@@ -130,7 +131,7 @@ public class RecipeRegistController {
 	}
 	
 	// 레시피 재료정보 작성
-	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
+	@RequestMapping(value = "/recipeMaterialInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PATCH)
 	@ResponseBody
 	public String recipeMaterialInfo(@RequestParam("recipe_servings") String recipe_servings, 
 			@RequestParam("recipe_material_list") String recipe_material_list, @PathVariable("recipe_key") String recipe_key) 
@@ -194,7 +195,7 @@ public class RecipeRegistController {
 	}
 	
 	// 레시피 순서정보 작성
-	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
+	@RequestMapping(value = "/recipeOrderInfo/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PATCH)
 	@ResponseBody
 	public String recipeOrderInfo(@RequestParam("recipe_order_list") String recipe_order_list, 
 			@PathVariable("recipe_key") String recipe_key) throws JsonMappingException, JsonProcessingException {
@@ -253,17 +254,22 @@ public class RecipeRegistController {
 	}
 	
 	// 이미지 업로드
-	@RequestMapping(value = "/recipeImageUpload", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
+	@Async
+	@RequestMapping(value = "/recipeImageUpload/{recipe_key}/{recipe_image_type}", produces = "application/json; charset=UTF-8", 
+			method = RequestMethod.PUT)
 	@ResponseBody
-    public String recipeImageUpload(@RequestBody List<MultipartFile> multipartFiles) {
+    public void recipeImageUpload(@RequestBody List<MultipartFile> recipe_image_list, @PathVariable("recipe_key") String recipe_key
+    		, @PathVariable("recipe_image_type") String recipe_image_type) {
 		logger.info("====================== recipeImageUpload controller start ======================");
 		
+		@SuppressWarnings("unused")
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_image_url_list = recipeRegistService.recipeImageUpload(multipartFiles);
+			List<Map<String, Object>> recipe_image_url_list = recipeRegistService.recipeImageUpload(recipe_image_list,
+					recipe_key, recipe_image_type);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -272,7 +278,6 @@ public class RecipeRegistController {
 			jsonRecipeList = gson.toJson(map);
 			
 			logger.info("====================== recipeImageUpload controller end ======================");
-	        return jsonRecipeList;
 		} catch(Exception e) {
 			e.printStackTrace();
 			map.put("response_code", "500");
@@ -281,7 +286,6 @@ public class RecipeRegistController {
 			jsonRecipeList = gson.toJson(map);
 			
 			logger.info("====================== recipeImageUpload controller error ======================");
-	        return jsonRecipeList;
 		}
     }
 	
@@ -384,7 +388,7 @@ public class RecipeRegistController {
 	}
 	
 	// 레시피 업로드
-	@RequestMapping(value = "/recipeUpload/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PUT)
+	@RequestMapping(value = "/recipeUpload/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.PATCH)
 	@ResponseBody
 	public String recipeUpload(@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeUpload controller start ======================");
@@ -414,37 +418,4 @@ public class RecipeRegistController {
 	        return jsonRecipeList;
 		}
 	}
-	
-	// 이미지 삭제
-	@PostMapping("/recipeImageDelete")
-	@ResponseBody
-    public String recipeImageDelete(@RequestParam("images") String imageFileName) {
-		logger.info("====================== recipeImageDelete controller start ======================");
-		
-		String jsonRecipeList = null;
-		HashMap<String, Object> searchMap = new HashMap<String, Object>();
-		Gson gson = new Gson();
-		
-		try {
-			recipeRegistService.recipeImageDelete(imageFileName);
-			
-			searchMap.put("response_code", "200");
-			searchMap.put("response_desc", "ok");
-			
-			jsonRecipeList = gson.toJson(searchMap);
-			
-			logger.info("====================== recipeImageDelete controller end ======================");
-	        return jsonRecipeList;
-		} catch (Exception e) {
-			e.printStackTrace();
-			searchMap.put("response_code", "500");
-			searchMap.put("response_desc", e);
-			
-			jsonRecipeList = gson.toJson(searchMap);
-			
-			logger.info("====================== recipeImageDelete controller error ======================");
-			e.printStackTrace();
-	        return jsonRecipeList;
-		}
-    }
 }

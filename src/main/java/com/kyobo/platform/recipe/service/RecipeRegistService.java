@@ -2,16 +2,23 @@ package com.kyobo.platform.recipe.service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.imageio.IIOImage;
@@ -21,15 +28,21 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.jets3t.service.CloudFrontServiceException;
-import org.json.simple.JSONArray;
+import org.jets3t.service.utils.ServiceUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.google.gson.JsonObject;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 //import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
 import com.kyobo.platform.recipe.config.HttpConfig;
@@ -47,14 +60,19 @@ import lombok.RequiredArgsConstructor;
 public class RecipeRegistService {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeRegistService.class);
 	
-//	private final RecipeListRepository recipeListRepository;
-	
 	private final RecipeRegistMapper recipeRegistMapper;
 	
-	private final AmazonS3 amazonS3;
+	@Value("${cloud.aws.region.static}")
+    private String region;
 	
-	AWSConfig awsConfig = new AWSConfig();
+	AWSConfig aws_config = new AWSConfig();
 	
+	/* 사전작업
+     * SecretAccess pem key를 아래 명령어로 DER 파일로 변환시킨 후 privateKeyFilePath 경로에 추가한다.
+     * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
+     */
+    private String pre_path = "src\\main\\resources\\";
+    
 	public String recipeDefInfo(Recipe recipe) {
 		logger.info("====================== recipeDefInfo service start ======================");
 		
@@ -158,67 +176,127 @@ public class RecipeRegistService {
 	}
 	
 	// 레시피 이미지 업로드
-	public List<Map<String, Object>> recipeImageUpload(List<MultipartFile> multipartFiles)
-			throws IOException, ParseException, CloudFrontServiceException {
+	public List<Map<String, Object>> recipeImageUpload(List<MultipartFile> multipartFiles, String recipe_key, String recipe_image_type)
+			throws IOException, AmazonServiceException, SdkClientException, CloudFrontServiceException, ParseException {
 		logger.info("====================== recipeImageUpload service start ======================");
 		
 		String recipe_image_signed_url = "";
 		List<Map<String, Object>> recipe_image_url_list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> recipe_image_url_map = new HashMap<String, Object>();
 		
+		int index = 0;
+		String recipe_image_key_name = "";
+		String recipe_image_prefix = "";
+		
+    	//cloudfront 사용을 위한 인증 properties 파일 로드
+    	Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String recipe_image_bucket = properties.getProperty("recipeImageBucket");
+        
+        // s3 업로드
+        AmazonS3 amazonS3 = aws_config.amazonS3(region);
+        
+        ObjectMetadata objMeta = new ObjectMetadata();
+        
+    	// 현재 날짜 구하기
+    	LocalDateTime now = LocalDateTime.now();
+        // 포맷 정의
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        // 포맷 적용
+        String formatedNow = now.format(formatter);
+        
+        aws_config.CloudFrontManager();
+		
 		// 다중 파일 처리
         for(MultipartFile multipartFile : multipartFiles) {
+        	// 이미지 확장자의 경우 정해지는건지 아니면 파일의 확장명을 분리해서 세팅
+//            String splitData[] = multipartFile.getOriginalFilename().split("\\.");
+//            String file_ext = splitData[(splitData.length)-1];
+            
         	// s3에 저장될 경로가 정해지면 keyname에 경로 추가 필요함
-        	String recipe_image_key_name = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+            if(recipe_image_type.equals("recipe") && index == 0) {
+            	recipe_image_type = "main";
+            	recipe_image_prefix = "recipe/" + recipe_key + "/" + recipe_image_type + "/";
+            	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + formatedNow + "-" + multipartFile.getOriginalFilename();
+            } else if(recipe_image_type.equals("recipe") && index > 0) {
+            	recipe_image_type = "sub";
+            	recipe_image_prefix = "recipe/" + recipe_key + "/" + recipe_image_type + "/";
+            	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + index + "-" + 
+            		formatedNow + "-" + multipartFile.getOriginalFilename();
+            } else {
+            	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + index + "-" + 
+            		formatedNow + "-" + multipartFile.getOriginalFilename();
+            }
             
-//            ObjectMetadata objMeta = new ObjectMetadata();
-//            objMeta.setContentLength(multipartFile.getInputStream().available());
+            objMeta.setContentLength(multipartFile.getInputStream().available());
             
-            BufferedImage image = ImageIO.read(multipartFile.getInputStream());
+//            BufferedImage image = ImageIO.read(multipartFile.getInputStream());
+//            
+//            //이미지 압축
+//            File comp_image_file = new File(recipe_image_key_name);
+//            OutputStream os = new FileOutputStream(comp_image_file);
+//            
+//            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(file_ext);
+//            ImageWriter writer = (ImageWriter) writers.next();
+//         
+//            ImageOutputStream ios = ImageIO.createImageOutputStream(os);
+//            writer.setOutput(ios);
             
-            //이미지 압축
-            File comp_image_file = new File(recipe_image_key_name);
-            OutputStream os = new FileOutputStream(comp_image_file);
+//            ImageWriteParam param = writer.getDefaultWriteParam();
+//            
+//            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+//            param.setCompressionQuality(1f);  // Change the quality value you prefer
+//            writer.write(null, new IIOImage(image, null, null), param);
+            
+//            os.close();
+//            ios.close();
+//            writer.dispose();
 
-            // 이미지 확장자의 경우 정해지는건지 아니면 파일의 확장명을 분리해서 세팅
-            String splitData[] = multipartFile.getOriginalFilename().split("\\.");
-            String file_ext = splitData[(splitData.length)-1];
-            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(file_ext);
-            ImageWriter writer = (ImageWriter) writers.next();
-         
-            ImageOutputStream ios = ImageIO.createImageOutputStream(os);
-            writer.setOutput(ios);
+            amazonS3.putObject(new PutObjectRequest(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, multipartFile.getInputStream(), objMeta));
+//            amazonS3.putObject(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, comp_image_file);
 
-            ImageWriteParam param = writer.getDefaultWriteParam();
+            // cloudfront signed URL 생성(상세에서 생성하여 전달)
+//            Date now_date = new Date();
+//            Calendar cal = Calendar.getInstance();
+//            cal.add(Calendar.DATE, 1);
+//            SimpleDateFormat ISO8601_date_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.KOREAN);
+//            String signed_time = ISO8601_date_format.format(cal.getTime());
+//            String sign_time = ISO8601_date_format.format(now_date);
+//            logger.info(signed_time);
+//            logger.info(sign_time);
+//            recipe_image_signed_url = aws_config.createSignedUrlCanned(recipe_image_prefix + recipe_image_key_name, sign_time);
+//            recipe_image_signed_url = aws_config.createCustomSingedUrl(recipe_image_prefix + recipe_image_key_name, sign_time, signed_time);
             
-            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            param.setCompressionQuality(0.5f);  // Change the quality value you prefer
-            writer.write(null, new IIOImage(image, null, null), param);
-
-            os.close();
-            ios.close();
-            writer.dispose();
-
-            // s3 업로드
-//            amazonS3.putObject("kyobo-backend-bucket", s3FileName, multipartFile.getInputStream(), objMeta);
-            amazonS3.putObject("kyobo-backend-bucket", recipe_image_key_name, comp_image_file);
+            if(recipe_image_type.equals("recipe")) {
+            	recipe_image_url_map.put("recipe_image_signed_url_" + index, recipe_image_prefix + recipe_image_key_name);
+                recipe_image_url_map.put("recipe_image_key_name_" + index, recipe_image_key_name);
+            } else if(recipe_image_type.equals("order")) {
+            	recipe_image_url_map.put("recipe_image_signed_url", recipe_image_prefix + recipe_image_key_name);
+                recipe_image_url_map.put("recipe_image_key_name", recipe_image_key_name);
+                recipe_image_url_map.put("index", index + 1);
+            }
+            recipe_image_url_map.put("recipe_key", recipe_key);
             
-            // cloudfront signed URL 생성
-            awsConfig.CloudFrontManager();
-            recipe_image_signed_url = awsConfig.createSignedUrlCanned(recipe_image_key_name);
             
-            recipe_image_url_map.put("recipe_image_signed_url", recipe_image_signed_url);
-            recipe_image_url_map.put("recipe_image_key_name", recipe_image_key_name);
-            
-            logger.info("recipe_image_signed_url : " + recipe_image_signed_url);
+            logger.info("recipe_image_signed_url : " + recipe_image_prefix + recipe_image_key_name);
             logger.info("recipe_image_key_name : " + recipe_image_key_name);
             
             recipe_image_url_list.add(recipe_image_url_map);
+            index++;
+        }
+        
+        if(recipe_image_type.equals("recipe")) {
+        	recipeRegistMapper.updateRecipeImage(recipe_image_url_map);
+        } else if(recipe_image_type.equals("order")) {
+        	for(int i = 0; i < recipe_image_url_list.size(); i++) {
+    			recipeRegistMapper.updateRecipeOrderImage(recipe_image_url_list.get(i));
+    		}
         }
         
         logger.info("recipe_image_url_list : " + recipe_image_url_list);
         logger.info("====================== recipeImageUpload service end ======================");
-        return recipe_image_url_list;
+		return recipe_image_url_list;
     }
 	
 	// 레시피 임시저장 체크
@@ -318,7 +396,7 @@ public class RecipeRegistService {
 		
 //		awsConfig.s3ImageDelete(imageFileName);
 		try {
-			amazonS3.deleteObject("kyobo-backend-bucket", imageFileName);
+//			amazonS3.deleteObject("kyobo-backend-bucket", imageFileName);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

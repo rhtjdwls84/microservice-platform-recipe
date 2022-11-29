@@ -47,6 +47,24 @@
         )	
 	</insert>
 	
+	<!-- 기본정보 이미지 경로 업데이트-->
+	<update id="updateRecipeImage" parameterType="java.util.HashMap">
+		UPDATE recipe_tb SET
+        	recipe_main_img_name = #{recipe_image_key_name_0},
+        	recipe_main_img_path = #{recipe_image_signed_url_0},
+        	recipe_img_name_1 = #{recipe_image_key_name_1},
+        	recipe_img_path_1 = #{recipe_image_signed_url_1},
+        	recipe_img_name_2 = #{recipe_image_key_name_2},
+        	recipe_img_path_2 = #{recipe_image_signed_url_2},
+        	recipe_img_name_3 = #{recipe_image_key_name_3},
+        	recipe_img_path_3 = #{recipe_image_signed_url_3},
+        	recipe_img_name_4 = #{recipe_image_key_name_4},
+        	recipe_img_path_4 = #{recipe_image_signed_url_4},
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}	
+	</update>
+	
 	<!-- 기본정보 수정-->
 	<update id="updateRecipeDefInfo" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		UPDATE recipe_tb SET
@@ -163,20 +181,28 @@
 			recipe_key, 
 			recipe_order, 
 			recipe_order_desc, 
-			recipe_order_img_key_name, 
-			recipe_order_img_path, 
 			created_datetime, 
 			last_modified_datetime
 		) VALUES (
 			#{recipe_key}, 
 			#{recipe_order}, 
 			#{recipe_order_desc}, 
-			#{recipe_order_img_key_name}, 
-			#{recipe_order_img_path}, 
 			NOW(), 
 			NOW()
 		)
 	</insert>
+	
+	<!-- 요리순서 이미지 경로 업데이트 -->
+	<update id="updateRecipeOrderImage" parameterType="java.util.HashMap">
+		UPDATE recipe_order_tb SET
+        	recipe_order_img_key_name = #{recipe_image_signed_url}
+			recipe_order_img_path = #{recipe_image_key_name}
+        	last_modified_datetime = NOW()
+        WHERE 
+        	recipe_key = #{recipe_key}
+        AND 
+        	recipe_order = #{index}	
+	</update>
 	
 	<!-- 요리순서 저장 후 recipe_tb 상태값 업데이트 -->
 	<update id="updateRecipeStatus" parameterType="com.kyobo.platform.recipe.dao.Recipe">

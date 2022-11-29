@@ -59,4 +59,23 @@
 		) A	
 		GROUP BY A.recipe_key	
 	</select>
+	
+	<!-- 레시피 태그 검색 조회 -->
+	<select id="selectListSearchRecipeTag" parameterType="com.kyobo.platform.recipe.dao.Recipe" 
+		resultType="java.util.LinkedHashMap">
+		SELECT 
+			rt.recipe_key, 
+			rt.recipe_name,
+			rt.recipe_desc,
+			rt.recipe_view_cnt,
+			rt.recipe_scrap_cnt,
+			rt.recipe_main_img_path,
+			rt.recipe_user_id
+		FROM recipe_tb rt LEFT OUTER JOIN recipe_tag_tb rtt
+		ON rt.recipe_key = rtt.recipe_key
+		WHERE 1=1
+		<if test='recipe_tag != null and recipe_tag != ""'>
+			AND rtt.recipe_tag_desc LIKE CONCAT('%',#{recipe_tag},'%')
+		</if>
+	</select>	
 </mapper> 

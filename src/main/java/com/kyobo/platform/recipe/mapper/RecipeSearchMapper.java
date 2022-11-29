@@ -15,4 +15,7 @@ public interface RecipeSearchMapper {
 	
 	@Transactional
 	List<Map.Entry<String, Object>> selectListSearchRecipe(Recipe recipe);
+	
+	@Transactional
+	List<Map.Entry<String, Object>> selectListSearchRecipeTag(Recipe recipe);
 }
