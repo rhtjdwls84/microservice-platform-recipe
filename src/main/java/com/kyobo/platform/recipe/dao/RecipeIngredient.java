@@ -11,27 +11,29 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class RecipeMaterial {
+public class RecipeIngredient {
 	
 	private String recipe_key;
 	
-	private String recipe_material_key;
+	private String recipe_ingredient_key;
 	
-	private String recipe_common_material_key;
+	private String recipe_common_ingredient_key;
 	
-    private String recipe_material_name;
+    private String recipe_ingredient_name;
 	
-    private String recipe_material_classify;
+    private String recipe_ingredient_category;
     
-    private String recipe_material_main_classify;
+    private String recipe_ingredient_main_category;
 	
-    private String recipe_material_meature;
+    private String recipe_ingredient_countunit;
     
-    private String recipe_material_main_meature;
+    private String recipe_ingredient_main_countunit;
     
-    private String recipe_material_amount;
+    private String recipe_ingredient_amount;
     
-    private String recipe_material_main_yn;
+    private String recipe_ingredient_main_yn;
     
-    private String recipe_material_allergy_yn;
+    private String recipe_ingredient_allergy_category;
+    
+    private String recipe_ingredient_babystep;
 }
