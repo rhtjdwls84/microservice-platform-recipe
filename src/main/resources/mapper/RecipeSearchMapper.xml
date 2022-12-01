@@ -16,13 +16,13 @@
 				rt.recipe_scrap_cnt,
 				rt.recipe_main_img_path,
 				rt.recipe_user_id
-			FROM recipe_tb rt LEFT OUTER JOIN recipe_material_tb rmt
+			FROM recipe_tb rt LEFT OUTER JOIN recipe_ingredient_tb rmt
 			ON rt.recipe_key = rmt.recipe_key
 			WHERE 1=1
 			<if test='recipe_search_text != null and recipe_search_text != ""'>
 				AND rt.recipe_name LIKE CONCAT('%',#{recipe_search_text},'%')
 				OR rt.recipe_desc LIKE CONCAT('%',#{recipe_search_text},'%')
-				OR rmt.recipe_material_name LIKE CONCAT('%',#{recipe_search_text},'%')	
+				OR rmt.recipe_ingredient_name LIKE CONCAT('%',#{recipe_search_text},'%')	
 			</if>
 			<if test='category_main_name != null and category_main_name != ""'>
 				<if test='category_name != null and category_name != ""'>
@@ -34,12 +34,12 @@
 							<choose>
 								<when test='category_name == "채소류" or category_name == "버섯" or category_name == "과일류" or
 								 category_name == "밀가루" or category_name == "곡류" or category_name == "콩/견과"'>
-									AND rmt.recipe_material_main_classify = #{category_name}
+									AND rmt.recipe_ingredient_main_category = #{category_name}
 									<!-- 메인재료여부 체크 조건 추가필요-->
-									AND rmt.recipe_material_main_yn = "Y"
+									AND rmt.recipe_ingredient_main_yn = "Y"
 								</when>
 								<otherwise>
-									AND rmt.recipe_material_main_classify = #{category_name}
+									AND rmt.recipe_ingredient_main_category = #{category_name}
 								</otherwise>
 							</choose>
 						</when>
@@ -53,8 +53,12 @@
 			<if test='recipe_babyfood_step != null and recipe_babyfood_step != ""'>
 				AND rt.recipe_babyfood_step = #{recipe_babyfood_step}
 			</if>
-			<if test='except_material_yn == "Y"'>
-				AND rmt.recipe_material_allergy_yn = "Y"
+			<if test='except_ingredient_yn == "Y"'>
+				AND rmt.recipe_ingredient_allergy_category NOT IN
+				<foreach collection="json_allergy_array" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+				AND rmt.recipe_ingredient_babystep <![CDATA[<=]]> #{recipe_ingredient_babystep} 
 			</if>
 		) A	
 		GROUP BY A.recipe_key	

@@ -25,7 +25,7 @@ public class RecipeSearchService {
 	
 	// 레시피 검색 조회
 	public List<Map.Entry<String, Object>> searchRecipe(String recipe_search_text, String category_main_name,
-			String category_name, String recipe_babyfood_step, String except_material_yn, String recipe_tag_desc) {
+			String category_name, String recipe_babyfood_step, String except_ingredient_yn, String recipe_tag_desc) {
 		logger.info("====================== searchRecipe service start ======================");
 		
 		Map<String, Object> recipe_map = new HashMap<>();
@@ -37,7 +37,7 @@ public class RecipeSearchService {
 		recipe.setCategory_main_name(category_main_name);
 		recipe.setCategory_name(category_name);
 		recipe.setRecipe_babyfood_step(recipe_babyfood_step);
-		recipe.setExcept_material_yn(except_material_yn);
+		recipe.setExcept_ingredient_yn(except_ingredient_yn);
 		recipe.setRecipe_tag_desc(recipe_tag_desc);
 		
 		if(recipe.getRecipe_tag_desc().equals("")) {

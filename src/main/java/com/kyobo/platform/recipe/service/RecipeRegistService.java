@@ -6,17 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -28,27 +23,27 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.jets3t.service.CloudFrontServiceException;
-import org.jets3t.service.utils.ServiceUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-//import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.google.gson.JsonObject;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
 import com.kyobo.platform.recipe.config.HttpConfig;
-import com.kyobo.platform.recipe.dao.RecipeMaterial;
+import com.kyobo.platform.recipe.dao.RecipeIngredient;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.Recipe;
+import com.kyobo.platform.recipe.mapper.RecipeDetailMapper;
 import com.kyobo.platform.recipe.mapper.RecipeRegistMapper;
 import com.kyobo.platform.recipe.config.AWSConfig;
 
@@ -62,6 +57,8 @@ public class RecipeRegistService {
 	
 	private final RecipeRegistMapper recipeRegistMapper;
 	
+	private final RecipeDetailMapper recipeDetailMapper;
+	
 	@Value("${cloud.aws.region.static}")
     private String region;
 	
@@ -69,7 +66,9 @@ public class RecipeRegistService {
 	
 	/* 사전작업
      * SecretAccess pem key를 아래 명령어로 DER 파일로 변환시킨 후 privateKeyFilePath 경로에 추가한다.
-     * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
+     * openssl genrsa -out pk8-APKAZ3MKOJFETMDPAWV6.pem 2048
+     * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
+     * openssl pkcs8 -topk8 -nocrypt -in pk8-APKAZ3MKOJFETMDPAWV6.pem -inform PEM -out pk8-APKAZ3MKOJFETMDPAWV6.der -outform DER
      */
     private String pre_path = "src\\main\\resources\\";
     
@@ -111,21 +110,22 @@ public class RecipeRegistService {
 	}
 	
 	// 레시피 재료정보 작성
-	public String recipeMaterialInfo(Recipe recipe) {
-		logger.info("====================== recipeMaterialInfo service start ======================");
-		ArrayList<RecipeMaterial> recipe_material_list = recipe.getRecipe_material_list();
+	public String recipeIngredientInfo(Recipe recipe) {
+		logger.info("====================== recipeIngredientInfo service start ======================");
+		ArrayList<RecipeIngredient> recipe_ingredient_list = recipe.getRecipe_ingredient_list();
 		
 		// 기존 레시피 재료정보는 삭제
-		int result = recipeRegistMapper.deleteRecipeMaterialInfo(recipe.getRecipe_key());
+		int result = recipeRegistMapper.deleteRecipeIngredientInfo(recipe.getRecipe_key());
 		
 		if(result >= 0) {
-			for(int i = 0; i < recipe_material_list.size(); i++) {
-				recipe_material_list.get(i).setRecipe_key(recipe.getRecipe_key());
-				result = recipeRegistMapper.insertRecipeMaterialInfo(recipe_material_list.get(i));
+			for(int i = 0; i < recipe_ingredient_list.size(); i++) {
+				recipe_ingredient_list.get(i).setRecipe_key(recipe.getRecipe_key());
+				result = recipeRegistMapper.insertRecipeIngredientInfo(recipe_ingredient_list.get(i));
 				
-				if(recipe_material_list.get(i).getRecipe_material_main_yn().equals("Y")) {
+				if(recipe_ingredient_list.get(i).getRecipe_ingredient_main_yn().equals("Y")) {
 					recipe.setRecipe_tag_no(i + 1);
-					recipe.setRecipe_tag_desc(recipe_material_list.get(i).getRecipe_material_name());
+					recipe.setRecipe_tag_desc(recipe_ingredient_list.get(i).getRecipe_ingredient_name());
+					recipe.setRecipe_tag_type("사용자태그");
 					recipeRegistMapper.insertRecipeTag(recipe);
 					
 				}
@@ -134,12 +134,12 @@ public class RecipeRegistService {
 				// 레시피 몇 인분 수 업데이트
 				recipe.setRecipe_check_status("임시저장중");
 				recipe.setRecipe_temp_step("재료");
-				recipeRegistMapper.updateRecipeMaterialInfo(recipe);
+				recipeRegistMapper.updateRecipeIngredientInfo(recipe);
 			}
 		}
 		
 		if(recipe.getRecipe_key() != null) {
-			logger.info("====================== recipeMaterialInfo service end ======================");
+			logger.info("====================== recipeIngredientInfo service end ======================");
 			return recipe.getRecipe_key();
 		} else {
 			throw new GlobalExceptionHandler();
@@ -180,7 +180,6 @@ public class RecipeRegistService {
 			throws IOException, AmazonServiceException, SdkClientException, CloudFrontServiceException, ParseException {
 		logger.info("====================== recipeImageUpload service start ======================");
 		
-		String recipe_image_signed_url = "";
 		List<Map<String, Object>> recipe_image_url_list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> recipe_image_url_map = new HashMap<String, Object>();
 		
@@ -211,18 +210,17 @@ public class RecipeRegistService {
 		// 다중 파일 처리
         for(MultipartFile multipartFile : multipartFiles) {
         	// 이미지 확장자의 경우 정해지는건지 아니면 파일의 확장명을 분리해서 세팅
-//            String splitData[] = multipartFile.getOriginalFilename().split("\\.");
-//            String file_ext = splitData[(splitData.length)-1];
+            String splitData[] = multipartFile.getOriginalFilename().split("\\.");
+            String file_ext = splitData[(splitData.length)-1];
             
         	// s3에 저장될 경로가 정해지면 keyname에 경로 추가 필요함
             if(recipe_image_type.equals("recipe") && index == 0) {
-            	recipe_image_type = "main";
-            	recipe_image_prefix = "recipe/" + recipe_key + "/" + recipe_image_type + "/";
-            	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + formatedNow + "-" + multipartFile.getOriginalFilename();
+            	recipe_image_prefix = "recipe/" + recipe_key + "/main/";
+            	recipe_image_key_name = recipe_key + "-main-" + formatedNow + "-" + multipartFile.getOriginalFilename();
             } else if(recipe_image_type.equals("recipe") && index > 0) {
             	recipe_image_type = "sub";
-            	recipe_image_prefix = "recipe/" + recipe_key + "/" + recipe_image_type + "/";
-            	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + index + "-" + 
+            	recipe_image_prefix = "recipe/" + recipe_key + "/sub/";
+            	recipe_image_key_name = recipe_key + "-sub-" + index + "-" + 
             		formatedNow + "-" + multipartFile.getOriginalFilename();
             } else {
             	recipe_image_key_name = recipe_key + "-" + recipe_image_type + "-" + index + "-" + 
@@ -231,42 +229,31 @@ public class RecipeRegistService {
             
             objMeta.setContentLength(multipartFile.getInputStream().available());
             
-//            BufferedImage image = ImageIO.read(multipartFile.getInputStream());
-//            
-//            //이미지 압축
-//            File comp_image_file = new File(recipe_image_key_name);
-//            OutputStream os = new FileOutputStream(comp_image_file);
-//            
-//            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(file_ext);
-//            ImageWriter writer = (ImageWriter) writers.next();
-//         
-//            ImageOutputStream ios = ImageIO.createImageOutputStream(os);
-//            writer.setOutput(ios);
+            BufferedImage recipe_image_buf = ImageIO.read(multipartFile.getInputStream());
             
+            //이미지 압축
+            File recipe_image_file = new File(recipe_image_key_name);
+            OutputStream os = new FileOutputStream(recipe_image_file);
+            
+            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(file_ext);
+            ImageWriter writer = (ImageWriter) writers.next();
+         
+            ImageOutputStream ios = ImageIO.createImageOutputStream(os);
+            writer.setOutput(ios);
+          
 //            ImageWriteParam param = writer.getDefaultWriteParam();
-//            
 //            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-//            param.setCompressionQuality(1f);  // Change the quality value you prefer
+//            param.setCompressionQuality(1f); // Change the quality value you prefer
 //            writer.write(null, new IIOImage(image, null, null), param);
+            writer.write(new IIOImage(recipe_image_buf, null, null));
+          
+            os.close();
+            ios.close();
+            writer.dispose();
             
-//            os.close();
-//            ios.close();
-//            writer.dispose();
-
-            amazonS3.putObject(new PutObjectRequest(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, multipartFile.getInputStream(), objMeta));
-//            amazonS3.putObject(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, comp_image_file);
-
-            // cloudfront signed URL 생성(상세에서 생성하여 전달)
-//            Date now_date = new Date();
-//            Calendar cal = Calendar.getInstance();
-//            cal.add(Calendar.DATE, 1);
-//            SimpleDateFormat ISO8601_date_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.KOREAN);
-//            String signed_time = ISO8601_date_format.format(cal.getTime());
-//            String sign_time = ISO8601_date_format.format(now_date);
-//            logger.info(signed_time);
-//            logger.info(sign_time);
-//            recipe_image_signed_url = aws_config.createSignedUrlCanned(recipe_image_prefix + recipe_image_key_name, sign_time);
-//            recipe_image_signed_url = aws_config.createCustomSingedUrl(recipe_image_prefix + recipe_image_key_name, sign_time, signed_time);
+            amazonS3.putObject(new PutObjectRequest(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, recipe_image_file));
+            
+            recipe_image_file.delete();
             
             if(recipe_image_type.equals("recipe")) {
             	recipe_image_url_map.put("recipe_image_signed_url_" + index, recipe_image_prefix + recipe_image_key_name);
@@ -318,7 +305,7 @@ public class RecipeRegistService {
 		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_id);
 		int result = 0;
 		
-		result = recipeRegistMapper.deleteRecipeMaterialInfo(recipe_key);
+		result = recipeRegistMapper.deleteRecipeIngredientInfo(recipe_key);
 		
 		if(result >= 0) {
 			result = recipeRegistMapper.deleteRecipeOrderInfo(recipe_key);
@@ -332,75 +319,182 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 베이스 재료 조회
-	public List<Map.Entry<String, Object>> listRecipeBaseMaterial(String search_text) {
-		logger.info("====================== listRecipeBaseMaterial service start ======================");
+	public JSONObject listRecipeBaseIngredient(String recipe_ingredient_category) throws ParseException {
+		logger.info("====================== listRecipeBaseIngredient service start ======================");
 		
-		Map<String, Object> recipe_base_material_map = new HashMap<>();
-		List<Map.Entry<String, Object>> recipe_base_material_list = 
-				recipe_base_material_map.entrySet().stream().collect(Collectors.toList());
+		JSONObject response_json = null;
 		
-		recipe_base_material_list = recipeRegistMapper.selectListRecipeBaseMaterial(search_text);
-        
-        logger.info("recipe_base_material_list : " + recipe_base_material_list);
-        logger.info("====================== listRecipeBaseMaterial service end ======================");
-        return recipe_base_material_list;
+		// 베이스 재료 조회(ML 영역 호출)
+		HttpConfig httpConfig = new HttpConfig();
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("recipe_ingredient_category", recipe_ingredient_category);
+		String url = "/recipe/publish/tag";
+		String type = "POST";
+		
+		response_json = httpConfig.callApi(jsonObject, url, type);
+//		String ingredient_data = "{\r\n"
+//				+ "  \"result\": [{\r\n"
+//				+ "      \"ingredient_code\": \"4000001\",\r\n"
+//				+ "      \"ingredient_name\": \"소고기한우등식\",\r\n"
+//				+ "      \"ingredient_category\": 1,\r\n"
+//				+ "      \"ingredient_main_servingsize\": 100,\r\n"
+//				+ "      \"ingredient_main_countunit\": \"g\",\r\n"
+//				+ "      \"ingredient_countunit\": [\"팩\", \"근\"],\r\n"
+//				+ "      \"ingredient_limit_byage\": 12,\r\n"
+//				+ "      \"search_category\": [{\r\n"
+//				+ "          \"search_category_code\": 4,\r\n"
+//				+ "          \"search_category_name\": \"육류\"\r\n"
+//				+ "        }\r\n"
+//				+ "      ],\r\n"
+//				+ "      \"allergy\": [{\r\n"
+//				+ "          \"allergy_ingredient_code\": 1,\r\n"
+//				+ "          \"allergy_ingredient_name\": \"우유\",\r\n"
+//				+ "          \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/milk.jpg\"\r\n"
+//				+ "        }\r\n"
+//				+ "      ]\r\n"
+//				+ "    }\r\n"
+//				+ "  ]\r\n"
+//				+ "}";
+//		JSONParser ingredient_parser = new JSONParser();
+//		JSONObject json_ingredient_obj = (JSONObject) ingredient_parser.parse(ingredient_data);
+//		
+//		JSONArray json_ingredient_array = (JSONArray) json_ingredient_obj.get("result");
+//		List<Map<String, Object>> recipe_ingredient_list = new ArrayList<Map<String, Object>>();
+//        logger.info("recipe_base_ingredient_list : " + recipe_ingredient_list);
+        logger.info("====================== listRecipeBaseIngredient service end ======================");
+        return response_json;
+    }
+	
+	// 레시피 베이스 재료 조회
+	public JSONObject listRecipeIngredient(String text) throws ParseException {
+		logger.info("====================== listRecipeBaseIngredient service start ======================");
+		
+		JSONObject response_json = null;
+		
+		// 베이스 재료 조회(ML 영역 호출)
+		HttpConfig httpConfig = new HttpConfig();
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("text", text);
+		String url = "/recipe/publish/search";
+		String type = "POST";
+		
+		response_json = httpConfig.callApi(jsonObject, url, type);
+//			String ingredient_data = "{\r\n"
+//					+ "  \"result\": [{\r\n"
+//					+ "      \"ingredient_code\": \"4000001\",\r\n"
+//					+ "      \"ingredient_name\": \"소고기한우등식\",\r\n"
+//					+ "      \"ingredient_category\": 1,\r\n"
+//					+ "      \"ingredient_main_servingsize\": 100,\r\n"
+//					+ "      \"ingredient_main_countunit\": \"g\",\r\n"
+//					+ "      \"ingredient_countunit\": [\"팩\", \"근\"],\r\n"
+//					+ "      \"ingredient_limit_byage\": 12,\r\n"
+//					+ "      \"search_category\": [{\r\n"
+//					+ "          \"search_category_code\": 4,\r\n"
+//					+ "          \"search_category_name\": \"육류\"\r\n"
+//					+ "        }\r\n"
+//					+ "      ],\r\n"
+//					+ "      \"allergy\": [{\r\n"
+//					+ "          \"allergy_ingredient_code\": 1,\r\n"
+//					+ "          \"allergy_ingredient_name\": \"우유\",\r\n"
+//					+ "          \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/milk.jpg\"\r\n"
+//					+ "        }\r\n"
+//					+ "      ]\r\n"
+//					+ "    }\r\n"
+//					+ "  ]\r\n"
+//					+ "}";
+//			JSONParser ingredient_parser = new JSONParser();
+//			JSONObject json_ingredient_obj = (JSONObject) ingredient_parser.parse(ingredient_data);
+//			
+//			JSONArray json_ingredient_array = (JSONArray) json_ingredient_obj.get("result");
+//			List<Map<String, Object>> recipe_ingredient_list = new ArrayList<Map<String, Object>>();
+//	        logger.info("recipe_base_ingredient_list : " + recipe_ingredient_list);
+        logger.info("====================== listRecipeBaseIngredient service end ======================");
+        return response_json;
     }
 	
 	// 레시피 업로드
 	public int recipeUpload(String recipe_key) throws org.json.simple.parser.ParseException {
 		logger.info("====================== recipeUpload service start ======================");
 		
-		JSONObject responseJson = null;
+		JSONObject response_json = null;
+		int result = 0;
 		
-		Recipe recipe = new Recipe();
-		recipe.setRecipe_check_status("검수대기");
-		recipe.setRecipe_temp_step("완료");
-		recipe.setRecipe_key(recipe_key);
-		int result = recipeRegistMapper.updateRecipeStatus(recipe);
+		List<Map<String, Object>> recipe_ingredient_list = new ArrayList<Map<String, Object>>();
 		
-		// 건강태그, 칼로리 업데이트(ML 영역 호출)
+		Recipe recipe = recipeDetailMapper.selectRecipeDetail(recipe_key);
+		ArrayList<RecipeIngredient> recipe_ingredient_arr_list = recipeDetailMapper.selectRecipeIngredient(recipe_key);
+		
+		for(int i = 0; i < recipe_ingredient_arr_list.size(); i++) {
+			Map<String, Object> recipe_ingredient_map = new HashMap<String, Object>();
+			RecipeIngredient recipe_ingredient_arr = recipe_ingredient_arr_list.get(i);
+			recipe_ingredient_map.put("recipe_ingredient_key", recipe_ingredient_arr.getRecipe_ingredient_key());
+			recipe_ingredient_map.put("recipe_ingredient_name", recipe_ingredient_arr.getRecipe_ingredient_name());
+			recipe_ingredient_map.put("recipe_ingredient_category", recipe_ingredient_arr.getRecipe_ingredient_category());
+			recipe_ingredient_map.put("recipe_ingredient_search_categoy", recipe_ingredient_arr.getRecipe_ingredient_main_category());
+			recipe_ingredient_map.put("recipe_ingredient_amount", recipe_ingredient_arr.getRecipe_ingredient_amount());
+			recipe_ingredient_map.put("recipe_ingreident_countunit", recipe_ingredient_arr.getRecipe_ingredient_countunit());
+			
+			recipe_ingredient_list.add(recipe_ingredient_map);
+		}
+		
+		// 건강태그, 칼로리, 건강발달 업데이트(ML 영역 호출)
+//		HttpConfig httpConfig = new HttpConfig();
+//		JsonObject jsonObject = new JsonObject();
+//		jsonObject.addProperty("recipe_id", recipe.getRecipe_key());
+//		jsonObject.addProperty("recipe_category", recipe.getRecipe_category());
+//		jsonObject.addProperty("recipe_servingsize", recipe.getRecipe_servings());
+//		jsonObject.addProperty("created_datetime", recipe.getCreated_datetime());
+//		jsonObject.addProperty("last_modified_datetime", recipe.getLast_modified_datetime());
+//		jsonObject.addProperty("recipe_ingredient", recipe_ingredient_list.toString());
+//		String url = "/recipe/publish/info";
+//		String type = "POST";
+//		
+//		response_json = httpConfig.callApi(jsonObject, url, type);
+		String health_data = "{\r\n"
+				+ "  \"recipe_key\": \"300001\",\r\n"
+				+ "  \"recipe_category\": \"밥/죽\",\r\n"
+				+ "  \"created_datetime\": \"2022-18-13 10:15:25\",\r\n"
+				+ "  \"recipe_health_tag\": [\"식이섬유풍부\", \"칼슘풍부\"],\r\n"
+				+ "  \"recipe_total_calory\": 500,\r\n"
+				+ "  \"health\": [{\r\n"
+				+ "    \"health_code\": \"HINT000001\",\r\n"
+				+ "    \"health_name\": \"모발\",\r\n"
+				+ "  }]\r\n"
+				+ "}";
+		JSONParser health_parser = new JSONParser();
+		JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
+		
+		String[] recipe_health_tag = (String[]) json_health_obj.get("recipe_health_tag");
+		for(int i = 0; i < recipe_health_tag.length; i++) {
+			recipe.setRecipe_tag_no(i + 1);
+			recipe.setRecipe_tag_desc(recipe_health_tag[i]);
+			recipe.setRecipe_tag_type("건강태그");
+			
+			recipeRegistMapper.insertRecipeTag(recipe);
+		}
+		recipe.setRecipe_cal(Integer.parseInt(json_health_obj.get("recipe_total_calory").toString()));
+		JSONArray json_health_array = (JSONArray) json_health_obj.get("health");
+		String health_name = "";
+		String[] health_arr = new String[json_health_array.size()];
+		
+		for(int i = 0; i < json_health_array.size(); i++) {
+			JSONObject json_health_arr = (JSONObject) json_health_array.get(i);
+			
+			health_name = json_health_arr.get("health_name").toString();
+			health_arr[i] = health_name;
+		}
+		recipe.setRecipe_health_develop(health_arr.toString());
+		
+		result = recipeRegistMapper.updateRecipeAnalysis(recipe);
+		
 		if(result > 0) {
-//			HttpConfig httpConfig = new HttpConfig();
-//			JsonObject jsonObject = new JsonObject();
-//			jsonObject.addProperty("recipe_id", recipe_key);
-//			String url = "/recipe/analysis";
-//			String type = "POST";
-//			
-//			responseJson = httpConfig.callApi(jsonObject, url, type);
-			String health_data = "{\r\n"
-					+ "  \"recipe_key\": \"1000012\",\r\n"
-					+ "  \"nutrient_content_tag\": [\"식이섬유풍부\", \"칼슘풍부\"],\r\n"
-					+ "  \"intake_calory\": 500,\r\n"
-					+ "  \"health\": [{\r\n"
-					+ "    \"health_cd\": \"HINT000001\",\r\n"
-					+ "    \"health_name\": \"모발\",\r\n"
-					+ "  }]\r\n"
-					+ "}";
-			JSONParser health_parser = new JSONParser();
-			JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
-			
-			recipe.setRecipe_health_tag(json_health_obj.get("nutrient_content_tag").toString());
-			recipe.setRecipe_cal(Integer.parseInt(json_health_obj.get("intake_calory").toString()));
-//			JSONArray json_health_array = (JSONArray) json_health_obj.get("health");
-//			ArrayList<Map<String, Object>> recipe_health_map_list = new ArrayList<Map<String, Object>>();
-			
-			result = recipeRegistMapper.updateRecipeAnalysis(recipe);
+			recipe.setRecipe_check_status("검수대기");
+			recipe.setRecipe_temp_step("완료");
+			recipe.setRecipe_key(recipe_key);
+			recipeRegistMapper.updateRecipeStatus(recipe);
 		}
 		
 		logger.info("====================== recipeUpload service end ======================");
 		return result;
 	}
-	
-	public void recipeImageDelete(String imageFileName) {
-		logger.info("====================== recipeImageDelete service start ======================");
-		
-//		awsConfig.s3ImageDelete(imageFileName);
-		try {
-//			amazonS3.deleteObject("kyobo-backend-bucket", imageFileName);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-        
-        logger.info("====================== recipeImageDelete service end ======================");
-    }
 }

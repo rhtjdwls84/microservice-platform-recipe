@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kyobo.platform.recipe.dao.RecipeMaterial;
+import com.kyobo.platform.recipe.dao.RecipeIngredient;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.Recipe;
 
@@ -25,19 +25,22 @@ public interface RecipeRegistMapper {
 	int updateRecipeAddInfo(Recipe recipe);
 	
 	@Transactional
-	int updateRecipeMaterialInfo(Recipe recipe);
+	int updateRecipeIngredientInfo(Recipe recipe);
 	
 	@Transactional
-	int deleteRecipeMaterialInfo(String recipe_key);
+	int deleteRecipeIngredientInfo(String recipe_key);
 	
 	@Transactional
-	int insertRecipeMaterialInfo(RecipeMaterial recipeMaterial);
+	int insertRecipeIngredientInfo(RecipeIngredient recipeIngredient);
 	
 	@Transactional
 	int deleteRecipeOrderInfo(String recipe_key);
 	
 	@Transactional
 	int insertRecipeOrderInfo(RecipeOrder recipeOrder);
+	
+	@Transactional
+	int updateRecipeOrderInfo(RecipeOrder recipeOrder);
 	
 	@Transactional
 	int updateRecipeStatus(Recipe recipe);
@@ -52,7 +55,7 @@ public interface RecipeRegistMapper {
 	int insertRecipeTag(Recipe recipe);
 	
 	@Transactional
-	List<Map.Entry<String, Object>> selectListRecipeBaseMaterial(String search_text);
+	List<Map.Entry<String, Object>> selectListRecipeBaseIngredient(String search_text);
 	
 	@Transactional
 	int updateRecipeAnalysis(Recipe recipe);

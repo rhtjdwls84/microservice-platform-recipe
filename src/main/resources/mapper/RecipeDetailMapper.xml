@@ -18,29 +18,29 @@
 			rt.recipe_desc,
 			rt.recipe_category,
 			rt.recipe_health_develop,
-			<!-- rt.recipe_health_tag, -->
 			rt.recipe_lead_time,
 			rt.recipe_level,
 			rt.recipe_babyfood_step,
 			rt.recipe_health_note,
 			rt.recipe_scrap_cnt,
 			rt.recipe_view_cnt,
-			rt.recipe_comment,
-			rt.recipe_main_img_name,
+			rt.recipe_main_img_key_name,
 			rt.recipe_main_img_path,
-			rt.recipe_img_name_1,
+			rt.recipe_img_key_name_1,
 			rt.recipe_img_path_1,
-			rt.recipe_img_name_2,
+			rt.recipe_img_key_name_2,
 			rt.recipe_img_path_2,
-			rt.recipe_img_name_3,
+			rt.recipe_img_key_name_3,
 			rt.recipe_img_path_3,
-			rt.recipe_img_name_4,
+			rt.recipe_img_key_name_4,
 			rt.recipe_img_path_4,
 			rt.recipe_servings,
 			rt.recipe_cal,
-			<!-- rt.recipe_reject_msg, -->
+			rt.recipe_reject_msg,
 			rst.recipe_scrap_yn,
-			rrt.recipe_select_review
+			rrt.recipe_select_review,
+			rt.created_datetime,
+			rt.last_modified_datetime
 		FROM recipe_tb rt 
 		LEFT OUTER JOIN recipe_scrap_tb rst
 		ON rt.recipe_key = rst.recipe_key
@@ -52,14 +52,32 @@
 			rt.recipe_key = #{recipe_key}
 	</select>
 	
-	<!-- 레시피 재료 조회 -->
-	<select id="selectRecipeMaterial" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.RecipeMaterial">
+	<!-- 레시피 태그 조회 -->
+	<select id="selectRecipeTag" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
 		SELECT 
-			recipe_material_name, 
-			recipe_material_classify,
-			recipe_material_main_classify,
-			recipe_material_meature
-		FROM recipe_material_tb
+			rtt.recipe_tag_no,
+            rtt.recipe_tag_desc
+		FROM recipe_tb rt 
+		LEFT OUTER JOIN recipe_tag_tb rtt
+		ON rt.recipe_key = rtt.recipe_key
+		WHERE 
+			rt.recipe_key = #{recipe_key}	
+	</select>
+	
+	<!-- 레시피 재료 조회 -->
+	<select id="selectRecipeIngredient" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.RecipeIngredient">
+		SELECT 
+			recipe_ingredient_key,
+			recipe_ingredient_name, 
+			recipe_ingredient_category,
+			recipe_ingredient_main_category,
+			recipe_ingredient_amount,
+			recipe_ingredient_countunit,
+			recipe_ingredient_main_countunit,
+			recipe_ingredient_main_yn,
+			recipe_ingredient_allergy_category,
+			recipe_ingredient_babystep
+		FROM recipe_ingredient_tb
 		WHERE 
 			recipe_key = #{recipe_key}
 	</select>
@@ -67,6 +85,7 @@
 	<!-- 레시피 순서 조회 -->
 	<select id="selectRecipeOrder" parameterType="java.lang.String" resultType="com.kyobo.platform.recipe.dao.RecipeOrder">
 		SELECT 
+			recipe_order_key,
 			recipe_order, 
 			recipe_order_desc,
 			recipe_order_img_key_name,
@@ -134,7 +153,7 @@
 	<!-- 레시피 스크랩 등록 -->
 	<insert id="insertRecipeScrap" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		INSERT INTO recipe_scrap_tb (
-			recipe_key, 
+			recipe_key,
 			recipe_scrap_user_id,
 			recipe_scrap_yn, 
 			created_datetime, 

@@ -2,12 +2,14 @@ package com.kyobo.platform.recipe.mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kyobo.platform.recipe.dao.RecipeMaterial;
+import com.kyobo.platform.recipe.dao.RecipeIngredient;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.RecipeReview;
 import com.kyobo.platform.recipe.dao.Recipe;
@@ -23,7 +25,10 @@ public interface RecipeDetailMapper {
 	Recipe selectRecipeDetail(String recipe_key);
 	
 	@Transactional
-	ArrayList<RecipeMaterial> selectRecipeMaterial(String recipe_key);
+	List<Map.Entry<String, Object>> selectRecipeTag(String recipe_key);
+	
+	@Transactional
+	ArrayList<RecipeIngredient> selectRecipeIngredient(String recipe_key);
 	
 	@Transactional
 	ArrayList<RecipeOrder> selectRecipeOrder(String recipe_key);

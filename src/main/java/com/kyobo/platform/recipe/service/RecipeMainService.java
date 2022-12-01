@@ -42,8 +42,8 @@ public class RecipeMainService {
 			main_info_map.put("health_keywords", "[\"성장\", \"두뇌발달\", \"소화불량\", \"장염\", \"아토피\", \"감기\"]");
 			main_info_map.put("dynamic_sentense", "기분좋은 주말 아침이에요");
 			
-//			String season_material_sentence = recipeMainMapper.selectSeasonMaterialSentence();
-			main_info_map.put("season_material_sentence", "10월 제철 재료 감자");
+//			String season_ingredient_sentence = recipeMainMapper.selectSeasonIngredientSentence();
+			main_info_map.put("season_ingredient_sentence", "10월 제철 재료 감자");
 			
 			
 //			List<Map<String, Object>> banner_list = recipeMainMapper.selectBannerList();
@@ -307,14 +307,14 @@ public class RecipeMainService {
 		}
 	}
 	
-	public List<Map<String, Object>> seasonMaterialBasedRecipeList(String season_material) throws ParseException {
-		logger.info("====================== seasonMaterialBasedRecipeList service start ======================");
+	public List<Map<String, Object>> seasonIngredientBasedRecipeList(String season_ingredient) throws ParseException {
+		logger.info("====================== seasonIngredientBasedRecipeList service start ======================");
 		
 		try {
-			List<Map<String, Object>> season_material_based_recipe_list = recipeMainMapper.seasonMaterialBasedRecipeList(season_material);
+			List<Map<String, Object>> season_ingredient_based_recipe_list = recipeMainMapper.seasonIngredientBasedRecipeList(season_ingredient);
 			
-			logger.info("====================== seasonMaterialBasedRecipeList service end ======================");
-			return season_material_based_recipe_list;
+			logger.info("====================== seasonIngredientBasedRecipeList service end ======================");
+			return season_ingredient_based_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new GlobalExceptionHandler();

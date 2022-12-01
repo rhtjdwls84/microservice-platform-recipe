@@ -239,26 +239,26 @@ public class RecipeMainController {
 	}
 	
 	// 제철재료기반 메인 레시피 목록
-	@RequestMapping(value = "/seasonMaterialBasedRecipeList/{season_material}", produces = "application/json; charset=UTF-8", 
+	@RequestMapping(value = "/seasonIngredientBasedRecipeList/{season_ingredient}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String seasonMaterialBasedRecipeList(@PathVariable("season_material") String season_material) {
-		logger.info("====================== seasonMaterialBasedRecipeList controller start ======================");
+	public String seasonIngredientBasedRecipeList(@PathVariable("season_ingredient") String season_ingredient) {
+		logger.info("====================== seasonIngredientBasedRecipeList controller start ======================");
 		
 		String jsonRecipeList = null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_season_material_based_list = recipeMainService.seasonMaterialBasedRecipeList(season_material);
+			List<Map<String, Object>> recipe_season_ingredient_based_list = recipeMainService.seasonIngredientBasedRecipeList(season_ingredient);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
-			map.put("recipe_season_material_based_list", recipe_season_material_based_list);
+			map.put("recipe_season_ingredient_based_list", recipe_season_ingredient_based_list);
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== seasonMaterialBasedRecipeList controller end ======================");
+			logger.info("====================== seasonIngredientBasedRecipeList controller end ======================");
 	        return jsonRecipeList;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -267,7 +267,7 @@ public class RecipeMainController {
 			
 			jsonRecipeList = gson.toJson(map);
 			
-			logger.info("====================== seasonMaterialBasedRecipeList controller error ======================");
+			logger.info("====================== seasonIngredientBasedRecipeList controller error ======================");
 	        return jsonRecipeList;
 		}
 	}

@@ -15,7 +15,7 @@ public interface RecipeMainMapper {
 	List<Map<String, Object>> selectRecipeList(HashMap<String, Object> interest_map);
 	
 	@Transactional
-	List<Map<String, Object>> seasonMaterialBasedRecipeList(String season_material);
+	List<Map<String, Object>> seasonIngredientBasedRecipeList(String season_ingredient);
 	
 	@Transactional
 	int selectRecipeReviewCount(String recipe_key);

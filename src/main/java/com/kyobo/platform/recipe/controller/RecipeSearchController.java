@@ -40,7 +40,7 @@ public class RecipeSearchController {
 	@ResponseBody
 	public String searchRecipe(@RequestParam(required = false) String recipe_search_text,
 			@RequestParam(required = false) String category_main_name, @RequestParam(required = false) String category_name,
-			@RequestParam(required = false) String recipe_babyfood_step, @RequestParam(required = false) String except_material_yn,
+			@RequestParam(required = false) String recipe_babyfood_step, @RequestParam(required = false) String except_ingredient_yn,
 			@RequestParam(required = false) String recipe_tag_desc) {
 		logger.info("====================== searchRecipe controller start ======================");
 		
@@ -50,7 +50,7 @@ public class RecipeSearchController {
 		
 		try {
 			List<Map.Entry<String, Object>> recipe_list = recipeSearchService.searchRecipe(
-					recipe_search_text, category_main_name, category_name, recipe_babyfood_step, except_material_yn, recipe_tag_desc);
+					recipe_search_text, category_main_name, category_name, recipe_babyfood_step, except_ingredient_yn, recipe_tag_desc);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

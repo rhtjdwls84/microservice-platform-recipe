@@ -9,24 +9,24 @@
   	<result column="recipe_lead_time" property="recipe_lead_time" javaType="String"/>
   	<result column="recipe_level" property="recipe_level" javaType="String"/>
   	<result column="recipe_main_img_path" property="recipe_main_img_path" javaType="String"/>
-  	<result column="recipe_tag" property="recipe_tag" javaType="String"/>
+  	<result column="recipe_tag_desc" property="recipe_tag_desc" javaType="String"/>
   	<result column="recipe_user_id" property="recipe_user_id" javaType="String"/>
 </resultMap>
 
 	<!-- 사용자 기반 맞춤 메인 레시피 조회 -->
 	<select id="selectRecipeList" parameterType="hashmap" resultMap="interest_map">
 		SELECT 
-			recipe_key, 
-			recipe_name,
-			recipe_desc,
-			recipe_lead_time,
-			recipe_level,
-			recipe_main_img_path,
-			recipe_tag,
-			recipe_user_id
-		FROM recipe_tb
+			rt.recipe_key, 
+			rt.recipe_name,
+			rt.recipe_desc,
+			rt.recipe_lead_time,
+			rt.recipe_level,
+			rt.recipe_main_img_path,
+			(SELECT GROUP_CONCAT(recipe_tag_desc) FROM recipe_tag_tb WHERE recipe_key = rt.recipe_key) recipe_tag_desc,
+			rt.recipe_user_id
+		FROM recipe_tb rt
 		WHERE 
-			recipe_key IN
+			rt.recipe_key IN
 		<foreach collection="json_interest_array" item="json_interest_array" open="(" close=")" separator=",">
 			#{json_interest_array}
 		</foreach>	
@@ -42,25 +42,25 @@
 	</select>
 	
 	<!-- 제철재료기반 메인 레시피 조회 -->
-	<select id="seasonMaterialBasedRecipeList" parameterType="java.lang.String" resultMap="interest_map">
+	<select id="seasonIngredientBasedRecipeList" parameterType="java.lang.String" resultMap="interest_map">
 		SELECT 
 			rt.*, 
 			COUNT(CASE WHEN rt.recipe_key = rrt.recipe_key THEN 1 END) AS recipe_review_total_count
 		FROM 
 		(
 			SELECT 
-				recipe_key, 
-				recipe_name,
-				recipe_desc,
-				recipe_lead_time,
-				recipe_level,
-				recipe_main_img_path,
-				recipe_tag,
-				recipe_user_id
+				rt.recipe_key, 
+				rt.recipe_name,
+				rt.recipe_desc,
+				rt.recipe_lead_time,
+				rt.recipe_level,
+				rt.recipe_main_img_path,
+				(SELECT GROUP_CONCAT(recipe_tag_desc) FROM recipe_tag_tb WHERE recipe_key = rt.recipe_key) recipe_tag_desc,
+				rt.recipe_user_id
 			FROM recipe_tb rt
 			WHERE 1=1
-			AND rt.recipe_name LIKE CONCAT('%',#{season_material},'%')
-        	GROUP BY recipe_key
+			AND rt.recipe_name LIKE CONCAT('%',#{season_ingredient},'%')
+        	GROUP BY rt.recipe_key
         ) rt LEFT OUTER JOIN recipe_review_tb rrt
         ON rt.recipe_key = rrt.recipe_key
         GROUP BY rt.recipe_key
