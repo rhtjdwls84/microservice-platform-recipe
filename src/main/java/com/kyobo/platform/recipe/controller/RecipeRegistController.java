@@ -1,7 +1,7 @@
 package com.kyobo.platform.recipe.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,7 +56,7 @@ public class RecipeRegistController {
 		logger.info("====================== recipeDefInfo controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -89,7 +89,7 @@ public class RecipeRegistController {
 		logger.info("====================== recipeAddInfo controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -124,7 +124,7 @@ public class RecipeRegistController {
 		logger.info("====================== recipeIngredientInfo controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		
 		Recipe recipe = new Recipe();
 		ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
@@ -167,7 +167,7 @@ public class RecipeRegistController {
 		logger.info("====================== recipeOrderInfo controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		Recipe recipe = new Recipe();
@@ -227,7 +227,7 @@ public class RecipeRegistController {
 		logger.info("====================== checkRecipeTempSave controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -260,7 +260,7 @@ public class RecipeRegistController {
 		logger.info("====================== deleteRecipeTempSave controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -292,7 +292,7 @@ public class RecipeRegistController {
 		logger.info("====================== listRecipeBaseIngredient controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -325,7 +325,7 @@ public class RecipeRegistController {
 		logger.info("====================== listRecipeIngredient controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -358,7 +358,7 @@ public class RecipeRegistController {
 		logger.info("====================== recipeUpload controller start ======================");
 		
 		String json_recipe_list = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {

@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -181,7 +181,7 @@ public class RecipeRegistService {
 		logger.info("====================== recipeImageUpload service start ======================");
 		
 		List<Map<String, Object>> recipe_image_url_list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> recipe_image_url_map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> recipe_image_url_map = new LinkedHashMap<String, Object>();
 		
 		int index = 0;
 		String recipe_image_key_name = "";
@@ -331,7 +331,7 @@ public class RecipeRegistService {
 		String url = "/recipe/publish/tag";
 		String type = "POST";
 		
-		response_json = httpConfig.callApi(jsonObject, url, type);
+//		response_json = httpConfig.callApi(jsonObject, url, type);
 //		String ingredient_data = "{\r\n"
 //				+ "  \"result\": [{\r\n"
 //				+ "      \"ingredient_code\": \"4000001\",\r\n"
@@ -378,7 +378,7 @@ public class RecipeRegistService {
 		String url = "/recipe/publish/search";
 		String type = "POST";
 		
-		response_json = httpConfig.callApi(jsonObject, url, type);
+//		response_json = httpConfig.callApi(jsonObject, url, type);
 //			String ingredient_data = "{\r\n"
 //					+ "  \"result\": [{\r\n"
 //					+ "      \"ingredient_code\": \"4000001\",\r\n"
@@ -425,7 +425,7 @@ public class RecipeRegistService {
 		ArrayList<RecipeIngredient> recipe_ingredient_arr_list = recipeDetailMapper.selectRecipeIngredient(recipe_key);
 		
 		for(int i = 0; i < recipe_ingredient_arr_list.size(); i++) {
-			Map<String, Object> recipe_ingredient_map = new HashMap<String, Object>();
+			LinkedHashMap<String, Object> recipe_ingredient_map = new LinkedHashMap<String, Object>();
 			RecipeIngredient recipe_ingredient_arr = recipe_ingredient_arr_list.get(i);
 			recipe_ingredient_map.put("recipe_ingredient_key", recipe_ingredient_arr.getRecipe_ingredient_key());
 			recipe_ingredient_map.put("recipe_ingredient_name", recipe_ingredient_arr.getRecipe_ingredient_name());

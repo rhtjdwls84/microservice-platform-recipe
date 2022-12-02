@@ -109,13 +109,13 @@ public class Recipe {
     private HashMap<RecipeWriter, Object> recipe_writer_info = new HashMap<RecipeWriter, Object>();
     
     //레시피 섭취자제재료 정보(ML 연계)
-    private ArrayList<Map<String, Object>> recipe_control_ingredient_list = new ArrayList<Map<String, Object>>();
+    private ArrayList<Map<String, Object>> recipe_restriction_list = new ArrayList<Map<String, Object>>();
     
     //레시피 알러지재료 정보(ML 연계)
-    private ArrayList<Map<String, Object>> recipe_allergy_ingredient_list = new ArrayList<Map<String, Object>>();
+    private ArrayList<Map<String, Object>> recipe_allergy_list = new ArrayList<Map<String, Object>>();
     
     //레시피 영양소 정보(ML 연계)
-    private ArrayList<Map<String, Object>> recipe_nutrient_ingredient_list = new ArrayList<Map<String, Object>>();
+    private ArrayList<Map<String, Object>> recipe_nutrient_list = new ArrayList<Map<String, Object>>();
     
     //레시피 태그 정보
     private List<Map.Entry<String, Object>> recipe_tag_list = new ArrayList<Map.Entry<String,Object>>();

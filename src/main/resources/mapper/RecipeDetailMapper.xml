@@ -96,7 +96,7 @@
 	</select>
 	
 	<!-- 레시피 리뷰 갯수 조회 -->
-	<select id="selectRecipeReview" parameterType="java.lang.String" resultType="HashMap">
+	<select id="selectRecipeReview" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
 		SELECT 
 			recipe_review_cnt_1, 
 			recipe_review_cnt_2, 

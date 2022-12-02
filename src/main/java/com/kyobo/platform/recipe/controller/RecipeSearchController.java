@@ -1,6 +1,6 @@
 package com.kyobo.platform.recipe.controller;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +45,7 @@ public class RecipeSearchController {
 		logger.info("====================== searchRecipe controller start ======================");
 		
 		String jsonRecipeList = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {

@@ -14,17 +14,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
 import ch.qos.logback.classic.Logger;
 
 public class HttpConfig {
 	
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(HttpConfig.class);
  
-    public JSONObject callApi(JsonObject jsonObject, String target_url, String type){
+    public JSONObject callApi(JSONObject jsonObject, String target_url, String type){
         HttpURLConnection conn = null;
         JSONObject responseJson = null;
         
@@ -37,25 +33,11 @@ public class HttpConfig {
             // type의 경우 POST, GET, PUT, DELETE 가능
             conn.setRequestMethod(type);
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Transfer-Encoding", "chunked");
-            conn.setRequestProperty("Connection", "keep-alive");
+            conn.setRequestProperty("Accept", "application/json");
+			conn.setDoOutput(true); //OutputStream을 사용해서 post body 데이터 전송
             conn.setDoOutput(true);
             
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-//            // JSON 형식의 데이터 셋팅
-//            JsonObject commands = new JsonObject();
-//            JsonArray jsonArray = new JsonArray();
-//            
-//            params.addProperty("key", 1);
-//            params.addProperty("age", 20);
-//            params.addProperty("userNm", "홍길동");
-// 
-//            commands.add("userInfo", params);
-//             // JSON 형식의 데이터 셋팅 끝
-//            
-//            // 데이터를 STRING으로 변경
-//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//            String jsonOutput = gson.toJson(commands);
                  
             bw.write(jsonObject.toString());
             bw.flush();
@@ -70,13 +52,12 @@ public class HttpConfig {
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-//                responseJson = (JSONObject) sb.toString();
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(sb.toString());
                 responseJson = (JSONObject) obj;
                 
                 // 응답 데이터
-                logger.info("responseJson :: " + responseJson);
+                logger.info("responseJson : " + responseJson);
             } 
         } catch (MalformedURLException e) {
             e.printStackTrace();

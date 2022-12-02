@@ -1,6 +1,6 @@
 package com.kyobo.platform.recipe.controller;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.kyobo.platform.recipe.dao.Recipe;
 import com.kyobo.platform.recipe.dao.RecipeReview;
-//import com.kyobo.platform.recipe.redis.RedisService;
 import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeDetailService;
 
@@ -42,8 +41,8 @@ public class RecipeDetailController {
 	public String recipeDetail(@PathVariable("recipe_key") String recipe_key) {
 		logger.info("====================== recipeDetail controller start ======================");
 		
-		String jsonRecipeList = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		String json_recipe_list = null;
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -53,19 +52,19 @@ public class RecipeDetailController {
 			map.put("response_desc", "ok");
 			map.put("recipe_detail_info", recipe_detail_info);
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== recipeDetail controller end ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
 			map.put("response_code", "500");
 			map.put("response_desc", e);
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== recipeDetail controller error ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		}
 	}
 	
@@ -75,30 +74,30 @@ public class RecipeDetailController {
     public String registRecipeReview(@RequestBody Recipe recipe) {
 		logger.info("====================== registRecipeReview controller start ======================");
 		
-		String jsonRecipeList = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		String json_recipe_list = null;
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			HashMap<RecipeReview, Object> recipe_review_cnt_info = recipeDetailService.registRecipeReview(recipe);
+			LinkedHashMap<RecipeReview, Object> recipe_review_cnt_info = recipeDetailService.registRecipeReview(recipe);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
 			map.put("recipe_review_cnt_info", recipe_review_cnt_info);
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== registRecipeReview controller end ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
 			map.put("response_code", "500");
 			map.put("response_desc", e);
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== registRecipeReview controller error ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		}
     }
 	
@@ -108,8 +107,8 @@ public class RecipeDetailController {
     public String registRecipeScrap(@RequestBody Recipe recipe) {
 		logger.info("====================== registRecipeScrap controller start ======================");
 		
-		String jsonRecipeList = null;
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		String json_recipe_list = null;
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
@@ -118,19 +117,19 @@ public class RecipeDetailController {
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== registRecipeScrap controller end ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
 			map.put("response_code", "500");
 			map.put("response_desc", e);
 			
-			jsonRecipeList = gson.toJson(map);
+			json_recipe_list = gson.toJson(map);
 			
 			logger.info("====================== registRecipeScrap controller error ======================");
-	        return jsonRecipeList;
+	        return json_recipe_list;
 		}
     }
 }

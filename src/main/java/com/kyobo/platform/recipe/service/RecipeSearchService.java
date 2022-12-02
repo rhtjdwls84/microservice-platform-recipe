@@ -1,6 +1,6 @@
 package com.kyobo.platform.recipe.service;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public class RecipeSearchService {
 			String category_name, String recipe_babyfood_step, String except_ingredient_yn, String recipe_tag_desc) {
 		logger.info("====================== searchRecipe service start ======================");
 		
-		Map<String, Object> recipe_map = new HashMap<>();
+		LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
 		List<Map.Entry<String, Object>> recipe_list = recipe_map.entrySet().stream().collect(Collectors.toList());
 		
 		Recipe recipe = new Recipe();
