@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,17 @@ public class RecipeSearchService {
 		recipe.setExcept_ingredient_yn(except_ingredient_yn);
 		recipe.setRecipe_tag_desc(recipe_tag_desc);
 		
-		if(recipe.getRecipe_tag_desc().equals("")) {
+		// 아이 알러지정보 및 아이 월령값 세팅
+		JSONArray json_array = new JSONArray();
+		json_array.add("두유");
+		if(except_ingredient_yn != null) {
+			if(except_ingredient_yn.equals("Y")) {
+				recipe.setRecipe_ingredient_babystep("13");
+				recipe.setJson_allergy_array(json_array);
+			}
+		}
+		
+		if(recipe.getRecipe_tag_desc() == null) {
 			recipe_list = recipeSearchMapper.selectListSearchRecipe(recipe);
 		} else {
 			recipe_list = recipeSearchMapper.selectListSearchRecipeTag(recipe);

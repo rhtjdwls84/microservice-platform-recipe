@@ -15,7 +15,10 @@
 				rt.recipe_view_cnt,
 				rt.recipe_scrap_cnt,
 				rt.recipe_main_img_path,
-				rt.recipe_user_id
+				rt.recipe_user_id,
+				rt.recipe_babyfood_step,
+				rmt.recipe_ingredient_babystep,
+				rmt.recipe_ingredient_allergy_category
 			FROM recipe_tb rt LEFT OUTER JOIN recipe_ingredient_tb rmt
 			ON rt.recipe_key = rmt.recipe_key
 			WHERE 1=1
@@ -50,17 +53,18 @@
 					</choose>
 				</if>
 			</if>
-			<if test='recipe_babyfood_step != null and recipe_babyfood_step != ""'>
-				AND rt.recipe_babyfood_step = #{recipe_babyfood_step}
-			</if>
-			<if test='except_ingredient_yn == "Y"'>
-				AND rmt.recipe_ingredient_allergy_category NOT IN
-				<foreach collection="json_allergy_array" item="item" open="(" close=")" separator=",">
-					#{item}
-				</foreach>
-				AND rmt.recipe_ingredient_babystep <![CDATA[<=]]> #{recipe_ingredient_babystep} 
-			</if>
-		) A	
+		) A
+		WHERE 1=1	
+		<if test='recipe_babyfood_step != null and recipe_babyfood_step != ""'>
+			AND A.recipe_babyfood_step = #{recipe_babyfood_step}
+		</if>
+		<if test='except_ingredient_yn == "Y"'>
+			AND A.recipe_ingredient_allergy_category NOT IN
+			<foreach collection="json_allergy_array" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+			AND A.recipe_ingredient_babystep <![CDATA[<=]]> #{recipe_ingredient_babystep} 
+		</if>
 		GROUP BY A.recipe_key	
 	</select>
 	
@@ -78,8 +82,8 @@
 		FROM recipe_tb rt LEFT OUTER JOIN recipe_tag_tb rtt
 		ON rt.recipe_key = rtt.recipe_key
 		WHERE 1=1
-		<if test='recipe_tag != null and recipe_tag != ""'>
-			AND rtt.recipe_tag_desc LIKE CONCAT('%',#{recipe_tag},'%')
+		<if test='recipe_tag_desc != null and recipe_tag_desc != ""'>
+			AND rtt.recipe_tag_desc LIKE CONCAT('%',#{recipe_tag_desc},'%')
 		</if>
 	</select>	
 </mapper> 
