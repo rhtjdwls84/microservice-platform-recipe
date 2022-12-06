@@ -1,6 +1,7 @@
 package com.kyobo.platform.recipe.controller;
 
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +72,10 @@ public class RecipeMainController {
 	}
 	
 	// 맞춤기반 메인 레시피 목록
-	@RequestMapping(value = "/recipeCustomBasedList/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipeCustomBasedList/{user_id}/{more_yn}", produces = "application/json; charset=UTF-8", 
+			method = RequestMethod.GET)
 	@ResponseBody
-	public String recipeCustomBasedList(@PathVariable("user_id") String user_id) {
+	public String recipeCustomBasedList(@PathVariable("user_id") String user_id, @PathVariable("more_yn") String more_yn) {
 		logger.info("====================== recipeCustomBasedList controller start ======================");
 		
 		String json_recipe_list = null;
@@ -81,7 +83,7 @@ public class RecipeMainController {
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_custom_based_list = recipeMainService.recipeCustomBasedList(user_id);
+			List<Map<String, Object>> recipe_custom_based_list = recipeMainService.recipeCustomBasedList(user_id, more_yn);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -104,17 +106,18 @@ public class RecipeMainController {
 	}
 	
 	// 사용자기반 메인 레시피 목록
-	@RequestMapping(value = "/recipeUserBasedList/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipeUserBodyBasedList/{user_id}/{more_yn}", produces = "application/json; charset=UTF-8", 
+			method = RequestMethod.GET)
 	@ResponseBody
-	public String recipeUserBasedList(@PathVariable("user_id") String user_id) {
-		logger.info("====================== recipeUserBasedList controller start ======================");
+	public String recipeUserBodyBasedList(@PathVariable("user_id") String user_id, @PathVariable("more_yn") String more_yn) {
+		logger.info("====================== recipeUserBodyBasedList controller start ======================");
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_user_based_list = recipeMainService.recipeUserBasedList(user_id);
+			List<Map<String, Object>> recipe_user_based_list = recipeMainService.recipeUserBodyBasedList(user_id, more_yn);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -122,7 +125,7 @@ public class RecipeMainController {
 			
 			json_recipe_list = gson.toJson(map);
 			
-			logger.info("====================== recipeUserBasedList controller end ======================");
+			logger.info("====================== recipeUserBodyBasedList controller end ======================");
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -131,18 +134,18 @@ public class RecipeMainController {
 			
 			json_recipe_list = gson.toJson(map);
 			
-			logger.info("====================== recipeUserBasedList controller error ======================");
+			logger.info("====================== recipeUserBodyBasedList controller error ======================");
 	        return json_recipe_list;
 		}
 	}
 	
-	// 비회원기반 메인 레시피 목록
-	@RequestMapping(value = "/noUserCustomBasedRecipeList/{age}/{sex}/{height}/{weight}", produces = "application/json; charset=UTF-8", 
+	// 비회원 신체 기반 메인 레시피 목록
+	@RequestMapping(value = "/noUserBodyBasedRecipeList/{gender}/{birthday}/{height}/{weight}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String noUserCustomBasedRecipeList(@PathVariable("age") String age, @PathVariable("sex") String sex,
+	public String noUserBodyBasedRecipeList(@PathVariable("gender") String gender, @PathVariable("birthday") String birthday,
 			@PathVariable("height") String height, @PathVariable("weight") String weight) {
-		logger.info("====================== noUserCustomBasedRecipeList controller start ======================");
+		logger.info("====================== noUserBodyBasedRecipeList controller start ======================");
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
@@ -150,7 +153,7 @@ public class RecipeMainController {
 		
 		try {
 			List<Map<String, Object>> recipe_no_user_custom_based_list = 
-					recipeMainService.noUserCustomBasedRecipeList(age, sex, height, weight);
+					recipeMainService.noUserBodyBasedRecipeList(gender, birthday, height, weight);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -158,7 +161,7 @@ public class RecipeMainController {
 			
 			json_recipe_list = gson.toJson(map);
 			
-			logger.info("====================== noUserCustomBasedRecipeList controller end ======================");
+			logger.info("====================== noUserBodyBasedRecipeList controller end ======================");
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -167,7 +170,7 @@ public class RecipeMainController {
 			
 			json_recipe_list = gson.toJson(map);
 			
-			logger.info("====================== noUserCustomBasedRecipeList controller error ======================");
+			logger.info("====================== noUserBodyBasedRecipeList controller error ======================");
 	        return json_recipe_list;
 		}
 	}
@@ -175,7 +178,7 @@ public class RecipeMainController {
 	// 비회원 알레르기기반 메인 레시피 목록
 	@RequestMapping(value = "/noUserAllergyBasedRecipeList", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public String noUserAllergyBasedRecipeList(@RequestBody Array allergy) {
+	public String noUserAllergyBasedRecipeList(@RequestBody ArrayList<Map<String, Object>> baby_allergy_list) {
 		logger.info("====================== noUserAllergyBasedRecipeList controller start ======================");
 		
 		String json_recipe_list = null;
@@ -183,7 +186,7 @@ public class RecipeMainController {
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_no_user_allergy_based_list = recipeMainService.noUserAllergyBasedRecipeList(allergy);
+			List<Map<String, Object>> recipe_no_user_allergy_based_list = recipeMainService.noUserAllergyBasedRecipeList(baby_allergy_list);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -206,9 +209,9 @@ public class RecipeMainController {
 	}
 	
 	// 비회원 건강기반 메인 레시피 목록
-	@RequestMapping(value = "/noUserHealthBasedRecipeList", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/noUserHealthBasedRecipeList", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)
 	@ResponseBody
-	public String noUserHealthBasedRecipeList() {
+	public String noUserHealthBasedRecipeList(ArrayList<Map<String, Object>> baby_concern_list) {
 		logger.info("====================== noUserHealthBasedRecipeList controller start ======================");
 		
 		String json_recipe_list = null;
@@ -216,7 +219,7 @@ public class RecipeMainController {
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_no_user_health_based_list = recipeMainService.noUserHealthBasedRecipeList();
+			List<Map<String, Object>> recipe_no_user_health_based_list = recipeMainService.noUserHealthBasedRecipeList(baby_concern_list);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");
@@ -239,10 +242,11 @@ public class RecipeMainController {
 	}
 	
 	// 제철재료기반 메인 레시피 목록
-	@RequestMapping(value = "/seasonIngredientBasedRecipeList/{season_ingredient}", produces = "application/json; charset=UTF-8", 
+	@RequestMapping(value = "/seasonIngredientBasedRecipeList/{season_ingredient}/{more_yn}", produces = "application/json; charset=UTF-8", 
 			method = RequestMethod.GET)
 	@ResponseBody
-	public String seasonIngredientBasedRecipeList(@PathVariable("season_ingredient") String season_ingredient) {
+	public String seasonIngredientBasedRecipeList(@PathVariable("season_ingredient") String season_ingredient,
+			@PathVariable("more_yn") String more_yn) {
 		logger.info("====================== seasonIngredientBasedRecipeList controller start ======================");
 		
 		String json_recipe_list = null;
@@ -250,7 +254,8 @@ public class RecipeMainController {
 		Gson gson = new Gson();
 		
 		try {
-			List<Map<String, Object>> recipe_season_ingredient_based_list = recipeMainService.seasonIngredientBasedRecipeList(season_ingredient);
+			List<Map<String, Object>> recipe_season_ingredient_based_list = 
+					recipeMainService.seasonIngredientBasedRecipeList(season_ingredient, more_yn);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

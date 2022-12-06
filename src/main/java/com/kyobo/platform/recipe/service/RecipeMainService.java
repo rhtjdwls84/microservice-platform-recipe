@@ -70,48 +70,74 @@ public class RecipeMainService {
 		}
 	}
 	
-	public List<Map<String, Object>> recipeCustomBasedList(String user_id) {
+	public List<Map<String, Object>> recipeCustomBasedList(String user_id, String more_yn) {
 		logger.info("====================== recipeCustomBasedList service start ======================");
 		
 		try {
 			// 유저의 알레르기 및 건강키워드 정보 API 호출(회원 API 호출 or 세션에서 가져오기)
 			
+			// 로그인 사용자 맞춤 레시피(ML 연계)
 			HttpConfig httpConfig = new HttpConfig();
-		
-			// 레시피 영양소 정보(ML 연계)
-		//		JsonObject json_custom_based_object = new JsonObject();
-		//		JSONObject response_custom_based_json = null;
-		//		
-		//		json_custom_based_object.addProperty("health_keywords", "health_keywords");
-		//		json_custom_based_object.addProperty("allergy", "allergy");
-		//		json_custom_based_object.addProperty("baby_id", "baby_id");
-		//		
-		//		String custom_based_url = "/recipe/suggestion/interest";
-		//		String custom_based_type = "POST";
-		//		
-		//		response_custom_based_json = httpConfig.callApi(json_custom_based_object, custom_based_url, custom_based_type);
-			String custom_based_data = "{\r\n"
-					+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
-					+ "}";
-			JSONParser custom_based_parser = new JSONParser();
-			JSONObject json_custom_based_obj = (JSONObject) custom_based_parser.parse(custom_based_data);
-			JSONArray json_custom_based_array = (JSONArray) json_custom_based_obj.get("recipe_ids");
-			LinkedHashMap<String, Object> custom_based_map = new LinkedHashMap<String, Object>();
-			custom_based_map.put("json_interest_array", json_custom_based_array);
+			JSONObject json_object = new JSONObject();
+			JSONObject response_json = null;
+			ArrayList<Map<String, Object>> baby_allergy_list = new ArrayList<Map<String, Object>>();
+			ArrayList<Map<String, Object>> baby_concern_list = new ArrayList<Map<String, Object>>();
 			
-			List<Map<String, Object>> recipe_custom_based_list = recipeMainMapper.selectRecipeList(custom_based_map);
+			//아기 알러지 및 관심사 정보 조회(쿼리)
 			
-			if(recipe_custom_based_list != null ) {
-				for(int i = 0; i < recipe_custom_based_list.size(); i++) {
-					String recipe_key = recipe_custom_based_list.get(i).get("recipe_key").toString();
+			for(int i = 0; i < baby_allergy_list.size(); i++) {
+				LinkedHashMap<String, Object> baby_allergy_map = new LinkedHashMap<>();
+				baby_allergy_map.put("baby_allergy_ingredient_code", "ALG000001");
+				baby_allergy_map.put("baby_allergy_ingredient_name", "우유");
+				
+				baby_allergy_list.add(baby_allergy_map);
+			}
+			
+			for(int i = 0; i < baby_concern_list.size(); i++) {
+				LinkedHashMap<String, Object> baby_concern_map = new LinkedHashMap<>();
+				baby_concern_map.put("baby_allergy_ingredient_code", "ALG000001");
+				baby_concern_map.put("baby_allergy_ingredient_name", "우유");
+				
+				baby_concern_list.add(baby_concern_map);
+			}
+			
+			json_object.put("baby_key", user_id);
+			json_object.put("baby_allergy", baby_allergy_list);
+			json_object.put("baby_concern_tag", baby_concern_list);
+			
+			Properties properties = new Properties();
+	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+	        
+	        String ml_url = properties.getProperty("mlurl");
+			String url = ml_url + "/recsys/recipe/custom";
+			String type = "POST";
+				
+			response_json = httpConfig.callApi(json_object, url, type);
+//			String json_data = "{\r\n"
+//				+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
+//				+ "}";
+//			JSONParser parser = new JSONParser();
+//			JSONObject json_obj = (JSONObject) parser.parse(json_data);
+			JSONArray json_array = (JSONArray) response_json.get("recipe_key");
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("json_interest_array", json_array);
+			map.put("more_yn", more_yn);
+			map.put("type", "custom");
+			
+			List<Map<String, Object>> recipe_list = recipeMainMapper.selectRecipeList(map);
+			
+			if(recipe_list != null ) {
+				for(int i = 0; i < recipe_list.size(); i++) {
+					String recipe_key = recipe_list.get(i).get("recipe_key").toString();
 					int recipe_review_count = recipeMainMapper.selectRecipeReviewCount(recipe_key);
 					
-					recipe_custom_based_list.get(i).put("recipe_review_total_count", recipe_review_count);
+					recipe_list.get(i).put("recipe_review_total_count", recipe_review_count);
 				}
+				//작성자 정보 API 호출
 			}
 						
 			logger.info("====================== recipeCustomBasedList service end ======================");
-			return recipe_custom_based_list;
+			return recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new GlobalExceptionHandler();
@@ -119,8 +145,8 @@ public class RecipeMainService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> recipeUserBasedList(String user_id) {
-		logger.info("====================== recipeUserBasedList service start ======================");
+	public List<Map<String, Object>> recipeUserBodyBasedList(String user_id, String more_yn) {
+		logger.info("====================== recipeUserBodyBasedList service start ======================");
 		
 		try {
 			// 유저의 신체 정보 API 호출(회원 API 호출 or 세션에서 가져오기)
@@ -129,6 +155,8 @@ public class RecipeMainService {
 			HttpConfig httpConfig = new HttpConfig();
 			JSONObject json_object = new JSONObject();
 			JSONObject response_json = null;
+			
+			// 아이 신체정보 조회(쿼리)
 			
 			LinkedHashMap<String, Object> baby_map = new LinkedHashMap<>();
 			baby_map.put("gender", 0);
@@ -155,6 +183,8 @@ public class RecipeMainService {
 			JSONArray json_array = (JSONArray) response_json.get("recipe_key");
 			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 			map.put("json_interest_array", json_array);
+			map.put("more_yn", more_yn);
+			map.put("type", "body");
 			
 			List<Map<String, Object>> recipe_list = recipeMainMapper.selectRecipeList(map);
 			
@@ -168,7 +198,7 @@ public class RecipeMainService {
 				//작성자 정보 API 호출
 			}
 						
-			logger.info("====================== recipeUserBasedList service end ======================");
+			logger.info("====================== recipeUserBodyBasedList service end ======================");
 			return recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -176,115 +206,20 @@ public class RecipeMainService {
 		}
 	}
 	
-	public List<Map<String, Object>> noUserCustomBasedRecipeList(String age, String sex, String height, String weight) {
-		logger.info("====================== noUserCustomBasedRecipeList service start ======================");
+	public List<Map<String, Object>> noUserBodyBasedRecipeList(String gender, String birthday, String height, String weight) {
+		logger.info("====================== noUserBodyBasedRecipeList service start ======================");
 		
 		try {
-			HttpConfig httpConfig = new HttpConfig();
-		
-			// 레시피 영양소 정보(ML 연계)
-		//		JsonObject json_no_user_custom_based_object = new JsonObject();
-		//		JSONObject response_no_user_custom_based_json = null;
-		//		
-		//		json_no_user_custom_based_object.addProperty("birthday", "age");
-		//		json_no_user_custom_based_object.addProperty("sex", "sex");
-		//		json_no_user_custom_based_object.addProperty("height", "height");
-		//		json_no_user_custom_based_object.addProperty("weight", "weight");
-		//		json_no_user_custom_based_object.addProperty("baby_id", "baby_id");
-		//		
-		//		String no_user_custom_based_url = "/recipe/suggestion/growth";
-		//		String no_user_custom_based_type = "POST";
-		//		
-		//		response_no_user_custom_based_json = 
-		//		httpConfig.callApi(json_no_user_custom_based_object, no_user_custom_based_url, no_user_custom_based_type);
-			String no_user_custom_based_data = "{\r\n"
-					+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
-					+ "}";
-			JSONParser no_user_custom_based_parser = new JSONParser();
-			JSONObject json_no_user_custom_based_obj = (JSONObject) no_user_custom_based_parser.parse(no_user_custom_based_data);
-			JSONArray json_no_user_custom_based_array = (JSONArray) json_no_user_custom_based_obj.get("recipe_ids");
-			LinkedHashMap<String, Object> no_user_custom_based_map = new LinkedHashMap<String, Object>();
-			no_user_custom_based_map.put("json_interest_array",json_no_user_custom_based_array);
-			
-			List<Map<String, Object>> recipe_no_user_custom_based_list = recipeMainMapper.selectRecipeList(no_user_custom_based_map);
-			
-			if(recipe_no_user_custom_based_list != null ) {
-				for(int i = 0; i < recipe_no_user_custom_based_list.size(); i++) {
-					String recipe_key = recipe_no_user_custom_based_list.get(i).get("recipe_key").toString();
-					int recipe_review_count = recipeMainMapper.selectRecipeReviewCount(recipe_key);
-					
-					recipe_no_user_custom_based_list.get(i).put("recipe_review_total_count", recipe_review_count);
-				}
-			}
-						
-			logger.info("====================== noUserCustomBasedRecipeList service end ======================");
-			return recipe_no_user_custom_based_list;
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new GlobalExceptionHandler();
-		}
-	}
-	
-	public List<Map<String, Object>> noUserAllergyBasedRecipeList(Array allergy) {
-		logger.info("====================== noUserAllergyBasedRecipeList service start ======================");
-		
-		try {
-			HttpConfig httpConfig = new HttpConfig();
-		
-			// 레시피 영양소 정보(ML 연계)
-		//		JsonObject json_no_user_allergy_based_object = new JsonObject();
-		//		JSONObject response_no_user_allergy_based_json = null;
-		//		
-		//		json_no_user_allergy_based_object.addProperty("allergy", allergy);
-		//		
-		//		String no_user_allergy_based_url = "/recipe/suggestion/interest";
-		//		String no_user_allergy_based_type = "POST";
-		//		
-		//		response_no_user_allergy_based_json = 
-		//		httpConfig.callApi(json_no_user_allergy_based_object, no_user_allergy_based_url, no_user_allergy_based_type);
-			String no_user_allergy_based_data = "{\r\n"
-					+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
-					+ "}";
-			JSONParser no_user_allergy_based_parser = new JSONParser();
-			JSONObject json_no_user_allergy_based_obj = (JSONObject) no_user_allergy_based_parser.parse(no_user_allergy_based_data);
-			JSONArray json_no_user_allergy_based_array = (JSONArray) json_no_user_allergy_based_obj.get("recipe_ids");
-			LinkedHashMap<String, Object> no_user_allergy_based_map = new LinkedHashMap<String, Object>();
-			no_user_allergy_based_map.put("json_interest_array", json_no_user_allergy_based_array);
-			
-			List<Map<String, Object>> recipe_no_user_allergy_based_list = recipeMainMapper.selectRecipeList(no_user_allergy_based_map);
-			
-			if(recipe_no_user_allergy_based_list != null ) {
-				for(int i = 0; i < recipe_no_user_allergy_based_list.size(); i++) {
-					String recipe_key = recipe_no_user_allergy_based_list.get(i).get("recipe_key").toString();
-					int recipe_review_count = recipeMainMapper.selectRecipeReviewCount(recipe_key);
-					
-					recipe_no_user_allergy_based_list.get(i).put("recipe_review_total_count", recipe_review_count);
-				}
-			}
-						
-			logger.info("====================== noUserAllergyBasedRecipeList service end ======================");
-			return recipe_no_user_allergy_based_list;
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new GlobalExceptionHandler();
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> noUserHealthBasedRecipeList() {
-		logger.info("====================== noUserHealthBasedRecipeList service start ======================");
-		
-		try {
-			// 비로그인 사용자 건강 기반 레시피(ML 연계)
+			// 비로그인 사용자 신체 기반 레시피(ML 연계)
 			HttpConfig httpConfig = new HttpConfig();
 			JSONObject json_object = new JSONObject();
 			JSONObject response_json = null;
 			
 			LinkedHashMap<String, Object> baby_map = new LinkedHashMap<>();
-			baby_map.put("gender", 0);
-			baby_map.put("birthday", "2020-11-14");
-			baby_map.put("height", 110.2);
-			baby_map.put("weight", 28.4);
+			baby_map.put("gender", gender);
+			baby_map.put("birthday", birthday);
+			baby_map.put("height", height);
+			baby_map.put("weight", weight);
 	
 			json_object.put("baby", baby_map);
 			
@@ -296,11 +231,11 @@ public class RecipeMainService {
 			String type = "POST";
 
 			response_json = httpConfig.callApi(json_object, url, type);
-//			String json_data = "{\r\n"
-//					+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
-//					+ "}";
-//			JSONParser parser = new JSONParser();
-//			JSONObject json_obj = (JSONObject) parser.parse(json_data);
+//						String json_data = "{\r\n"
+//								+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
+//								+ "}";
+//						JSONParser parser = new JSONParser();
+//						JSONObject json_obj = (JSONObject) parser.parse(json_data);
 			JSONArray json_array = (JSONArray) response_json.get("recipe_key");
 			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 			map.put("json_interest_array", json_array);
@@ -316,6 +251,119 @@ public class RecipeMainService {
 				}
 			}
 						
+			logger.info("====================== noUserBodyBasedRecipeList service end ======================");
+			return recipe_list;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new GlobalExceptionHandler();
+		}
+	}
+	
+	public List<Map<String, Object>> noUserAllergyBasedRecipeList(ArrayList<Map<String, Object>> baby_allergy_list) {
+		logger.info("====================== noUserAllergyBasedRecipeList service start ======================");
+		
+		try {
+			// 비로그인 사용자 알러지 기반 레시피(ML 연계)
+			HttpConfig httpConfig = new HttpConfig();
+			JSONObject json_object = new JSONObject();
+			JSONObject response_json = null;
+			
+			for(int i = 0; i < baby_allergy_list.size(); i++) {
+				LinkedHashMap<String, Object> baby_allergy_map = new LinkedHashMap<>();
+				baby_allergy_map.put("baby_allergy_ingredient_code", "ALG000001");
+				baby_allergy_map.put("baby_allergy_ingredient_name", "우유");
+				
+				baby_allergy_list.add(baby_allergy_map);
+			}
+			
+			json_object.put("baby_allergy", baby_allergy_list);
+			
+			Properties properties = new Properties();
+	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+	        
+	        String ml_url = properties.getProperty("mlurl");
+			String url = ml_url + "/recsys/recipe/custom";
+			String type = "POST";
+				
+			response_json = httpConfig.callApi(json_object, url, type);
+//									String json_data = "{\r\n"
+//										+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
+//										+ "}";
+//									JSONParser parser = new JSONParser();
+//									JSONObject json_obj = (JSONObject) parser.parse(json_data);
+			JSONArray json_array = (JSONArray) response_json.get("recipe_key");
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("json_interest_array", json_array);
+			
+			List<Map<String, Object>> recipe_list = recipeMainMapper.selectRecipeList(map);
+			
+			if(recipe_list != null ) {
+				for(int i = 0; i < recipe_list.size(); i++) {
+					String recipe_key = recipe_list.get(i).get("recipe_key").toString();
+					int recipe_review_count = recipeMainMapper.selectRecipeReviewCount(recipe_key);
+					
+					recipe_list.get(i).put("recipe_review_total_count", recipe_review_count);
+				}
+				//작성자 정보 API 호출
+			}
+						
+			logger.info("====================== noUserAllergyBasedRecipeList service end ======================");
+			return recipe_list;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new GlobalExceptionHandler();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> noUserHealthBasedRecipeList(ArrayList<Map<String, Object>> baby_concern_list) {
+		logger.info("====================== noUserHealthBasedRecipeList service start ======================");
+		
+		try {
+			// 비로그인 사용자 맞춤 레시피(ML 연계)
+			HttpConfig httpConfig = new HttpConfig();
+			JSONObject json_object = new JSONObject();
+			JSONObject response_json = null;
+			
+			for(int i = 0; i < baby_concern_list.size(); i++) {
+				LinkedHashMap<String, Object> baby_concern_map = new LinkedHashMap<>();
+				baby_concern_map.put("baby_allergy_ingredient_code", "ALG000001");
+				baby_concern_map.put("baby_allergy_ingredient_name", "우유");
+				
+				baby_concern_list.add(baby_concern_map);
+			}
+			
+			json_object.put("baby_concern_tag", baby_concern_list);
+			
+			Properties properties = new Properties();
+	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+	        
+	        String ml_url = properties.getProperty("mlurl");
+			String url = ml_url + "/recsys/recipe/custom";
+			String type = "POST";
+				
+			response_json = httpConfig.callApi(json_object, url, type);
+//									String json_data = "{\r\n"
+//										+ "  \"recipe_ids\": [\"1000003\", \"1000004\", \"1000011\"]\r\n"
+//										+ "}";
+//									JSONParser parser = new JSONParser();
+//									JSONObject json_obj = (JSONObject) parser.parse(json_data);
+			JSONArray json_array = (JSONArray) response_json.get("recipe_key");
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("json_interest_array", json_array);
+			
+			List<Map<String, Object>> recipe_list = recipeMainMapper.selectRecipeList(map);
+			
+			if(recipe_list != null ) {
+				for(int i = 0; i < recipe_list.size(); i++) {
+					String recipe_key = recipe_list.get(i).get("recipe_key").toString();
+					int recipe_review_count = recipeMainMapper.selectRecipeReviewCount(recipe_key);
+					
+					recipe_list.get(i).put("recipe_review_total_count", recipe_review_count);
+				}
+				//작성자 정보 API 호출
+			}
+						
 			logger.info("====================== noUserHealthBasedRecipeList service end ======================");
 			return recipe_list;
 		} catch(Exception e) {
@@ -324,11 +372,15 @@ public class RecipeMainService {
 		}
 	}
 	
-	public List<Map<String, Object>> seasonIngredientBasedRecipeList(String season_ingredient) throws ParseException {
+	public List<Map<String, Object>> seasonIngredientBasedRecipeList(String season_ingredient, String more_yn) throws ParseException {
 		logger.info("====================== seasonIngredientBasedRecipeList service start ======================");
 		
 		try {
-			List<Map<String, Object>> season_ingredient_based_recipe_list = recipeMainMapper.seasonIngredientBasedRecipeList(season_ingredient);
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("season_ingredient", season_ingredient);
+			map.put("more_yn", more_yn);
+			
+			List<Map<String, Object>> season_ingredient_based_recipe_list = recipeMainMapper.seasonIngredientBasedRecipeList(map);
 			
 			logger.info("====================== seasonIngredientBasedRecipeList service end ======================");
 			return season_ingredient_based_recipe_list;
@@ -395,22 +447,13 @@ public class RecipeMainService {
 //			JSONParser parser = new JSONParser();
 //			JSONObject json_obj = (JSONObject) parser.parse(json_data);
 			LinkedHashMap<String, Object> baby_info_map = new LinkedHashMap<String, Object>();
-//			
-//			baby_info_map.put("baby_key", json_obj.get("baby_key"));
-//			
-//			JSONObject json_profile_obj = (JSONObject) parser.parse((String) json_obj.get("profile"));
-//			baby_info_map.put("day", json_profile_obj.get("day"));
-//			baby_info_map.put("month", json_profile_obj.get("month"));
-//			baby_info_map.put("rank", json_profile_obj.get("rank"));
-//			baby_info_map.put("statement", json_profile_obj.get("statement"));
-//			
-//			JSONObject json_profile_height_obj = (JSONObject) parser.parse((String) json_obj.get("profile_height"));
-//			baby_info_map.put("percentage", json_profile_height_obj.get("percentage"));//회원 API에서 받은 값으로 세팅
-//			baby_info_map.put("statement", json_profile_height_obj.get("statement"));
-//			baby_info_map.put("baby_weight_text", json_profile_height_obj.get("text"));
-//			
-//			baby_info_map.put("baby_weight_state", json_obj.get("state"));
-//			baby_info_map.put("baby_required_energy", json_obj.get("required_energy"));
+			
+			baby_info_map.put("baby_key", user_id);
+			baby_info_map.put("profile", response_json.get("profile"));
+			baby_info_map.put("profile_height", response_json.get("profile_height"));
+			baby_info_map.put("profile_weight", response_json.get("profile_weight"));
+			baby_info_map.put("profile_bmi", response_json.get("profile_bmi"));
+			baby_info_map.put("profile_dashboard", response_json.get("profile_dashboard"));
 						
 			logger.info("====================== userBabyInfo service end ======================");
 			return baby_info_map;

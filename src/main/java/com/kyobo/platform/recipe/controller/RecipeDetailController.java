@@ -36,9 +36,9 @@ public class RecipeDetailController {
 //    }
 	
 	// 레시피 상세 정보
-	@RequestMapping(value = "/recipeDetail/{recipe_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipeDetail/{recipe_key}/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
-	public String recipeDetail(@PathVariable("recipe_key") String recipe_key) {
+	public String recipeDetail(@PathVariable("recipe_key") String recipe_key, @PathVariable("user_id") String user_id) {
 		logger.info("====================== recipeDetail controller start ======================");
 		
 		String json_recipe_list = null;
@@ -46,7 +46,7 @@ public class RecipeDetailController {
 		Gson gson = new Gson();
 		
 		try {
-			Recipe recipe_detail_info = recipeDetailService.recipeDetail(recipe_key);
+			Recipe recipe_detail_info = recipeDetailService.recipeDetail(recipe_key, user_id);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

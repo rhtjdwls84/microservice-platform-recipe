@@ -30,6 +30,18 @@
 		<foreach collection="json_interest_array" item="json_interest_array" open="(" close=")" separator=",">
 			#{json_interest_array}
 		</foreach>	
+		ORDER BY rt.last_modified_datetime DESC
+		<choose>
+			<when test='more_yn == "Y"'>
+				LIMIT 20
+			</when>
+			<when test='more_yn == "N" and type == "custom"'>
+				LIMIT 3
+			</when>
+			<when test='more_yn == "N" and type == "body"'>
+				LIMIT 5
+			</when>
+        </choose>
 	</select>
 	
 	<!-- 레시피 리뷰 카운트 조회 -->
@@ -42,7 +54,7 @@
 	</select>
 	
 	<!-- 제철재료기반 메인 레시피 조회 -->
-	<select id="seasonIngredientBasedRecipeList" parameterType="java.lang.String" resultMap="interest_map">
+	<select id="seasonIngredientBasedRecipeList" parameterType="hashmap" resultMap="interest_map">
 		SELECT 
 			rt.*, 
 			COUNT(CASE WHEN rt.recipe_key = rrt.recipe_key THEN 1 END) AS recipe_review_total_count
@@ -56,7 +68,8 @@
 				rt.recipe_level,
 				rt.recipe_main_img_path,
 				(SELECT GROUP_CONCAT(recipe_tag_desc) FROM recipe_tag_tb WHERE recipe_key = rt.recipe_key) recipe_tag_desc,
-				rt.recipe_user_id
+				rt.recipe_user_id,
+				rt.last_modified_datetime
 			FROM recipe_tb rt
 			WHERE 1=1
 			AND rt.recipe_name LIKE CONCAT('%',#{season_ingredient},'%')
@@ -64,5 +77,14 @@
         ) rt LEFT OUTER JOIN recipe_review_tb rrt
         ON rt.recipe_key = rrt.recipe_key
         GROUP BY rt.recipe_key
+        ORDER BY rt.last_modified_datetime DESC
+        <choose>
+			<when test='more_yn == "Y"'>
+				LIMIT 20
+			</when>
+			<otherwise>
+				LIMIT 3
+			</otherwise>
+        </choose>	
 	</select>
 </mapper> 

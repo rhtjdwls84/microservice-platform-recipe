@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kyobo.platform.recipe.dao.RecipeIngredient;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
 import com.kyobo.platform.recipe.dao.RecipeReview;
+import com.kyobo.platform.recipe.dao.RecipeTag;
 import com.kyobo.platform.recipe.dao.Recipe;
 
 @Mapper
@@ -22,10 +23,10 @@ public interface RecipeDetailMapper {
 	int updateRecipeSearchCnt(String recipe_key);
 	
 	@Transactional
-	Recipe selectRecipeDetail(String recipe_key);
+	Recipe selectRecipeDetail(Recipe recipe);
 	
 	@Transactional
-	List<Map.Entry<String, Object>> selectRecipeTag(String recipe_key);
+	ArrayList<RecipeTag> selectRecipeTag(String recipe_key);
 	
 	@Transactional
 	ArrayList<RecipeIngredient> selectRecipeIngredient(String recipe_key);
@@ -40,10 +41,13 @@ public interface RecipeDetailMapper {
 	int insertRecipeReview(Recipe recipe);
 	
 	@Transactional
+	int deleteRecipeReview(Recipe recipe);
+	
+	@Transactional
 	int insertRecipeScrap(Recipe recipe);
 	
 	@Transactional
-	int updateRecipeScrap(Recipe recipe);
+	int deleteRecipeScrap(Recipe recipe);
 	
 	@Transactional
 	int updateRecipeScrapPlus(String recipe_key);

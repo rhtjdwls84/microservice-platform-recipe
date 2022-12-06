@@ -286,9 +286,10 @@ public class RecipeRegistController {
 	}
 		
 	// 레시피 베이스 재료 조회
-	@RequestMapping(value = "/listRecipeBaseIngredient/{recipe_ingredient_category}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/listRecipeBaseIngredient/{recipe_ingredient_category}", produces = "application/json; charset=UTF-8", 
+			method = RequestMethod.GET)
 	@ResponseBody
-	public String listRecipeBaseIngredient(@PathVariable("recipe_ingredient_category") String search_text) {
+	public String listRecipeBaseIngredient(@PathVariable("recipe_ingredient_category") String recipe_ingredient_category) {
 		logger.info("====================== listRecipeBaseIngredient controller start ======================");
 		
 		String json_recipe_list = null;
@@ -296,7 +297,7 @@ public class RecipeRegistController {
 		Gson gson = new Gson();
 		
 		try {
-			JSONObject recipe_base_ingredient_json = recipeRegistService.listRecipeBaseIngredient(search_text);
+			JSONObject recipe_base_ingredient_json = recipeRegistService.listRecipeBaseIngredient(recipe_ingredient_category);
 			
 			map.put("response_code", "200");
 			map.put("response_desc", "ok");

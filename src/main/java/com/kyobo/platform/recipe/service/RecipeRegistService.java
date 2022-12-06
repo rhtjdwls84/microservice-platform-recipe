@@ -3,12 +3,14 @@ package com.kyobo.platform.recipe.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -319,19 +321,23 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 베이스 재료 조회
-	public JSONObject listRecipeBaseIngredient(String recipe_ingredient_category) throws ParseException {
+	public JSONObject listRecipeBaseIngredient(String recipe_ingredient_category) throws ParseException, FileNotFoundException, IOException {
 		logger.info("====================== listRecipeBaseIngredient service start ======================");
-		
-		JSONObject response_json = null;
 		
 		// 베이스 재료 조회(ML 영역 호출)
 		HttpConfig httpConfig = new HttpConfig();
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("recipe_ingredient_category", recipe_ingredient_category);
-		String url = "/recipe/publish/tag";
+		JSONObject json_object = new JSONObject();
+		JSONObject response_json = null;
+		json_object.put("recipe_ingredient_category", recipe_ingredient_category);
+		
+		Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String ml_url = properties.getProperty("mlurl");
+		String url = ml_url + "/recipe/publish/tag";
 		String type = "POST";
 		
-//		response_json = httpConfig.callApi(jsonObject, url, type);
+		response_json = httpConfig.callApi(json_object, url, type);
 //		String ingredient_data = "{\r\n"
 //				+ "  \"result\": [{\r\n"
 //				+ "      \"ingredient_code\": \"4000001\",\r\n"
@@ -365,20 +371,24 @@ public class RecipeRegistService {
         return response_json;
     }
 	
-	// 레시피 베이스 재료 조회
-	public JSONObject listRecipeIngredient(String text) throws ParseException {
+	// 레시피 재료 조회
+	public JSONObject listRecipeIngredient(String text) throws ParseException, FileNotFoundException, IOException {
 		logger.info("====================== listRecipeBaseIngredient service start ======================");
-		
-		JSONObject response_json = null;
 		
 		// 베이스 재료 조회(ML 영역 호출)
 		HttpConfig httpConfig = new HttpConfig();
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("text", text);
-		String url = "/recipe/publish/search";
+		JSONObject json_object = new JSONObject();
+		JSONObject response_json = null;
+		json_object.put("text", text);
+		
+		Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String ml_url = properties.getProperty("mlurl");
+		String url = ml_url + "/recipe/publish/search";
 		String type = "POST";
 		
-//		response_json = httpConfig.callApi(jsonObject, url, type);
+		response_json = httpConfig.callApi(json_object, url, type);
 //			String ingredient_data = "{\r\n"
 //					+ "  \"result\": [{\r\n"
 //					+ "      \"ingredient_code\": \"4000001\",\r\n"
@@ -413,15 +423,15 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 업로드
-	public int recipeUpload(String recipe_key) throws org.json.simple.parser.ParseException {
+	public int recipeUpload(String recipe_key) throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
 		logger.info("====================== recipeUpload service start ======================");
 		
-		JSONObject response_json = null;
 		int result = 0;
 		
 		List<Map<String, Object>> recipe_ingredient_list = new ArrayList<Map<String, Object>>();
-		
-		Recipe recipe = recipeDetailMapper.selectRecipeDetail(recipe_key);
+		Recipe recipe = new Recipe();
+		recipe.setRecipe_key(recipe_key);
+		recipe = recipeDetailMapper.selectRecipeDetail(recipe);
 		ArrayList<RecipeIngredient> recipe_ingredient_arr_list = recipeDetailMapper.selectRecipeIngredient(recipe_key);
 		
 		for(int i = 0; i < recipe_ingredient_arr_list.size(); i++) {
@@ -438,18 +448,24 @@ public class RecipeRegistService {
 		}
 		
 		// 건강태그, 칼로리, 건강발달 업데이트(ML 영역 호출)
-//		HttpConfig httpConfig = new HttpConfig();
-//		JsonObject jsonObject = new JsonObject();
-//		jsonObject.addProperty("recipe_id", recipe.getRecipe_key());
-//		jsonObject.addProperty("recipe_category", recipe.getRecipe_category());
-//		jsonObject.addProperty("recipe_servingsize", recipe.getRecipe_servings());
-//		jsonObject.addProperty("created_datetime", recipe.getCreated_datetime());
-//		jsonObject.addProperty("last_modified_datetime", recipe.getLast_modified_datetime());
-//		jsonObject.addProperty("recipe_ingredient", recipe_ingredient_list.toString());
-//		String url = "/recipe/publish/info";
-//		String type = "POST";
-//		
-//		response_json = httpConfig.callApi(jsonObject, url, type);
+		HttpConfig httpConfig = new HttpConfig();
+		JSONObject json_object = new JSONObject();
+		JSONObject response_json = null;
+		json_object.put("recipe_key", recipe.getRecipe_key());
+		json_object.put("recipe_category", recipe.getRecipe_category());
+		json_object.put("recipe_servingsize", recipe.getRecipe_servings());
+		json_object.put("created_datetime", recipe.getCreated_datetime());
+		json_object.put("last_modified_datetime", recipe.getLast_modified_datetime());
+		json_object.put("recipe_ingredient", recipe_ingredient_list.toString());
+		
+		Properties properties = new Properties();
+        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+        
+        String ml_url = properties.getProperty("mlurl");
+		String url = ml_url + "/recipe/publish/info";
+		String type = "POST";
+		
+		response_json = httpConfig.callApi(json_object, url, type);
 		String health_data = "{\r\n"
 				+ "  \"recipe_key\": \"300001\",\r\n"
 				+ "  \"recipe_category\": \"밥/죽\",\r\n"
@@ -464,10 +480,10 @@ public class RecipeRegistService {
 		JSONParser health_parser = new JSONParser();
 		JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
 		
-		String[] recipe_health_tag = (String[]) json_health_obj.get("recipe_health_tag");
-		for(int i = 0; i < recipe_health_tag.length; i++) {
+		JSONArray recipe_health_tag = (JSONArray) json_health_obj.get("recipe_health_tag");
+		for(int i = 0; i < recipe_health_tag.size(); i++) {
 			recipe.setRecipe_tag_no(i + 1);
-			recipe.setRecipe_tag_desc(recipe_health_tag[i]);
+			recipe.setRecipe_tag_desc(recipe_health_tag.get(i).toString());
 			recipe.setRecipe_tag_type("건강태그");
 			
 			recipeRegistMapper.insertRecipeTag(recipe);
@@ -483,7 +499,7 @@ public class RecipeRegistService {
 			health_name = json_health_arr.get("health_name").toString();
 			health_arr[i] = health_name;
 		}
-		recipe.setRecipe_health_develop(health_arr.toString());
+		recipe.setRecipe_health_develop(Arrays.toString(health_arr));
 		
 		result = recipeRegistMapper.updateRecipeAnalysis(recipe);
 		

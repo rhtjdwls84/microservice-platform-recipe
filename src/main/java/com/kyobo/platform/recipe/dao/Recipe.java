@@ -46,6 +46,8 @@ public class Recipe {
     
     private String recipe_scrap_yn;
     
+    private String recipe_review_yn;
+    
     private String recipe_main_img_key_name;
 	
     private String recipe_main_img_path;
@@ -122,7 +124,7 @@ public class Recipe {
     private ArrayList<Map<String, Object>> recipe_nutrient_list = new ArrayList<Map<String, Object>>();
     
     // 레시피 태그 정보
-    private List<Map.Entry<String, Object>> recipe_tag_list = new ArrayList<Map.Entry<String,Object>>();
+    private ArrayList<RecipeTag> recipe_tag_list = new ArrayList<RecipeTag>();
     
     // 아이 알러지 정보
     private JSONArray json_allergy_array = new JSONArray();
