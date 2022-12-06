@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -102,22 +104,27 @@ public class Recipe {
     
     private String last_modified_datetime;
     
+    private String recipe_ingredient_babystep;
+    
     // 레시피 리뷰 카운트
     private HashMap<RecipeReview, Object> recipe_review_cnt_info = new HashMap<RecipeReview, Object>();
     
     // 레시피 작성자 정보
     private HashMap<RecipeWriter, Object> recipe_writer_info = new HashMap<RecipeWriter, Object>();
     
-    //레시피 섭취자제재료 정보(ML 연계)
+    // 레시피 섭취자제재료 정보(ML 연계)
     private ArrayList<Map<String, Object>> recipe_restriction_list = new ArrayList<Map<String, Object>>();
     
-    //레시피 알러지재료 정보(ML 연계)
+    // 레시피 알러지재료 정보(ML 연계)
     private ArrayList<Map<String, Object>> recipe_allergy_list = new ArrayList<Map<String, Object>>();
     
-    //레시피 영양소 정보(ML 연계)
+    // 레시피 영양소 정보(ML 연계)
     private ArrayList<Map<String, Object>> recipe_nutrient_list = new ArrayList<Map<String, Object>>();
     
-    //레시피 태그 정보
+    // 레시피 태그 정보
     private List<Map.Entry<String, Object>> recipe_tag_list = new ArrayList<Map.Entry<String,Object>>();
+    
+    // 아이 알러지 정보
+    private JSONArray json_allergy_array = new JSONArray();
 }
 
