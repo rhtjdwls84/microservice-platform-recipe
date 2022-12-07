@@ -1,7 +1,6 @@
 package com.kyobo.platform.recipe.controller;
 
 import java.util.LinkedHashMap;
-import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.kyobo.platform.recipe.dao.Recipe;
 import com.kyobo.platform.recipe.dao.RecipeReview;
-import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeDetailService;
 
 import ch.qos.logback.classic.Logger;
@@ -26,14 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeDetailController {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeDetailController.class);
 	
-//	private final RedisService redisService = new RedisService();
-	
 	private final RecipeDetailService recipeDetailService;
-	
-//	public String recipeRegist(@RequestBody RecipeRegist recipe) {
-		// Redis 세션체크
-//		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
-//    }
 	
 	// 레시피 상세 정보
 	@RequestMapping(value = "/recipeDetail/{recipe_key}/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)

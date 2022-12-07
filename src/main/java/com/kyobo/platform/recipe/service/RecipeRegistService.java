@@ -16,18 +16,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.jets3t.service.CloudFrontServiceException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +36,6 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.google.gson.JsonObject;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
 import com.kyobo.platform.recipe.config.HttpConfig;
 import com.kyobo.platform.recipe.dao.RecipeIngredient;
@@ -321,6 +317,7 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 베이스 재료 조회
+	@SuppressWarnings("unchecked")
 	public JSONObject listRecipeBaseIngredient(String recipe_ingredient_category) throws ParseException, FileNotFoundException, IOException {
 		logger.info("====================== listRecipeBaseIngredient service start ======================");
 		
@@ -366,12 +363,13 @@ public class RecipeRegistService {
 //		
 //		JSONArray json_ingredient_array = (JSONArray) json_ingredient_obj.get("result");
 //		List<Map<String, Object>> recipe_ingredient_list = new ArrayList<Map<String, Object>>();
-//        logger.info("recipe_base_ingredient_list : " + recipe_ingredient_list);
+//      logger.info("recipe_base_ingredient_list : " + recipe_ingredient_list);
         logger.info("====================== listRecipeBaseIngredient service end ======================");
         return response_json;
     }
 	
 	// 레시피 재료 조회
+	@SuppressWarnings("unchecked")
 	public JSONObject listRecipeIngredient(String text) throws ParseException, FileNotFoundException, IOException {
 		logger.info("====================== listRecipeBaseIngredient service start ======================");
 		
@@ -423,6 +421,7 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 업로드
+	@SuppressWarnings("unchecked")
 	public int recipeUpload(String recipe_key) throws org.json.simple.parser.ParseException, FileNotFoundException, IOException {
 		logger.info("====================== recipeUpload service start ======================");
 		
@@ -466,21 +465,21 @@ public class RecipeRegistService {
 		String type = "POST";
 		
 		response_json = httpConfig.callApi(json_object, url, type);
-		String health_data = "{\r\n"
-				+ "  \"recipe_key\": \"300001\",\r\n"
-				+ "  \"recipe_category\": \"밥/죽\",\r\n"
-				+ "  \"created_datetime\": \"2022-18-13 10:15:25\",\r\n"
-				+ "  \"recipe_health_tag\": [\"식이섬유풍부\", \"칼슘풍부\"],\r\n"
-				+ "  \"recipe_total_calory\": 500,\r\n"
-				+ "  \"health\": [{\r\n"
-				+ "    \"health_code\": \"HINT000001\",\r\n"
-				+ "    \"health_name\": \"모발\",\r\n"
-				+ "  }]\r\n"
-				+ "}";
-		JSONParser health_parser = new JSONParser();
-		JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
+//		String health_data = "{\r\n"
+//				+ "  \"recipe_key\": \"300001\",\r\n"
+//				+ "  \"recipe_category\": \"밥/죽\",\r\n"
+//				+ "  \"created_datetime\": \"2022-18-13 10:15:25\",\r\n"
+//				+ "  \"recipe_health_tag\": [\"식이섬유풍부\", \"칼슘풍부\"],\r\n"
+//				+ "  \"recipe_total_calory\": 500,\r\n"
+//				+ "  \"health\": [{\r\n"
+//				+ "    \"health_code\": \"HINT000001\",\r\n"
+//				+ "    \"health_name\": \"모발\",\r\n"
+//				+ "  }]\r\n"
+//				+ "}";
+//		JSONParser health_parser = new JSONParser();
+//		JSONObject json_health_obj = (JSONObject) health_parser.parse(health_data);
 		
-		JSONArray recipe_health_tag = (JSONArray) json_health_obj.get("recipe_health_tag");
+		JSONArray recipe_health_tag = (JSONArray) response_json.get("recipe_health_tag");
 		for(int i = 0; i < recipe_health_tag.size(); i++) {
 			recipe.setRecipe_tag_no(i + 1);
 			recipe.setRecipe_tag_desc(recipe_health_tag.get(i).toString());
@@ -488,15 +487,15 @@ public class RecipeRegistService {
 			
 			recipeRegistMapper.insertRecipeTag(recipe);
 		}
-		recipe.setRecipe_cal(Integer.parseInt(json_health_obj.get("recipe_total_calory").toString()));
-		JSONArray json_health_array = (JSONArray) json_health_obj.get("health");
+		recipe.setRecipe_cal(Integer.parseInt(response_json.get("recipe_total_calory").toString()));
+		JSONArray json_health_arr = (JSONArray) response_json.get("health");
 		String health_name = "";
-		String[] health_arr = new String[json_health_array.size()];
+		String[] health_arr = new String[json_health_arr.size()];
 		
-		for(int i = 0; i < json_health_array.size(); i++) {
-			JSONObject json_health_arr = (JSONObject) json_health_array.get(i);
+		for(int i = 0; i < json_health_arr.size(); i++) {
+			JSONObject json_health_obj = (JSONObject) json_health_arr.get(i);
 			
-			health_name = json_health_arr.get("health_name").toString();
+			health_name = json_health_obj.get("health_name").toString();
 			health_arr[i] = health_name;
 		}
 		recipe.setRecipe_health_develop(Arrays.toString(health_arr));

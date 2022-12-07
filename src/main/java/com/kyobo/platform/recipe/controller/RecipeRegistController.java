@@ -3,8 +3,6 @@ package com.kyobo.platform.recipe.controller;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -26,8 +24,6 @@ import com.google.gson.Gson;
 import com.kyobo.platform.recipe.dao.Recipe;
 import com.kyobo.platform.recipe.dao.RecipeIngredient;
 import com.kyobo.platform.recipe.dao.RecipeOrder;
-//import com.kyobo.platform.recipe.redis.RedisService;
-import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeRegistService;
 
 import ch.qos.logback.classic.Logger;
@@ -40,14 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeRegistController {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeRegistController.class);
 	
-//	private final RedisService redisService = new RedisService();
-	
 	private final RecipeRegistService recipeRegistService;
-	
-//	public String recipeRegist(@RequestBody RecipeRegist recipe) {
-		// Redis 세션체크
-//		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
-//    }
 	
 	// 레시피 기본정보 작성
 	@RequestMapping(value = "/recipeDefInfo", produces = "application/json; charset=UTF-8", method = RequestMethod.POST)

@@ -1,7 +1,6 @@
 package com.kyobo.platform.recipe.service;
 
 import java.io.FileInputStream;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Properties;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -70,6 +68,7 @@ public class RecipeMainService {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> recipeCustomBasedList(String user_id, String more_yn) {
 		logger.info("====================== recipeCustomBasedList service start ======================");
 		
@@ -206,6 +205,7 @@ public class RecipeMainService {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> noUserBodyBasedRecipeList(String gender, String birthday, String height, String weight) {
 		logger.info("====================== noUserBodyBasedRecipeList service start ======================");
 		
@@ -259,6 +259,7 @@ public class RecipeMainService {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> noUserAllergyBasedRecipeList(ArrayList<Map<String, Object>> baby_allergy_list) {
 		logger.info("====================== noUserAllergyBasedRecipeList service start ======================");
 		

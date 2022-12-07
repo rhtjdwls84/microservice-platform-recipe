@@ -5,19 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.kyobo.platform.recipe.config.GlobalExceptionHandler;
 import com.kyobo.platform.recipe.config.HttpConfig;
 import com.kyobo.platform.recipe.dao.RecipeIngredient;
@@ -124,34 +120,34 @@ public class RecipeDetailService {
 			
 			
 			response_json = httpConfig.callApi(json_object, url, type);
-			String json_data = "{\r\n"
-					+ "  \"recipe_key\": \"2000001\",\r\n"
-					+ "  \"baby_key\": \"2000001\",\r\n"
-					+ "  \"restriction\": [{\r\n"
-					+ "      \"ingredient_code\": \"4000001\",\r\n"
-					+ "      \"ingredient_name\": \"꿀\",\r\n"
-					+ "      \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/puppy.jpg\"\r\n"
-					+ "  }],\r\n"
-					+ "  \"allergy\": [{\r\n"
-					+ "      \"ingredient_code\": \"4000001\",\r\n"
-					+ "      \"ingredient_name\": \"꿀\"\r\n"
-					+ "      \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/puppy.jpg\",\r\n"
-					+ "      \"cause\": false\r\n"
-					+ "  }],\r\n"
-					+ "  \"nutrient\" : [{\r\n"
-					+ "      \"nutrient_code\": \"5001\",\r\n"
-					+ "      \"nutrient_name\": \"탄수화물\",\r\n"
-					+ "      \"nutrient_intake\": 50\r\n"
-					+ "  }],\r\n"
-					+ "  \"sugar\": 30,\r\n"
-					+ "  \"natrium\": 20\r\n"
-					+ "}";
-			JSONParser parser = new JSONParser();
-			JSONObject json_obj = (JSONObject) parser.parse(json_data);
+//			String json_data = "{\r\n"
+//					+ "  \"recipe_key\": \"2000001\",\r\n"
+//					+ "  \"baby_key\": \"2000001\",\r\n"
+//					+ "  \"restriction\": [{\r\n"
+//					+ "      \"ingredient_code\": \"4000001\",\r\n"
+//					+ "      \"ingredient_name\": \"꿀\",\r\n"
+//					+ "      \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/puppy.jpg\"\r\n"
+//					+ "  }],\r\n"
+//					+ "  \"allergy\": [{\r\n"
+//					+ "      \"ingredient_code\": \"4000001\",\r\n"
+//					+ "      \"ingredient_name\": \"꿀\"\r\n"
+//					+ "      \"image_url\": \"https://s3.ap-northeast-2.amazonaws.com/mybucket/puppy.jpg\",\r\n"
+//					+ "      \"cause\": false\r\n"
+//					+ "  }],\r\n"
+//					+ "  \"nutrient\" : [{\r\n"
+//					+ "      \"nutrient_code\": \"5001\",\r\n"
+//					+ "      \"nutrient_name\": \"탄수화물\",\r\n"
+//					+ "      \"nutrient_intake\": 50\r\n"
+//					+ "  }],\r\n"
+//					+ "  \"sugar\": 30,\r\n"
+//					+ "  \"natrium\": 20\r\n"
+//					+ "}";
+//			JSONParser parser = new JSONParser();
+//			JSONObject json_obj = (JSONObject) parser.parse(json_data);
 			
-			JSONArray json_restriction_array = (JSONArray) json_obj.get("restriction");
-			JSONArray json_allergy_array = (JSONArray) json_obj.get("allergy");
-			JSONArray json_nutrient_array = (JSONArray) json_obj.get("nutrient");
+			JSONArray json_restriction_array = (JSONArray) response_json.get("restriction");
+			JSONArray json_allergy_array = (JSONArray) response_json.get("allergy");
+			JSONArray json_nutrient_array = (JSONArray) response_json.get("nutrient");
 			ArrayList<Map<String, Object>> recipe_restriction_map_list = new ArrayList<Map<String, Object>>();
 			ArrayList<Map<String, Object>> recipe_allergy_map_list = new ArrayList<Map<String, Object>>();
 			ArrayList<Map<String, Object>> recipe_nutrient_map_list = new ArrayList<Map<String, Object>>();
@@ -202,13 +198,13 @@ public class RecipeDetailService {
 			
 			LinkedHashMap<String, Object> recipe_sugar_map = new LinkedHashMap<>();
 			recipe_sugar_map.put("recipe_nutrient_name", "sugar");
-			recipe_sugar_map.put("recipe_nutrient_quantity", json_obj.get("sugar"));
+			recipe_sugar_map.put("recipe_nutrient_quantity", response_json.get("sugar"));
 			
 			recipe_nutrient_map_list.add(recipe_sugar_map);
 			
 			LinkedHashMap<String, Object> recipe_natrium_map = new LinkedHashMap<>();
 			recipe_natrium_map.put("recipe_nutrient_name", "natrium");
-			recipe_natrium_map.put("recipe_nutrient_quantity", json_obj.get("natrium"));
+			recipe_natrium_map.put("recipe_nutrient_quantity", response_json.get("natrium"));
 			
 			recipe_nutrient_map_list.add(recipe_natrium_map);
 			

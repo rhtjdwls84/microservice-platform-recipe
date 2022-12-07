@@ -3,7 +3,6 @@ package com.kyobo.platform.recipe.controller;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-//import com.kyobo.platform.recipe.redis.RedisService;
-import com.kyobo.platform.recipe.redis.RedisUser;
 import com.kyobo.platform.recipe.service.RecipeSearchService;
 
 import ch.qos.logback.classic.Logger;
@@ -26,14 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeSearchController {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeSearchController.class);
 	
-//	private final RedisService redisService = new RedisService();
-	
 	private final RecipeSearchService recipeSearchService;
-	
-//	public String recipeRegist(@RequestBody RecipeRegist recipeRegist) {
-		// Redis 세션체크
-//		Optional<RedisUser> redisUser = redisService.redisGetSession(id);
-//    }
 	
 	// 레시피 검색 조회
 	@RequestMapping(value = "/searchRecipe", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
