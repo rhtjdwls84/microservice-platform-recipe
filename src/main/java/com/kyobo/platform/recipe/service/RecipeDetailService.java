@@ -1,8 +1,8 @@
 package com.kyobo.platform.recipe.service;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class RecipeDetailService {
 	
 	private final RecipeDetailMapper recipeDetailMapper;
 	
-	private String pre_path = "src\\main\\resources\\";
+	private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
 	
 	@SuppressWarnings("unchecked")
 	public Recipe recipeDetail(String recipe_key, String user_id) throws ParseException, FileNotFoundException, IOException {
@@ -112,7 +112,8 @@ public class RecipeDetailService {
 			json_object.put("baby_allergy", baby_allergy_list);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recipe/content";

@@ -2,11 +2,12 @@ package com.kyobo.platform.recipe.service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class RecipeRegistService {
      * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
      * openssl pkcs8 -topk8 -nocrypt -in pk8-APKAZ3MKOJFETMDPAWV6.pem -inform PEM -out pk8-APKAZ3MKOJFETMDPAWV6.der -outform DER
      */
-    private String pre_path = "src\\main\\resources\\";
+    private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
     
 	public String recipeDefInfo(Recipe recipe) {
 		logger.info("====================== recipeDefInfo service start ======================");
@@ -175,7 +176,7 @@ public class RecipeRegistService {
 	
 	// 레시피 이미지 업로드
 	public List<Map<String, Object>> recipeImageUpload(List<MultipartFile> multipartFiles, String recipe_key, String recipe_image_type)
-			throws IOException, AmazonServiceException, SdkClientException, CloudFrontServiceException, ParseException {
+			throws IOException, AmazonServiceException, SdkClientException, CloudFrontServiceException, ParseException, URISyntaxException {
 		logger.info("====================== recipeImageUpload service start ======================");
 		
 		List<Map<String, Object>> recipe_image_url_list = new ArrayList<Map<String, Object>>();
@@ -187,12 +188,11 @@ public class RecipeRegistService {
 		
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+    	URL url = new URL(properties_url);
+        properties.load(url.openStream());
         
         String recipe_image_bucket = properties.getProperty("recipeImageBucket");
-        
-        // s3 업로드
-        AmazonS3 amazonS3 = aws_config.amazonS3(region);
+        String distributionDomain = properties.getProperty("distributionDomain");
         
         ObjectMetadata objMeta = new ObjectMetadata();
         
@@ -248,23 +248,26 @@ public class RecipeRegistService {
             os.close();
             ios.close();
             writer.dispose();
+
+            // s3 업로드
+            AmazonS3 amazonS3 = aws_config.amazonS3(region);
             
             amazonS3.putObject(new PutObjectRequest(recipe_image_bucket, recipe_image_prefix + recipe_image_key_name, recipe_image_file));
             
             recipe_image_file.delete();
             
             if(recipe_image_type.equals("recipe")) {
-            	recipe_image_url_map.put("recipe_image_signed_url_" + index, recipe_image_prefix + recipe_image_key_name);
+            	recipe_image_url_map.put("recipe_image_signed_url_" + index, distributionDomain + recipe_image_prefix + recipe_image_key_name);
                 recipe_image_url_map.put("recipe_image_key_name_" + index, recipe_image_key_name);
             } else if(recipe_image_type.equals("order")) {
-            	recipe_image_url_map.put("recipe_image_signed_url", recipe_image_prefix + recipe_image_key_name);
+            	recipe_image_url_map.put("recipe_image_signed_url", distributionDomain + recipe_image_prefix + recipe_image_key_name);
                 recipe_image_url_map.put("recipe_image_key_name", recipe_image_key_name);
                 recipe_image_url_map.put("index", index + 1);
             }
             recipe_image_url_map.put("recipe_key", recipe_key);
             
             
-            logger.info("recipe_image_signed_url : " + recipe_image_prefix + recipe_image_key_name);
+            logger.info("recipe_image_signed_url : " + distributionDomain + recipe_image_prefix + recipe_image_key_name);
             logger.info("recipe_image_key_name : " + recipe_image_key_name);
             
             recipe_image_url_list.add(recipe_image_url_map);
@@ -328,7 +331,8 @@ public class RecipeRegistService {
 		json_object.put("recipe_ingredient_category", recipe_ingredient_category);
 		
 		Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+		URL property_url = new URL(properties_url);
+        properties.load(property_url.openStream());
         
         String ml_url = properties.getProperty("mlurl");
 		String url = ml_url + "/recipe/publish/tag";
@@ -380,7 +384,8 @@ public class RecipeRegistService {
 		json_object.put("text", text);
 		
 		Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+		URL property_url = new URL(properties_url);
+        properties.load(property_url.openStream());
         
         String ml_url = properties.getProperty("mlurl");
 		String url = ml_url + "/recipe/publish/search";
@@ -458,7 +463,8 @@ public class RecipeRegistService {
 		json_object.put("recipe_ingredient", recipe_ingredient_list.toString());
 		
 		Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+		URL property_url = new URL(properties_url);
+        properties.load(property_url.openStream());
         
         String ml_url = properties.getProperty("mlurl");
 		String url = ml_url + "/recipe/publish/info";

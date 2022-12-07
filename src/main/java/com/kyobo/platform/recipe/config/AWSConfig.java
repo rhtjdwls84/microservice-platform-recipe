@@ -1,8 +1,9 @@
 package com.kyobo.platform.recipe.config;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.Security;
 import java.text.ParseException;
 import java.util.Properties;
@@ -33,7 +34,7 @@ public class AWSConfig {
      * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
      * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
      */
-    private String pre_path = "src\\main\\resources\\";
+    private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
     
     private byte[] derPrivateKey;
     
@@ -42,14 +43,15 @@ public class AWSConfig {
     //s3 사용을 위한 인증
 	public AmazonS3 amazonS3(String region) throws FileNotFoundException, IOException {
     	logger.info("====================== amazonS3 start ======================");
-    	//cloudfront 사용을 위한 인증 properties 파일 로드
+    	// 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+    	URL url = new URL(properties_url);
+        properties.load(url.openStream());
         
         String accessKey = properties.getProperty("accessKey");
         String secretKey = properties.getProperty("secretKey");
-        
-    	AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
     	
     	//Amazon S3
     	amazonS3 = AmazonS3ClientBuilder.standard()
@@ -62,14 +64,20 @@ public class AWSConfig {
     	return amazonS3;
 	}
     
-    public void CloudFrontManager() throws IOException {
+    public void CloudFrontManager() throws IOException, URISyntaxException {
     	logger.info("====================== CloudFrontManager start ======================");
+    	
     	Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+    	URL url = new URL(properties_url);
+    	properties.load(url.openStream());
         
         String privateKeyFile = properties.getProperty("privateKeyFile");
+        String privateKeyUrl = properties.getProperty("privateKeyUrl");
         logger.info("privateKeyFile ====================== {} =========================", privateKeyFile);
-        derPrivateKey = ServiceUtils.readInputStreamToBytes(new FileInputStream(pre_path + privateKeyFile));
+        
+        URL private_key_url = new URL(privateKeyUrl);
+//        derPrivateKey = ServiceUtils.readInputStreamToBytes(new FileInputStream(file));
+        derPrivateKey = ServiceUtils.readInputStreamToBytes(private_key_url.openStream());
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         logger.info("====================== CloudFrontManager end ======================");
     }
@@ -78,9 +86,10 @@ public class AWSConfig {
     public String createSignedUrlCanned(String s3FileName, String sign_time) 
     		throws ParseException, CloudFrontServiceException, FileNotFoundException, IOException {
     	logger.info("====================== createSignedUrlCanned start ======================");
-    	//cloudfront 사용을 위한 인증 properties 파일 로드
+    	// cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+    	URL url = new URL(properties_url);
+    	properties.load(url.openStream());
         
         String distributionDomain = properties.getProperty("distributionDomain");
         String keyPairId = properties.getProperty("keyPairId");
@@ -104,7 +113,9 @@ public class AWSConfig {
     	logger.info("====================== createCustomSingedUrl start ======================");
     	//cloudfront 사용을 위한 인증 properties 파일 로드
     	Properties properties = new Properties();
-        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+    	URL url = new URL(properties_url);
+    	properties.load(url.openStream());
+//        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
         
         String distributionDomain = properties.getProperty("distributionDomain");
         String keyPairId = properties.getProperty("keyPairId");

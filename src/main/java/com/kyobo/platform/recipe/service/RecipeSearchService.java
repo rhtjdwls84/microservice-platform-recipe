@@ -20,8 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class RecipeSearchService {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeSearchService.class);
 	
-//	private final RecipeListRepository recipeListRepository;
-	
 	private final RecipeSearchMapper recipeSearchMapper;
 	
 	// 레시피 검색 조회

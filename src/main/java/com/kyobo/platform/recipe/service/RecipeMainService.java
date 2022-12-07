@@ -1,6 +1,6 @@
 package com.kyobo.platform.recipe.service;
 
-import java.io.FileInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeMainService {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeMainService.class);
 	
-	private String pre_path = "src\\main\\resources\\";
+	private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
 	
 	private final RecipeMainMapper recipeMainMapper;
 	
@@ -105,7 +105,8 @@ public class RecipeMainService {
 			json_object.put("baby_concern_tag", baby_concern_list);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recsys/recipe/custom";
@@ -167,7 +168,8 @@ public class RecipeMainService {
 			json_object.put("baby", baby_map);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recsys/recipe/bodyinfo";
@@ -224,7 +226,8 @@ public class RecipeMainService {
 			json_object.put("baby", baby_map);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recsys/recipe/bodyinfo";
@@ -280,7 +283,8 @@ public class RecipeMainService {
 			json_object.put("baby_allergy", baby_allergy_list);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recsys/recipe/custom";
@@ -337,7 +341,8 @@ public class RecipeMainService {
 			json_object.put("baby_concern_tag", baby_concern_list);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/recsys/recipe/custom";
@@ -413,7 +418,8 @@ public class RecipeMainService {
 			json_object.put("baby", baby_map);
 			
 			Properties properties = new Properties();
-	        properties.load(new FileInputStream(pre_path + "awsAuth.properties"));
+			URL property_url = new URL(properties_url);
+	        properties.load(property_url.openStream());
 	        
 	        String ml_url = properties.getProperty("mlurl");
 			String url = ml_url + "/infant/profile";
