@@ -43,7 +43,7 @@
 					GROUP_CONCAT(recipe_select_review) 
 				FROM recipe_review_tb 
 				WHERE recipe_key = rt.recipe_key 
-				AND recipe_review_user_id = #{recipe_user_id}
+				AND recipe_review_user_key = #{recipe_user_key}
 			) recipe_select_review,
 			rt.recipe_temp_step,
 			rt.created_datetime,
@@ -51,7 +51,7 @@
 		FROM recipe_tb rt 
 		LEFT OUTER JOIN recipe_scrap_tb rst
 		ON rt.recipe_key = rst.recipe_key
-		AND rst.recipe_scrap_user_id = #{recipe_user_id}
+		AND rst.recipe_scrap_user_key = #{recipe_user_key}
 		WHERE 
 			rt.recipe_key = #{recipe_key}
 	</select>
@@ -142,13 +142,13 @@
 		INSERT INTO recipe_review_tb (
 			recipe_key, 
 			recipe_select_review, 
-			recipe_review_user_id, 
+			recipe_review_user_key, 
 			created_datetime, 
 			last_modified_datetime
 		) VALUES (
 			#{recipe_key}, 
 			#{recipe_select_review}, 
-			#{recipe_user_id}, 
+			#{recipe_user_key}, 
 			NOW(), 
 			NOW()
 		)
@@ -160,7 +160,7 @@
         WHERE 
         	recipe_key = #{recipe_key}
         AND
-        	recipe_review_user_id = #{recipe_user_id}
+        	recipe_review_user_key = #{recipe_user_key}
         AND
         	recipe_select_review = #{recipe_select_review}
 	</update>
@@ -169,13 +169,13 @@
 	<insert id="insertRecipeScrap" parameterType="com.kyobo.platform.recipe.dao.Recipe">
 		INSERT INTO recipe_scrap_tb (
 			recipe_key,
-			recipe_scrap_user_id,
+			recipe_scrap_user_key,
 			recipe_scrap_yn, 
 			created_datetime, 
 			last_modified_datetime
 		) VALUES (
 			#{recipe_key}, 
-			#{recipe_user_id},
+			#{recipe_user_key},
 			#{recipe_scrap_yn}, 
 			NOW(), 
 			NOW()
@@ -197,7 +197,7 @@
         WHERE 
         	recipe_key = #{recipe_key}
         AND
-        	recipe_scrap_user_id = #{recipe_user_id}
+        	recipe_scrap_user_key = #{recipe_user_key}
 	</update>
 	
 	<!-- 레시피 스크랩수 -1 카운트 -->

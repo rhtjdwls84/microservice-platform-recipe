@@ -15,10 +15,17 @@
 				rt.recipe_view_cnt,
 				rt.recipe_scrap_cnt,
 				rt.recipe_main_img_path,
-				rt.recipe_user_id,
+				rt.recipe_user_key,
 				rt.recipe_babyfood_step,
 				rmt.recipe_ingredient_babystep,
-				rmt.recipe_ingredient_allergy_category
+				rmt.recipe_ingredient_allergy_category,
+				rt.last_modified_datetime,
+				(
+					SELECT 
+						COUNT(*)
+					FROM recipe_review_tb 
+					WHERE recipe_key = rt.recipe_key
+				) recipe_review_cnt
 			FROM recipe_tb rt LEFT OUTER JOIN recipe_ingredient_tb rmt
 			ON rt.recipe_key = rmt.recipe_key
 			WHERE 1=1
@@ -66,6 +73,7 @@
 			AND A.recipe_ingredient_babystep <![CDATA[<=]]> #{recipe_ingredient_babystep} 
 		</if>
 		GROUP BY A.recipe_key	
+		ORDER BY A.recipe_scrap_cnt DESC, A.recipe_view_cnt DESC, A.recipe_review_cnt DESC
 	</select>
 	
 	<!-- 레시피 태그 검색 조회 -->
@@ -78,12 +86,73 @@
 			rt.recipe_view_cnt,
 			rt.recipe_scrap_cnt,
 			rt.recipe_main_img_path,
-			rt.recipe_user_id
+			rt.recipe_user_key
 		FROM recipe_tb rt LEFT OUTER JOIN recipe_tag_tb rtt
 		ON rt.recipe_key = rtt.recipe_key
 		WHERE 1=1
 		<if test='recipe_tag_desc != null and recipe_tag_desc != ""'>
 			AND rtt.recipe_tag_desc LIKE CONCAT('%',#{recipe_tag_desc},'%')
 		</if>
-	</select>	
+		ORDER BY rt.last_modified_datetime DESC
+	</select>
+	
+	<!-- 유저가 작성한 레시피 조회 -->
+	<select id="selectListUserWriteRecipe" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
+		SELECT 
+			rt.recipe_key, 
+			rt.recipe_name,
+			rt.recipe_desc,
+			rt.recipe_view_cnt,
+			rt.recipe_scrap_cnt,
+			rt.recipe_main_img_path,
+			(
+				SELECT 
+					GROUP_CONCAT(recipe_tag_desc) 
+				FROM recipe_tag_tb 
+				WHERE recipe_key = rt.recipe_key
+				AND recipe_tag_type = '건강태그'
+			) recipe_tag_desc,
+			rt.recipe_check_status
+		FROM recipe_tb rt
+		WHERE 1=1
+		AND recipe_user_key = #{user_key}
+		ORDER BY
+		FIELD(recipe_check_status, '임시저장', '검수중', '반려', '전시') DESC,
+		last_modified_datetime DESC
+	</select>
+	
+	<!-- 유저가 스크랩한 레시피 조회 -->
+	<select id="selectListUserScrapRecipe" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
+		SELECT 
+			rt.recipe_key, 
+			rt.recipe_name,
+			rt.recipe_desc,
+			rt.recipe_view_cnt,
+			rt.recipe_scrap_cnt,
+			rt.recipe_main_img_path,
+			(
+				SELECT 
+					GROUP_CONCAT(recipe_tag_desc) 
+				FROM recipe_tag_tb 
+				WHERE recipe_key = rt.recipe_key
+				AND recipe_tag_type = '건강태그'
+			) recipe_tag_desc,
+			rt.recipe_check_status
+		FROM recipe_tb rt JOIN recipe_scrap_tb rst
+		ON rst.recipe_scrap_user_key = #{user_key}
+		AND rt.recipe_key = rst.recipe_key
+        GROUP BY rt.recipe_key
+		ORDER BY FIELD(rt.recipe_check_status, '임시저장', '검수중', '반려', '전시') DESC, rt.last_modified_datetime DESC
+	</select>
+	
+	<!-- 유저 레시피 정보 -->
+	<select id="selectUserRecipe" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
+		SELECT 
+			COUNT(DISTINCT recipe_key) write_recipe_count,
+			(SELECT COUNT(DISTINCT recipe_key) FROM recipe_scrap_tb WHERE recipe_scrap_user_key = #{user_key}) scrap_recipe_count,
+			(SELECT COUNT(*) FROM recipe_review_tb WHERE recipe_review_user_key = #{user_key}) review_recipe_count
+		FROM recipe_tb
+		WHERE 1=1
+		AND recipe_user_key = #{user_key}
+	</select>
 </mapper> 

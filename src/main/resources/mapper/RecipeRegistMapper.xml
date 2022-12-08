@@ -7,7 +7,7 @@
         	recipe_name, 
         	recipe_desc, 
         	recipe_category,
-        	recipe_user_id,
+        	recipe_user_key,
         	recipe_expose_yn, 
         	recipe_check_status, 
         	recipe_temp_step, 
@@ -17,7 +17,7 @@
         	#{recipe_name}, 
         	#{recipe_desc}, 
         	#{recipe_category},
-        	#{recipe_user_id},	
+        	#{recipe_user_key},	
         	'N', 
         	#{recipe_check_status}, 
         	#{recipe_temp_step}, 
@@ -224,7 +224,7 @@
 		SELECT recipe_key
 		FROM recipe_tb
 		WHERE 
-			recipe_user_id = #{user_id}
+			recipe_user_key = #{user_key}
 		ORDER BY last_modified_datetime DESC
 		LIMIT 1
 	</select>

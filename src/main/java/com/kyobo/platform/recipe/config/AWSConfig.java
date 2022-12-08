@@ -34,7 +34,7 @@ public class AWSConfig {
      * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
      * openssl pkcs8 -topk8 -nocrypt -in origin.pem -inform PEM -out new.der -outform DER
      */
-    private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
+    private String properties_url = "https://kyobo-common-bucket.s3.ap-northeast-2.amazonaws.com/awsAuth.properties";
     
     private byte[] derPrivateKey;
     

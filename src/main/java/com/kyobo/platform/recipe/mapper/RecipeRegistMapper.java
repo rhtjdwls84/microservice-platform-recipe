@@ -46,7 +46,7 @@ public interface RecipeRegistMapper {
 	int updateRecipeStatus(Recipe recipe);
 	
 	@Transactional
-	String selectCheckRecipeTempSave(String user_id);
+	String selectCheckRecipeTempSave(String user_key);
 	
 	@Transactional
 	int deleteRecipeTempSave(String recipe_key);

@@ -1,5 +1,6 @@
 package com.kyobo.platform.recipe.mapper;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,13 @@ public interface RecipeSearchMapper {
 	
 	@Transactional
 	List<Map.Entry<String, Object>> selectListSearchRecipeTag(Recipe recipe);
+	
+	@Transactional
+	List<Map.Entry<String, Object>> selectListUserWriteRecipe(String user_key);
+	
+	@Transactional
+	List<Map.Entry<String, Object>> selectListUserScrapRecipe(String user_key);
+	
+	@Transactional
+	LinkedHashMap<String, Object> selectUserRecipe(String user_key);
 }

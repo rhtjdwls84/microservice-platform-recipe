@@ -46,14 +46,19 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			String recipe_key = recipeRegistService.recipeDefInfo(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_key", recipe_key);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_key", recipe_key);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -61,8 +66,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -79,14 +86,19 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			recipe_key = recipeRegistService.recipeAddInfo(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_key", recipe_key);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_key", recipe_key);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -94,8 +106,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -114,6 +128,8 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		
 		Recipe recipe = new Recipe();
 		ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
@@ -128,9 +144,12 @@ public class RecipeRegistController {
 		try {
 			recipe_key = recipeRegistService.recipeIngredientInfo(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_key", recipe_key);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_key", recipe_key);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -138,8 +157,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -157,6 +178,8 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		Recipe recipe = new Recipe();
@@ -169,9 +192,12 @@ public class RecipeRegistController {
 		try {
 			recipe_key = recipeRegistService.recipeOrderInfo(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_key", recipe_key);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_key", recipe_key);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -179,8 +205,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -210,21 +238,26 @@ public class RecipeRegistController {
     }
 	
 	// 레시피 임시저장 체크
-	@RequestMapping(value = "/checkRecipeTempSave/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkRecipeTempSave/{user_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
-	public String checkRecipeTempSave(@PathVariable("user_id") String user_id) {
+	public String checkRecipeTempSave(@PathVariable("user_key") String user_key) {
 		logger.info("====================== checkRecipeTempSave controller start ======================");
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			String recipe_key = recipeRegistService.CheckRecipeTempSave(user_id);
+			String recipe_key = recipeRegistService.CheckRecipeTempSave(user_key);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_key", recipe_key);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_key", recipe_key);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -232,8 +265,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -243,20 +278,23 @@ public class RecipeRegistController {
 	}
 	
 	// 레시피 임시저장 삭제(새로작성시)
-	@RequestMapping(value = "/deleteRecipeTempSave/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteRecipeTempSave/{user_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.DELETE)
 	@ResponseBody
-	public String deleteRecipeTempSave(@PathVariable("user_id") String user_id) {
+	public String deleteRecipeTempSave(@PathVariable("user_key") String user_key) {
 		logger.info("====================== deleteRecipeTempSave controller start ======================");
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			recipeRegistService.deleteRecipeTempSave(user_id);
+			recipeRegistService.deleteRecipeTempSave(user_key);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -264,8 +302,10 @@ public class RecipeRegistController {
 			return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -283,14 +323,19 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			JSONObject recipe_base_ingredient_json = recipeRegistService.listRecipeBaseIngredient(recipe_ingredient_category);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_base_ingredient_json", recipe_base_ingredient_json);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_base_ingredient_json", recipe_base_ingredient_json);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -298,8 +343,10 @@ public class RecipeRegistController {
 			return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -316,14 +363,19 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			JSONObject recipe_ingredient_json = recipeRegistService.listRecipeIngredient(text);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_ingredient_json", recipe_ingredient_json);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_ingredient_json", recipe_ingredient_json);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -331,8 +383,10 @@ public class RecipeRegistController {
 			return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -349,13 +403,16 @@ public class RecipeRegistController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			recipeRegistService.recipeUpload(recipe_key);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -363,8 +420,10 @@ public class RecipeRegistController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			

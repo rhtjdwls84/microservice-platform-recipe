@@ -27,21 +27,26 @@ public class RecipeDetailController {
 	private final RecipeDetailService recipeDetailService;
 	
 	// 레시피 상세 정보
-	@RequestMapping(value = "/recipeDetail/{recipe_key}/{user_id}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipeDetail/{recipe_key}/{user_key}", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	@ResponseBody
-	public String recipeDetail(@PathVariable("recipe_key") String recipe_key, @PathVariable("user_id") String user_id) {
+	public String recipeDetail(@PathVariable("recipe_key") String recipe_key, @PathVariable("user_key") String user_key) {
 		logger.info("====================== recipeDetail controller start ======================");
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
-			Recipe recipe_detail_info = recipeDetailService.recipeDetail(recipe_key, user_id);
+			Recipe recipe_detail_info = recipeDetailService.recipeDetail(recipe_key, user_key);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_detail_info", recipe_detail_info);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_detail_info", recipe_detail_info);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -51,6 +56,8 @@ public class RecipeDetailController {
 			e.printStackTrace();
 			map.put("response_code", "500");
 			map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -67,14 +74,19 @@ public class RecipeDetailController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> body_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			LinkedHashMap<RecipeReview, Object> recipe_review_cnt_info = recipeDetailService.registRecipeReview(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
-			map.put("recipe_review_cnt_info", recipe_review_cnt_info);
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
+			body_map.put("recipe_review_cnt_info", recipe_review_cnt_info);
+			
+			map.put("dataheader", header_map);
+			map.put("databody", body_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -82,8 +94,10 @@ public class RecipeDetailController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -100,13 +114,14 @@ public class RecipeDetailController {
 		
 		String json_recipe_list = null;
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> header_map = new LinkedHashMap<String, Object>();
 		Gson gson = new Gson();
 		
 		try {
 			recipeDetailService.registRecipeScrap(recipe);
 			
-			map.put("response_code", "200");
-			map.put("response_desc", "ok");
+			header_map.put("response_code", "200");
+			header_map.put("response_desc", "ok");
 			
 			json_recipe_list = gson.toJson(map);
 			
@@ -114,8 +129,10 @@ public class RecipeDetailController {
 	        return json_recipe_list;
 		} catch(Exception e) {
 			e.printStackTrace();
-			map.put("response_code", "500");
-			map.put("response_desc", e);
+			header_map.put("response_code", "500");
+			header_map.put("response_desc", e);
+			
+			map.put("dataheader", header_map);
 			
 			json_recipe_list = gson.toJson(map);
 			

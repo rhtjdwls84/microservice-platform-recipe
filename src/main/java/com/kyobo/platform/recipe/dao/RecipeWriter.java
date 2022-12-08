@@ -13,7 +13,7 @@ import lombok.Setter;
 @Data
 public class RecipeWriter {
 	
-	private String recipe_user_id;
+	private String recipe_user_key;
 	
 	private String recipe_writer_nickname;
 	

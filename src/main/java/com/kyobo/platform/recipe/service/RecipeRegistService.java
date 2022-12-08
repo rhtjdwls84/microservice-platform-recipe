@@ -69,7 +69,7 @@ public class RecipeRegistService {
      * openssl rsa -pubout -in pk8-APKAZ3MKOJFETMDPAWV6.pem -out rsa-APKAZ3MKOJFETMDPAWV6.pem
      * openssl pkcs8 -topk8 -nocrypt -in pk8-APKAZ3MKOJFETMDPAWV6.pem -inform PEM -out pk8-APKAZ3MKOJFETMDPAWV6.der -outform DER
      */
-    private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
+    private String properties_url = "https://kyobo-common-bucket.s3.ap-northeast-2.amazonaws.com/awsAuth.properties";
     
 	public String recipeDefInfo(Recipe recipe) {
 		logger.info("====================== recipeDefInfo service start ======================");
@@ -288,10 +288,10 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 임시저장 체크
-	public String CheckRecipeTempSave(String user_id) {
+	public String CheckRecipeTempSave(String user_key) {
 		logger.info("====================== CheckRecipeTempSave service start ======================");
 		
-		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_id);
+		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_key);
         
         logger.info("recipe_key : " + recipe_key);
         logger.info("====================== CheckRecipeTempSave service end ======================");
@@ -299,11 +299,11 @@ public class RecipeRegistService {
     }
 	
 	// 레시피 임시저장 삭제
-	public int deleteRecipeTempSave(String user_id) {
+	public int deleteRecipeTempSave(String user_key) {
 		logger.info("====================== deleteRecipeTempSave service start ======================");
 		
 		// 로그인 사용자의 임시저장된 레시피가 있는지 조회하여 recipe_key return
-		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_id);
+		String recipe_key = recipeRegistMapper.selectCheckRecipeTempSave(user_key);
 		int result = 0;
 		
 		result = recipeRegistMapper.deleteRecipeIngredientInfo(recipe_key);
@@ -509,7 +509,7 @@ public class RecipeRegistService {
 		result = recipeRegistMapper.updateRecipeAnalysis(recipe);
 		
 		if(result > 0) {
-			recipe.setRecipe_check_status("검수대기");
+			recipe.setRecipe_check_status("검수중");
 			recipe.setRecipe_temp_step("완료");
 			recipe.setRecipe_key(recipe_key);
 			recipeRegistMapper.updateRecipeStatus(recipe);

@@ -61,4 +61,42 @@ public class RecipeSearchService {
         logger.info("====================== searchRecipe service end ======================");
         return recipe_list;
     }
+	
+	public Map<String, Object> searchUserRecipe(String user_key) {
+		logger.info("====================== searchUserRecipe service start ======================");
+		
+		LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
+		List<Map.Entry<String, Object>> recipe_writer_list = recipe_map.entrySet().stream().collect(Collectors.toList());
+		List<Map.Entry<String, Object>> recipe_scrap_list = recipe_map.entrySet().stream().collect(Collectors.toList());
+		LinkedHashMap<String, Object> user_recipe_map = new LinkedHashMap<>();
+		
+		recipe_writer_list = recipeSearchMapper.selectListUserWriteRecipe(user_key);
+		recipe_scrap_list = recipeSearchMapper.selectListUserScrapRecipe(user_key);
+		user_recipe_map = recipeSearchMapper.selectUserRecipe(user_key);
+		
+		recipe_map.put("recipe_write_list", recipe_writer_list);
+		recipe_map.put("recipe_scrap_list", recipe_scrap_list);
+		recipe_map.put("write_recipe_count", user_recipe_map.get("write_recipe_count"));
+		recipe_map.put("scrap_recipe_count", user_recipe_map.get("scrap_recipe_count"));
+		recipe_map.put("review_recipe_count", user_recipe_map.get("review_recipe_count"));
+		
+        logger.info("recipe_map : " + recipe_map);
+        logger.info("====================== searchUserRecipe service end ======================");
+        return recipe_map;
+    }
+	
+	public Map<String, Object> searchStrangerRecipe(String user_key) {
+		logger.info("====================== searchUserRecipe service start ======================");
+		
+		LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
+		List<Map.Entry<String, Object>> recipe_writer_list = recipe_map.entrySet().stream().collect(Collectors.toList());
+		
+		recipe_writer_list = recipeSearchMapper.selectListUserWriteRecipe(user_key);
+		
+		recipe_map.put("recipe_write_list", recipe_writer_list);
+		
+        logger.info("recipe_map : " + recipe_map);
+        logger.info("====================== searchUserRecipe service end ======================");
+        return recipe_map;
+    }
 }

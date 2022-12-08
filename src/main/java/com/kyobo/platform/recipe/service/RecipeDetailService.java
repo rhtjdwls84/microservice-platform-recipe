@@ -33,10 +33,10 @@ public class RecipeDetailService {
 	
 	private final RecipeDetailMapper recipeDetailMapper;
 	
-	private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
+	private String properties_url = "https://kyobo-common-bucket.s3.ap-northeast-2.amazonaws.com/awsAuth.properties";
 	
 	@SuppressWarnings("unchecked")
-	public Recipe recipeDetail(String recipe_key, String user_id) throws ParseException, FileNotFoundException, IOException {
+	public Recipe recipeDetail(String recipe_key, String user_key) throws ParseException, FileNotFoundException, IOException {
 		logger.info("====================== recipeDetail service start ======================");
 		
 		// 레시피 조회수 업데이트
@@ -46,7 +46,7 @@ public class RecipeDetailService {
 			// 레시피 상세 정보
 			Recipe recipe = new Recipe();
 			recipe.setRecipe_key(recipe_key);
-			recipe.setRecipe_user_id(user_id);
+			recipe.setRecipe_user_key(user_key);
 			recipe = recipeDetailMapper.selectRecipeDetail(recipe);
 			
 			// 레시피 재료 정보
@@ -146,70 +146,70 @@ public class RecipeDetailService {
 //			JSONParser parser = new JSONParser();
 //			JSONObject json_obj = (JSONObject) parser.parse(json_data);
 			
-			JSONArray json_restriction_array = (JSONArray) response_json.get("restriction");
-			JSONArray json_allergy_array = (JSONArray) response_json.get("allergy");
-			JSONArray json_nutrient_array = (JSONArray) response_json.get("nutrient");
-			ArrayList<Map<String, Object>> recipe_restriction_map_list = new ArrayList<Map<String, Object>>();
-			ArrayList<Map<String, Object>> recipe_allergy_map_list = new ArrayList<Map<String, Object>>();
-			ArrayList<Map<String, Object>> recipe_nutrient_map_list = new ArrayList<Map<String, Object>>();
-
-			for(int i = 0; i < json_restriction_array.size(); i++) {
-				JSONObject json_restriction_arr = (JSONObject) json_restriction_array.get(i);
-				
-				String ingredient_name = json_restriction_arr.get("ingredient_name").toString();
-				String image_url = json_restriction_arr.get("image_url").toString();
-				
-				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
-				
-				recipe_map.put("recipe_restriction_name", ingredient_name);
-				recipe_map.put("recipe_restriction_img_path", image_url);
-				
-				recipe_restriction_map_list.add(recipe_map);
-			}
-			recipe.setRecipe_restriction_list(recipe_restriction_map_list);
-			
-			for(int i = 0; i < json_allergy_array.size(); i++) {
-				JSONObject json_allergy_arr = (JSONObject) json_allergy_array.get(i);
-				
-				String ingredient_name = json_allergy_arr.get("ingredient_name").toString();
-				String image_url = json_allergy_arr.get("image_url").toString();
-				
-				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
-				
-				recipe_map.put("recipe_allergy_name", ingredient_name);
-				recipe_map.put("recipe_allergy_img_path", image_url);
-				
-				recipe_allergy_map_list.add(recipe_map);
-			}
-			recipe.setRecipe_allergy_list(recipe_allergy_map_list);
-			
-			for(int i = 0; i < json_nutrient_array.size(); i++) {
-				JSONObject json_nutrient_arr = (JSONObject) json_nutrient_array.get(i);
-				
-				String nutrient_name = json_nutrient_arr.get("nutrient_name").toString();
-				String nutrient_intake = json_nutrient_arr.get("nutrient_intake").toString();
-				
-				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
-				
-				recipe_map.put("recipe_nutrient_name", nutrient_name);
-				recipe_map.put("recipe_nutrient_quantity", nutrient_intake);
-				
-				recipe_nutrient_map_list.add(recipe_map);
-			}
-			
-			LinkedHashMap<String, Object> recipe_sugar_map = new LinkedHashMap<>();
-			recipe_sugar_map.put("recipe_nutrient_name", "sugar");
-			recipe_sugar_map.put("recipe_nutrient_quantity", response_json.get("sugar"));
-			
-			recipe_nutrient_map_list.add(recipe_sugar_map);
-			
-			LinkedHashMap<String, Object> recipe_natrium_map = new LinkedHashMap<>();
-			recipe_natrium_map.put("recipe_nutrient_name", "natrium");
-			recipe_natrium_map.put("recipe_nutrient_quantity", response_json.get("natrium"));
-			
-			recipe_nutrient_map_list.add(recipe_natrium_map);
-			
-			recipe.setRecipe_nutrient_list(recipe_nutrient_map_list);
+//			JSONArray json_restriction_array = (JSONArray) response_json.get("restriction");
+//			JSONArray json_allergy_array = (JSONArray) response_json.get("allergy");
+//			JSONArray json_nutrient_array = (JSONArray) response_json.get("nutrient");
+//			ArrayList<Map<String, Object>> recipe_restriction_map_list = new ArrayList<Map<String, Object>>();
+//			ArrayList<Map<String, Object>> recipe_allergy_map_list = new ArrayList<Map<String, Object>>();
+//			ArrayList<Map<String, Object>> recipe_nutrient_map_list = new ArrayList<Map<String, Object>>();
+//
+//			for(int i = 0; i < json_restriction_array.size(); i++) {
+//				JSONObject json_restriction_arr = (JSONObject) json_restriction_array.get(i);
+//				
+//				String ingredient_name = json_restriction_arr.get("ingredient_name").toString();
+//				String image_url = json_restriction_arr.get("image_url").toString();
+//				
+//				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
+//				
+//				recipe_map.put("recipe_restriction_name", ingredient_name);
+//				recipe_map.put("recipe_restriction_img_path", image_url);
+//				
+//				recipe_restriction_map_list.add(recipe_map);
+//			}
+//			recipe.setRecipe_restriction_list(recipe_restriction_map_list);
+//			
+//			for(int i = 0; i < json_allergy_array.size(); i++) {
+//				JSONObject json_allergy_arr = (JSONObject) json_allergy_array.get(i);
+//				
+//				String ingredient_name = json_allergy_arr.get("ingredient_name").toString();
+//				String image_url = json_allergy_arr.get("image_url").toString();
+//				
+//				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
+//				
+//				recipe_map.put("recipe_allergy_name", ingredient_name);
+//				recipe_map.put("recipe_allergy_img_path", image_url);
+//				
+//				recipe_allergy_map_list.add(recipe_map);
+//			}
+//			recipe.setRecipe_allergy_list(recipe_allergy_map_list);
+//			
+//			for(int i = 0; i < json_nutrient_array.size(); i++) {
+//				JSONObject json_nutrient_arr = (JSONObject) json_nutrient_array.get(i);
+//				
+//				String nutrient_name = json_nutrient_arr.get("nutrient_name").toString();
+//				String nutrient_intake = json_nutrient_arr.get("nutrient_intake").toString();
+//				
+//				LinkedHashMap<String, Object> recipe_map = new LinkedHashMap<>();
+//				
+//				recipe_map.put("recipe_nutrient_name", nutrient_name);
+//				recipe_map.put("recipe_nutrient_quantity", nutrient_intake);
+//				
+//				recipe_nutrient_map_list.add(recipe_map);
+//			}
+//			
+//			LinkedHashMap<String, Object> recipe_sugar_map = new LinkedHashMap<>();
+//			recipe_sugar_map.put("recipe_nutrient_name", "sugar");
+//			recipe_sugar_map.put("recipe_nutrient_quantity", response_json.get("sugar"));
+//			
+//			recipe_nutrient_map_list.add(recipe_sugar_map);
+//			
+//			LinkedHashMap<String, Object> recipe_natrium_map = new LinkedHashMap<>();
+//			recipe_natrium_map.put("recipe_nutrient_name", "natrium");
+//			recipe_natrium_map.put("recipe_nutrient_quantity", response_json.get("natrium"));
+//			
+//			recipe_nutrient_map_list.add(recipe_natrium_map);
+//			
+//			recipe.setRecipe_nutrient_list(recipe_nutrient_map_list);
 			
 			logger.info("====================== recipeDetail service end ======================");
 			return recipe;

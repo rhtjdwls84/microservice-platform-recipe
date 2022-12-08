@@ -10,7 +10,7 @@
   	<result column="recipe_level" property="recipe_level" javaType="String"/>
   	<result column="recipe_main_img_path" property="recipe_main_img_path" javaType="String"/>
   	<result column="recipe_tag_desc" property="recipe_tag_desc" javaType="String"/>
-  	<result column="recipe_user_id" property="recipe_user_id" javaType="String"/>
+  	<result column="recipe_user_key" property="recipe_user_key" javaType="String"/>
 </resultMap>
 
 	<!-- 사용자 기반 맞춤 메인 레시피 조회 -->
@@ -22,8 +22,14 @@
 			rt.recipe_lead_time,
 			rt.recipe_level,
 			rt.recipe_main_img_path,
-			(SELECT GROUP_CONCAT(recipe_tag_desc) FROM recipe_tag_tb WHERE recipe_key = rt.recipe_key) recipe_tag_desc,
-			rt.recipe_user_id
+			(
+				SELECT 
+					GROUP_CONCAT(recipe_tag_desc) 
+				FROM recipe_tag_tb 
+				WHERE recipe_key = rt.recipe_key
+				AND recipe_tag_type = '건강태그'
+			) recipe_tag_desc,
+			rt.recipe_user_key
 		FROM recipe_tb rt
 		WHERE 
 			rt.recipe_key IN
@@ -67,8 +73,14 @@
 				rt.recipe_lead_time,
 				rt.recipe_level,
 				rt.recipe_main_img_path,
-				(SELECT GROUP_CONCAT(recipe_tag_desc) FROM recipe_tag_tb WHERE recipe_key = rt.recipe_key) recipe_tag_desc,
-				rt.recipe_user_id,
+				(
+					SELECT 
+						GROUP_CONCAT(recipe_tag_desc) 
+					FROM recipe_tag_tb 
+					WHERE recipe_key = rt.recipe_key
+					AND recipe_tag_type = '건강태그'
+				) recipe_tag_desc,
+				rt.recipe_user_key,
 				rt.last_modified_datetime
 			FROM recipe_tb rt
 			WHERE 1=1

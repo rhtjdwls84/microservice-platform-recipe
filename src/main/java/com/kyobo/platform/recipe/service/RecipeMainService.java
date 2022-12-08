@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class RecipeMainService {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(RecipeMainService.class);
 	
-	private String properties_url = "https://d3am0bqv86scod.cloudfront.net/auth/awsAuth.properties";
+	private String properties_url = "https://kyobo-common-bucket.s3.ap-northeast-2.amazonaws.com/awsAuth.properties";
 	
 	private final RecipeMainMapper recipeMainMapper;
 	
@@ -69,7 +69,7 @@ public class RecipeMainService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> recipeCustomBasedList(String user_id, String more_yn) {
+	public List<Map<String, Object>> recipeCustomBasedList(String user_key, String more_yn) {
 		logger.info("====================== recipeCustomBasedList service start ======================");
 		
 		try {
@@ -100,7 +100,7 @@ public class RecipeMainService {
 				baby_concern_list.add(baby_concern_map);
 			}
 			
-			json_object.put("baby_key", user_id);
+			json_object.put("baby_key", user_key);
 			json_object.put("baby_allergy", baby_allergy_list);
 			json_object.put("baby_concern_tag", baby_concern_list);
 			
@@ -145,7 +145,7 @@ public class RecipeMainService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> recipeUserBodyBasedList(String user_id, String more_yn) {
+	public List<Map<String, Object>> recipeUserBodyBasedList(String user_key, String more_yn) {
 		logger.info("====================== recipeUserBodyBasedList service start ======================");
 		
 		try {
@@ -164,7 +164,7 @@ public class RecipeMainService {
 			baby_map.put("height", 110.2);
 			baby_map.put("weight", 28.4);
 	
-			json_object.put("baby_key", user_id);
+			json_object.put("baby_key", user_key);
 			json_object.put("baby", baby_map);
 			
 			Properties properties = new Properties();
@@ -397,7 +397,7 @@ public class RecipeMainService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public LinkedHashMap<String, Object> userBabyInfo(String user_id) {
+	public LinkedHashMap<String, Object> userBabyInfo(String user_key) {
 		logger.info("====================== userBabyInfo service start ======================");
 		
 		try {
@@ -414,7 +414,7 @@ public class RecipeMainService {
 			baby_map.put("height", 110.2);
 			baby_map.put("weight", 28.4);
 	
-			json_object.put("baby_key", user_id);
+			json_object.put("baby_key", user_key);
 			json_object.put("baby", baby_map);
 			
 			Properties properties = new Properties();
@@ -455,7 +455,7 @@ public class RecipeMainService {
 //			JSONObject json_obj = (JSONObject) parser.parse(json_data);
 			LinkedHashMap<String, Object> baby_info_map = new LinkedHashMap<String, Object>();
 			
-			baby_info_map.put("baby_key", user_id);
+			baby_info_map.put("baby_key", user_key);
 			baby_info_map.put("profile", response_json.get("profile"));
 			baby_info_map.put("profile_height", response_json.get("profile_height"));
 			baby_info_map.put("profile_weight", response_json.get("profile_weight"));
