@@ -24,7 +24,7 @@ phases:
       - echo Building the Docker image...
       - echo $CODEBUILD_BUILD_NUMBER
       - echo ---------------------------------
-      - AWS_ECR_URI=518370512832.dkr.ecr.ap-northeast-2.amazonaws.com/community-template:dev-$CODEBUILD_BUILD_NUMBER
+      - AWS_ECR_URI=677284563273.dkr.ecr.ap-northeast-2.amazonaws.com/babyfood/recipe:dev-$CODEBUILD_BUILD_NUMBER
       - echo $AWS_ECR_URI
       - echo ---------------------------------
       - docker build -t $AWS_ECR_URI .
@@ -38,10 +38,10 @@ phases:
 #      - kubectl delete deployment community-deployment
       - sed -i.bak 's#AWS_ECR_URI#'"$AWS_ECR_URI"'#' ./eks-deploy.yaml 
       - kubectl apply -f ./eks-deploy.yaml
-      - kubectl get ingress backend-ingress
-      - kubectl get deployments.apps
-      - kubectl describe deployments.apps community-deployment
-      - kubectl describe service community-service
-      - kubectl get pods -o wide
-      - kubectl get svc -o wide
-      - kubectl get node -o wide
+#      - kubectl get ingress backend-ingress
+#      - kubectl get deployments.apps
+#      - kubectl describe deployments.apps community-deployment
+#      - kubectl describe service community-service
+#      - kubectl get pods -o wide
+#      - kubectl get svc -o wide
+#      - kubectl get node -o wide

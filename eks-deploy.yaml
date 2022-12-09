@@ -36,8 +36,8 @@ spec:
     spec:
       containers:
         - name: platform-recipe
-          image: 677284563273.dkr.ecr.ap-northeast-2.amazonaws.com/babyfood/recipe:latest
-#          image: AWS_ECR_URI
+#          image: 677284563273.dkr.ecr.ap-northeast-2.amazonaws.com/babyfood/recipe:latest
+          image: AWS_ECR_URI
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
